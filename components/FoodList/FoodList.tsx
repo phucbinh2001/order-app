@@ -7,7 +7,13 @@ import { Flex } from "antd";
 import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 
-const FoodList = ({ selectedCategory }: { selectedCategory: Category }) => {
+const FoodList = ({
+  selectedCategory,
+  onSelectFood,
+}: {
+  selectedCategory: Category;
+  onSelectFood: (food: Food) => void;
+}) => {
   const [foods, setFoods] = useState([]);
 
   useEffect(() => {
@@ -26,7 +32,7 @@ const FoodList = ({ selectedCategory }: { selectedCategory: Category }) => {
   return (
     <div className="mt-5">
       {foods.map((item: Food) => (
-        <FoodItem key={item._id} data={item} />
+        <FoodItem onSelectFood={onSelectFood} key={item._id} data={item} />
       ))}
     </div>
   );
@@ -34,7 +40,13 @@ const FoodList = ({ selectedCategory }: { selectedCategory: Category }) => {
 
 export default FoodList;
 
-const FoodItem = ({ data }: { data: Food }) => {
+const FoodItem = ({
+  data,
+  onSelectFood,
+}: {
+  data: Food;
+  onSelectFood: (food: Food) => void;
+}) => {
   return (
     <div className="flex rounded-xl mb-3 overflow-hidden ">
       <img
@@ -56,7 +68,10 @@ const FoodItem = ({ data }: { data: Food }) => {
           <span className="font-semibold text-sm">
             {formatMoney(data.price)}đ
           </span>
-          <div className="absolute bottom-0 right-0 rounded-tl-xl px-4 flex gap-2 items-center cursor-pointer py-2  bg-[#e86a12] text-white font-semibold">
+          <div
+            onClick={() => onSelectFood(data)}
+            className="absolute bottom-0 right-0 rounded-tl-xl px-4 flex gap-2 items-center cursor-pointer py-2  bg-[#e86a12] text-white font-semibold"
+          >
             <FaPlus /> Thêm
           </div>
         </Flex>

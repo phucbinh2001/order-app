@@ -3,10 +3,14 @@ import { categoryApi } from "@/api/category.api";
 import { tableApi } from "@/api/table.api";
 import CategorySlider from "@/components/CategorySlider/CategorySlider";
 import FoodList from "@/components/FoodList/FoodList";
+import {
+  OrderBottomSheetModal,
+  OrderBottomSheetRef,
+} from "@/components/OrderBottomSheet/OrderBottomSheet";
 import { Category } from "@/types/Category";
 import { Table } from "@/types/Table";
 import { Flex, Select, Space } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaArrowDown, FaSortDown } from "react-icons/fa6";
 
 async function getCategory() {
@@ -35,6 +39,7 @@ export default function Home() {
     categories?.[0]
   );
   const [tables, setTables] = useState<Table[]>([]);
+  const orderBottomSheetRef = useRef<OrderBottomSheetRef>();
 
   useEffect(() => {
     initData();
@@ -79,9 +84,18 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="container mx-auto px-2">
-        <FoodList selectedCategory={selectedCategory} />
+      <div className="container mx-auto px-3">
+        <FoodList
+          onSelectFood={(food) => orderBottomSheetRef.current?.handleOpen(food)}
+          selectedCategory={selectedCategory}
+        />
       </div>
+      <OrderBottomSheetModal
+        ref={orderBottomSheetRef}
+        onSubmitOk={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
     </>
   );
 }
