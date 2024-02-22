@@ -8,22 +8,23 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+.custom-select .ant-select-selection-item {
+  color: #e86a12 !important;
+  font-weight: 700 !important;
+}
+
+.custom-select {
+  background-color: #fff1e6;
+  padding-left: 10px !important;
+  border-radius: 10px;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
