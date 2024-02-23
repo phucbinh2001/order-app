@@ -1,10 +1,10 @@
-import { Food } from "@/types/Food";
+import { Food } from "@/types/food";
+import { OrderDetail } from "@/types/order";
 import { formatMoney } from "@/utils/money";
-import { Button, Divider, Drawer, Flex, Input } from "antd";
-import { useForm } from "antd/lib/form/Form";
-import React, { useImperativeHandle, useState } from "react";
-import { FaPlus } from "react-icons/fa6";
+import { Button, Drawer, Flex, Input, message } from "antd";
+import React, { useImperativeHandle, useRef, useState } from "react";
 import QuantityInput from "../QuantityInput/QuantityInput";
+import useOrderStore from "@/store/orderStore";
 
 export interface OrderBottomSheetRef {
   handleOpen: (food: Food) => void;
@@ -12,17 +12,22 @@ export interface OrderBottomSheetRef {
 
 export const OrderBottomSheetModal = React.forwardRef(
   ({ onSubmitOk }: { onSubmitOk: () => void }, ref) => {
-    const [form] = useForm();
-    const [visibleModal, setVisibleModal] = useState(true);
+    const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
     const [selectedFood, setSelectedFood] = useState<Food>();
+    const [quantity, setQuantity] = useState(1);
+
+    const addToCard = useOrderStore((state) => state.addToCard);
+    const order = useOrderStore((state) => state.order);
+
+    const noteValue = useRef("");
 
     useImperativeHandle(
       ref,
       () => {
         return {
           handleOpen(food: Food) {
-            setVisibleModal(true);
+            setVisible(true);
             setSelectedFood(food);
           },
         };
@@ -30,12 +35,27 @@ export const OrderBottomSheetModal = React.forwardRef(
       []
     );
 
+    const handleAddToCard = () => {
+      const orderDetail: OrderDetail = {
+        foodId: selectedFood?._id || "",
+        quantity,
+        note: noteValue.current,
+        price: selectedFood?.price || 0,
+      };
+      console.log({ orderDetail });
+
+      addToCard(orderDetail);
+      message.success("Đã thêm món vào giỏ hàng");
+      setVisible(false);
+      console.log("order", order);
+    };
+
     return (
       <Drawer
-        // size="large"
+        destroyOnClose
         placement="bottom"
-        onClose={() => setVisibleModal(false)}
-        open={visibleModal}
+        onClose={() => setVisible(false)}
+        open={visible}
         closeIcon={<></>}
         title={
           <div className="text-center flex justify-center">
@@ -48,14 +68,19 @@ export const OrderBottomSheetModal = React.forwardRef(
           header: { border: "none" },
         }}
       >
-        {selectedFood && <FoodItem data={selectedFood} />}
-        <Divider />
+        {selectedFood && (
+          <FoodItem data={selectedFood} onQuantityChange={setQuantity} />
+        )}
         <div className="mt-5">
           <label className="font-semibold">Ghi chú</label>
-          <Input.TextArea rows={3} />
+          <Input.TextArea
+            rows={3}
+            onChange={(e) => (noteValue.current = e.target.value)}
+          />
         </div>
 
         <Button
+          onClick={handleAddToCard}
           block
           className="!font-semibold mt-5"
           size="large"
@@ -68,7 +93,13 @@ export const OrderBottomSheetModal = React.forwardRef(
   }
 );
 
-const FoodItem = ({ data }: { data: Food }) => {
+const FoodItem = ({
+  data,
+  onQuantityChange,
+}: {
+  data: Food;
+  onQuantityChange: (value: number) => void;
+}) => {
   return (
     <div className="flex rounded-xl mb-3 overflow-hidden ">
       <img
@@ -80,6 +111,7 @@ const FoodItem = ({ data }: { data: Food }) => {
       />
       <div className="flex flex-col w-full p-2 ml-2 relative">
         <h2 className="text-xl font-semibold">{data.title}</h2>
+        {data._id}
         <p>{data.description}</p>
         <Flex
           justify="space-between"
@@ -90,7 +122,7 @@ const FoodItem = ({ data }: { data: Food }) => {
           <span className="font-semibold text-sm">
             {formatMoney(data.price)}đ
           </span>
-          <QuantityInput />
+          <QuantityInput onQuantityChange={onQuantityChange} />
         </Flex>
       </div>
     </div>

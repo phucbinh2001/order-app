@@ -7,8 +7,8 @@ import {
   OrderBottomSheetModal,
   OrderBottomSheetRef,
 } from "@/components/OrderBottomSheet/OrderBottomSheet";
-import { Category } from "@/types/Category";
-import { Table } from "@/types/Table";
+import { Category } from "@/types/category";
+import { Table } from "@/types/table";
 import { Flex, Select, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowDown, FaSortDown } from "react-icons/fa6";

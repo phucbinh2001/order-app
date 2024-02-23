@@ -1,7 +1,7 @@
 "use client";
 import { foodApi } from "@/api/food.api";
-import { Category } from "@/types/Category";
-import { Food } from "@/types/Food";
+import { Category } from "@/types/category";
+import { Food } from "@/types/food";
 import { formatMoney } from "@/utils/money";
 import { Flex } from "antd";
 import { useEffect, useState } from "react";
