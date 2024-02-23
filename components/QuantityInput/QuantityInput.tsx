@@ -27,7 +27,7 @@ const QuantityInput = ({
           setQuantity(quantity);
           onQuantityChange(quantity);
         }}
-        className="w-[60px] text-center font-semibold text-lg max-w-[100px]"
+        className="w-[45px] text-center font-semibold text-lg max-w-[100px]"
         value={quantity}
       />
       <div

@@ -1,12 +1,14 @@
 "use client";
 import { categoryApi } from "@/api/category.api";
 import { tableApi } from "@/api/table.api";
+import { CartBottomSheet } from "@/components/CartBottomSheet/CartBottomSheet";
 import CategorySlider from "@/components/CategorySlider/CategorySlider";
 import FoodList from "@/components/FoodList/FoodList";
 import {
   OrderBottomSheetModal,
   OrderBottomSheetRef,
 } from "@/components/OrderBottomSheet/OrderBottomSheet";
+import useOrderStore from "@/store/orderStore";
 import { Category } from "@/types/category";
 import { Table } from "@/types/table";
 import { Flex, Select, Space } from "antd";
@@ -41,6 +43,9 @@ export default function Home() {
   const [tables, setTables] = useState<Table[]>([]);
   const orderBottomSheetRef = useRef<OrderBottomSheetRef>();
 
+  const updateTableId = useOrderStore((state) => state.updateTableId);
+  const order = useOrderStore((state) => state.order);
+
   useEffect(() => {
     initData();
   }, []);
@@ -72,6 +77,8 @@ export default function Home() {
                 label: item.title,
                 value: item._id,
               }))}
+              onChange={(value) => updateTableId(value)}
+              value={order.tableId}
             ></Select>
           </Flex>
           <Space className="bg-[#fff1e6] text-[#e86a12] font-semibold w-full p-1 rounded-md">
@@ -92,6 +99,11 @@ export default function Home() {
       </div>
       <OrderBottomSheetModal
         ref={orderBottomSheetRef}
+        onSubmitOk={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+      <CartBottomSheet
         onSubmitOk={function (): void {
           throw new Error("Function not implemented.");
         }}

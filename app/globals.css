@@ -19,6 +19,18 @@
   border-radius: 10px;
 }
 
+.confirm-modal-custom .ant-modal-confirm-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row-reverse;
+  gap: 10px;
+}
+
+.confirm-modal-custom .ant-modal-confirm-body {
+  justify-content: center;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;

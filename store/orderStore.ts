@@ -7,6 +7,7 @@ interface IOrderStore {
   updateOrder: (newOrder: Order) => void;
   addToCard: (newOrderDetail: OrderDetail) => void;
   updateTableId: (tabledId: string) => void;
+  deleteItem: (foodId: string) => void;
 }
 
 const useOrderStore = create<IOrderStore>()(
@@ -16,6 +17,20 @@ const useOrderStore = create<IOrderStore>()(
       updateOrder: (newOrder: Order) => set({ order: newOrder }),
       updateTableId: (tableId: string) =>
         set((state) => ({ order: { ...state, tableId } })),
+      deleteItem: (foodId: string) => {
+        const order = get().order;
+        if (order.orderDetails?.length) {
+          // update orderDetails
+          const findIndex = order.orderDetails?.findIndex(
+            (item) => item.foodId == foodId
+          );
+          if (findIndex >= 0) {
+            order.orderDetails.splice(findIndex, 1);
+          }
+          set({ order: { ...order } });
+        }
+      },
+
       addToCard: (newOrderDetail: OrderDetail) => {
         const order = { ...get().order };
         if (order.orderDetails?.length) {

@@ -36,11 +36,13 @@ export const OrderBottomSheetModal = React.forwardRef(
     );
 
     const handleAddToCard = () => {
+      if (!selectedFood) return;
       const orderDetail: OrderDetail = {
         foodId: selectedFood?._id || "",
         quantity,
         note: noteValue.current,
         price: selectedFood?.price || 0,
+        food: selectedFood,
       };
       console.log({ orderDetail });
 

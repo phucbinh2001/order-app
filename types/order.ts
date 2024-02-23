@@ -1,3 +1,5 @@
+import { Food } from "./food";
+
 export interface Order {
   tableId: string;
   totalMoney: number;
@@ -7,6 +9,7 @@ export interface Order {
 
 export interface OrderDetail {
   foodId: string;
+  food: Food;
   quantity: number;
   price: number;
   note: string;
