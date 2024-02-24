@@ -15,6 +15,7 @@ import React, { useImperativeHandle, useMemo, useRef, useState } from "react";
 import QuantityInput from "../QuantityInput/QuantityInput";
 import useOrderStore from "@/store/orderStore";
 import { FaArrowRight, FaTrash } from "react-icons/fa6";
+import { orderApi } from "@/api/order.api";
 
 export interface CartBottomSheetRef {
   handleOpen: (food: Food) => void;
@@ -62,6 +63,11 @@ export const CartBottomSheet = React.forwardRef(
       []
     );
 
+    const submitOrder = async () => {
+      const dataPost = order;
+      await orderApi.create(dataPost);
+    };
+
     return (
       <>
         <Drawer
@@ -104,7 +110,7 @@ export const CartBottomSheet = React.forwardRef(
             </Space>
 
             <Button
-              // onClick={handleAddToCard}
+              onClick={submitOrder}
               block
               className="!font-semibold mt-2"
               size="large"

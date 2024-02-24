@@ -1,10 +1,13 @@
 import { Food } from "./food";
+import { Table } from "./table";
 
 export interface Order {
   tableId: string;
+  table: Table;
   totalMoney: number;
   status: any;
   orderDetails: OrderDetail[];
+  createdAt: number;
 }
 
 export interface OrderDetail {
