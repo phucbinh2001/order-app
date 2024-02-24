@@ -1,5 +1,6 @@
 "use client";
 import { orderApi } from "@/api/order.api";
+import OrderDetail from "@/components/OrderDetail/OrderDetail";
 import OrderList from "@/components/OrderList/OrderList";
 import { Order } from "@/types/order";
 import { useEffect, useState } from "react";
@@ -18,7 +19,7 @@ export default function Home() {
 
   return (
     <div className="grid grid-cols-12 h-screen">
-      <div className="col-span-9 p-4">
+      <div className="col-span-9 p-3">
         <div className="wrapper bg-gradient-to-br from-blue-500 via-indigo-500 to-indigo-700 h-full rounded-3xl p-5">
           <div className="header flex gap-2 items-center">
             <img width={150} src="/icons/chef-hat.png" alt="" />
@@ -33,7 +34,10 @@ export default function Home() {
           <OrderList orders={orders} />
         </div>
       </div>
-      <div className="col-span-3"></div>
+
+      <div className="col-span-3">
+        <OrderDetail />
+      </div>
     </div>
   );
 }

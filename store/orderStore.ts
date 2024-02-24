@@ -4,17 +4,21 @@ import { persist } from "zustand/middleware";
 
 interface IOrderStore {
   order: Partial<Order>;
+  selectedOrder: Order | undefined;
   updateOrder: (newOrder: Order) => void;
   addToCard: (newOrderDetail: OrderDetail) => void;
   updateTableId: (tabledId: string) => void;
   deleteItem: (foodId: string) => void;
+  setSelectedOrder: (order: Order) => void;
 }
 
 const useOrderStore = create<IOrderStore>()(
   persist(
     (set, get) => ({
       order: { orderDetails: [] },
+      selectedOrder: undefined,
       updateOrder: (newOrder: Order) => set({ order: newOrder }),
+      setSelectedOrder: (newOrder: Order) => set({ selectedOrder: newOrder }),
       updateTableId: (tableId: string) =>
         set((state) => ({ order: { ...state, tableId } })),
       deleteItem: (foodId: string) => {

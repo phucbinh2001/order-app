@@ -2,6 +2,7 @@ import { Food } from "./food";
 import { Table } from "./table";
 
 export interface Order {
+  _id: string;
   tableId: string;
   table: Table;
   totalMoney: number;
