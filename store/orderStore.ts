@@ -1,10 +1,13 @@
+import { orderApi } from "@/api/order.api";
 import { Order, OrderDetail } from "@/types/order";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface IOrderStore {
   order: Partial<Order>;
+  orders: Order[];
   selectedOrder: Order | undefined;
+  fetchOrders: () => void;
   updateOrder: (newOrder: Order) => void;
   addToCard: (newOrderDetail: OrderDetail) => void;
   updateTableId: (tabledId: string) => void;
@@ -15,8 +18,13 @@ interface IOrderStore {
 const useOrderStore = create<IOrderStore>()(
   persist(
     (set, get) => ({
+      orders: [],
       order: { orderDetails: [] },
       selectedOrder: undefined,
+      fetchOrders: async () => {
+        const { data } = await orderApi.findAll();
+        return set(() => ({ orders: data }));
+      },
       updateOrder: (newOrder: Order) => set({ order: newOrder }),
       setSelectedOrder: (newOrder: Order) => set({ selectedOrder: newOrder }),
       updateTableId: (tableId: string) =>

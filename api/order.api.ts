@@ -8,6 +8,16 @@ export const orderApi = {
       data,
       method: "post",
     }),
+  update: (id: string, data: any): AxiosPromise<any> =>
+    request({
+      url: `/order/${id}`,
+      method: "put",
+      data,
+    }),
+  getDetail: (id: string): AxiosPromise<any> =>
+    request({
+      url: `/order/${id}`,
+    }),
   findAll: (): AxiosPromise<any> =>
     request({
       url: "/order",

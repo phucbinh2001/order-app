@@ -1,21 +1,16 @@
 "use client";
-import { orderApi } from "@/api/order.api";
 import OrderDetail from "@/components/OrderDetail/OrderDetail";
 import OrderList from "@/components/OrderList/OrderList";
-import { Order } from "@/types/order";
-import { useEffect, useState } from "react";
+import useOrderStore from "@/store/orderStore";
+import { useEffect } from "react";
 
 export default function Home() {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const orders = useOrderStore((state) => state.orders);
+  const fetchOrders = useOrderStore((state) => state.fetchOrders);
 
   useEffect(() => {
-    fetchOrder();
+    fetchOrders();
   }, []);
-
-  const fetchOrder = async () => {
-    const { data } = await orderApi.findAll();
-    setOrders(data);
-  };
 
   return (
     <div className="grid grid-cols-12 h-screen">
