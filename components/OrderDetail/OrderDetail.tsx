@@ -67,7 +67,6 @@ const OrderDetail = () => {
   }, [selectedOrder]);
 
   const fetchDetail = async (orderId: string) => {
-    debugger;
     if (!orderId) return;
     const { data } = await orderApi.getDetail(orderId);
     setOrderDetailData(data);

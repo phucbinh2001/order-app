@@ -1,21 +1,43 @@
 import useOrderStore from "@/store/orderStore";
 import { Order } from "@/types/order";
-import GridLayout from "react-grid-layout";
-import OrderCard from "../OrderCard/OrderCard";
+import { useMemo, useRef } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import OrderCard from "../OrderCard/OrderCard";
+
+import { Responsive, WidthProvider } from "react-grid-layout";
+import { getGridItemPosition } from "@/utils/grid";
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const OrderList = ({ orders }: { orders: Order[] }) => {
   const setSelectedOrder = useOrderStore((state) => state.setSelectedOrder);
+  const draggableContainerRef = useRef(null);
   const selectedOrder = useOrderStore((state) => state.selectedOrder);
-  const layout = [
-    { i: "65daafc3d6090135a72881f7", x: 0, y: 0, w: 1, h: 4, autoSize: true },
-    { i: "65daad70dce3f89f58574753", x: 1, y: 0, w: 1, h: 4, autoSize: true },
-  ];
+
+  const layout = useMemo(
+    () =>
+      orders.map((item, index) => {
+        const { x, y } = getGridItemPosition(index);
+        return {
+          i: item._id,
+          x,
+          y,
+          w: 1,
+          h: 4,
+        };
+      }),
+    [orders]
+  );
+
+  console.log({ layout });
+
   return (
-    <div className="order-list bg-[#4e4cb8] rounded-2xl p-4">
+    <div
+      ref={draggableContainerRef}
+      className="order-list bg-[#4e4cb8] rounded-2xl p-4"
+    >
       {orders.length > 0 && (
-        <GridLayout
+        <ResponsiveReactGridLayout
           autoSize={true}
           style={{
             width: "100%",
@@ -23,11 +45,13 @@ const OrderList = ({ orders }: { orders: Order[] }) => {
             backgroundSize: "100% 100%",
             overflow: "hidden",
           }}
-          cols={4}
+          breakpoints={{ lg: 1200 }}
+          cols={{ lg: 4 }}
           rowHeight={50}
-          width={1200}
-          layout={layout}
+          width={1108}
+          layouts={{ lg: layout }}
           isResizable={false}
+          draggableHandle=".drag-handle"
         >
           {orders.map((item, index) => (
             <div key={item._id} onClick={() => setSelectedOrder(item)}>
@@ -38,7 +62,7 @@ const OrderList = ({ orders }: { orders: Order[] }) => {
               />
             </div>
           ))}
-        </GridLayout>
+        </ResponsiveReactGridLayout>
       )}
     </div>
   );
