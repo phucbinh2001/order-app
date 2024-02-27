@@ -8,4 +8,10 @@ export const orderDetailApi = {
       method: "put",
       data,
     }),
+  updatePosition: (data: any): AxiosPromise<any> =>
+    request({
+      url: `/order-detail/update-position`,
+      method: "post",
+      data,
+    }),
 };

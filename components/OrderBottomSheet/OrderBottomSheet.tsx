@@ -48,7 +48,6 @@ export const OrderBottomSheetModal = React.forwardRef(
       addToCard(orderDetail as OrderDetail);
       message.success("Đã thêm món vào giỏ hàng");
       setVisible(false);
-      console.log("order", order);
     };
 
     return (
