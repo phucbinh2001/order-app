@@ -1,16 +1,20 @@
 import useOrderStore from "@/store/orderStore";
 import { Order } from "@/types/order";
-import { useMemo, useRef } from "react";
+import { useCallback, useMemo, useRef } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import OrderCard from "../OrderCard/OrderCard";
 
-import { Responsive, WidthProvider } from "react-grid-layout";
+import ReactGridLayout, { Responsive, WidthProvider } from "react-grid-layout";
 import { getGridItemPosition } from "@/utils/grid";
+import { orderApi } from "@/api/order.api";
+import { debounce } from "lodash";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const OrderList = ({ orders }: { orders: Order[] }) => {
+  const layoutPositionIds = useRef<string[]>([]);
   const setSelectedOrder = useOrderStore((state) => state.setSelectedOrder);
+  const fetchOrders = useOrderStore((state) => state.fetchOrders);
   const draggableContainerRef = useRef(null);
   const selectedOrder = useOrderStore((state) => state.selectedOrder);
 
@@ -23,13 +27,27 @@ const OrderList = ({ orders }: { orders: Order[] }) => {
           x,
           y,
           w: 1,
-          h: 4,
+          h: 4.75,
         };
       }),
     [orders]
   );
 
-  console.log({ layout });
+  const onLayoutChange = (layout: ReactGridLayout.Layout[]) => {
+    const sortedLayout = layout.sort((a, b) => {
+      if (a.y === b.y) {
+        return b.x - a.x; // Sắp xếp theo x lớn nhất nếu y bằng nhau
+      }
+      return b.y - a.y; // Sắp xếp theo y lớn nhất
+    });
+    layoutPositionIds.current = sortedLayout.map((item) => item.i);
+    debounceUpdatePosition(layoutPositionIds.current);
+  };
+
+  const debounceUpdatePosition = useCallback(
+    debounce((ids) => orderApi.updatePosition({ ids }), 3000),
+    []
+  );
 
   return (
     <div
@@ -48,10 +66,10 @@ const OrderList = ({ orders }: { orders: Order[] }) => {
           breakpoints={{ lg: 1200 }}
           cols={{ lg: 4 }}
           rowHeight={50}
-          width={1108}
           layouts={{ lg: layout }}
           isResizable={false}
           draggableHandle=".drag-handle"
+          onLayoutChange={onLayoutChange}
         >
           {orders.map((item, index) => (
             <div key={item._id} onClick={() => setSelectedOrder(item)}>

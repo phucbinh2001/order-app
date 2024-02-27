@@ -14,6 +14,12 @@ export const orderApi = {
       method: "put",
       data,
     }),
+  updatePosition: (data: any): AxiosPromise<any> =>
+    request({
+      url: `/order/update-position`,
+      method: "post",
+      data,
+    }),
   getDetail: (id: string): AxiosPromise<any> =>
     request({
       url: `/order/${id}`,

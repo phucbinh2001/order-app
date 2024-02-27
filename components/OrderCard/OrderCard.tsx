@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import "./style/style.scss";
 import OrderDetail from "../OrderDetail/OrderDetail";
+import { getLastNCharacter } from "@/utils/string";
 
 const MAX_ITEMS_TO_SHOW = 2;
 
@@ -46,6 +47,9 @@ const OrderCard = ({ order, active }: { order: Order; active: boolean }) => {
           >
             {orderStatusTrans[order.status]?.label}
           </Tag>
+          <span className="ml-auto inline-block border-l pl-2 font-bold">
+            #{getLastNCharacter(order._id, 5).toUpperCase()}
+          </span>
           <div className="my-2">
             {totalFoods} món • {formatUnixTimestamp(order.createdAt)}
           </div>
