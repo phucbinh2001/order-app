@@ -27,7 +27,7 @@ const OrderList = ({ orders }: { orders: Order[] }) => {
           x,
           y,
           w: 1,
-          h: 4.75,
+          h: 1,
         };
       }),
     [orders]
@@ -65,11 +65,12 @@ const OrderList = ({ orders }: { orders: Order[] }) => {
           }}
           breakpoints={{ lg: 1200 }}
           cols={{ lg: 4 }}
-          rowHeight={50}
+          rowHeight={270}
           layouts={{ lg: layout }}
           isResizable={false}
           draggableHandle=".drag-handle"
           onLayoutChange={onLayoutChange}
+          compactType={"horizontal"}
         >
           {orders.map((item, index) => (
             <div key={item._id} onClick={() => setSelectedOrder(item)}>
