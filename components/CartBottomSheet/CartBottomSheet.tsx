@@ -26,11 +26,11 @@ export const CartBottomSheet = React.forwardRef(
     const [visible, setVisible] = useState(true);
     const [loading, setLoading] = useState(false);
     const [selectedFood, setSelectedFood] = useState<Food>();
-    const [quantity, setQuantity] = useState(1);
 
     const addToCard = useOrderStore((state) => state.order);
     const order = useOrderStore((state) => state.order);
     const noteValue = useRef("");
+    console.log({ order });
 
     const numOfFoods = useMemo(
       () =>
@@ -92,11 +92,7 @@ export const CartBottomSheet = React.forwardRef(
             {!!order.orderDetails?.length && (
               <>
                 {order.orderDetails.map((item) => (
-                  <FoodItem
-                    key={item.foodId}
-                    data={item}
-                    onQuantityChange={setQuantity}
-                  />
+                  <FoodItem key={item.foodId} data={item} />
                 ))}
               </>
             )}
@@ -137,14 +133,9 @@ export const CartBottomSheet = React.forwardRef(
   }
 );
 
-const FoodItem = ({
-  data,
-  onQuantityChange,
-}: {
-  data: OrderDetail;
-  onQuantityChange: (value: number) => void;
-}) => {
+const FoodItem = ({ data }: { data: OrderDetail }) => {
   const deleteItem = useOrderStore((state) => state.deleteItem);
+  const updateItemQuantity = useOrderStore((state) => state.updateItemQuantity);
 
   const confirmDelete = () => {
     Modal.confirm({
@@ -195,7 +186,14 @@ const FoodItem = ({
             {formatMoney(data.price)}đ
           </span>
           <div className="flex items-center gap-2">
-            <QuantityInput onQuantityChange={onQuantityChange} />
+            <QuantityInput
+              onQuantityChange={(newQuantity) => {
+                console.log("newQuantity", newQuantity);
+
+                updateItemQuantity(data.foodId, newQuantity);
+              }}
+              quantity={data.quantity}
+            />
             <div
               className="size-10 border rounded-md flex items-center justify-center"
               onClick={confirmDelete}

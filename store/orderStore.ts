@@ -12,6 +12,7 @@ interface IOrderStore {
   addToCard: (newOrderDetail: OrderDetail) => void;
   updateTableId: (tabledId: string) => void;
   deleteItem: (foodId: string) => void;
+  updateItemQuantity: (itemId: string, quantity: number) => void;
   setSelectedOrder: (order: Order) => void;
 }
 
@@ -29,6 +30,17 @@ const useOrderStore = create<IOrderStore>()(
       setSelectedOrder: (newOrder: Order) => set({ selectedOrder: newOrder }),
       updateTableId: (tableId: string) =>
         set((state) => ({ order: { ...state, tableId } })),
+      updateItemQuantity: (itemId: string, newQuantity: number) => {
+        console.log("food item id", itemId);
+
+        // debugger;
+        const order = get().order;
+        const find = order.orderDetails?.find((item) => item.foodId == itemId);
+        if (find) {
+          find.quantity = newQuantity;
+        }
+        set({ order: { ...order } });
+      },
       deleteItem: (foodId: string) => {
         const order = get().order;
         if (order.orderDetails?.length) {
