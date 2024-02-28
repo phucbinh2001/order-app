@@ -1,4 +1,4 @@
-import { Order } from "@/types/order2";
+import { Order } from "@/types/order";
 import { useCallback, useMemo } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";

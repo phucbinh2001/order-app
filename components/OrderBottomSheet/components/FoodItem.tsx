@@ -1,5 +1,5 @@
 import QuantityInput from "@/components/QuantityInput/QuantityInput";
-import { Food } from "@/types/food2";
+import { Food } from "@/types/food";
 import { formatMoney } from "@/utils/money";
 import { Flex } from "antd";
 import React from "react";

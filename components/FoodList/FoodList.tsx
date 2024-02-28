@@ -1,7 +1,7 @@
 "use client";
 import { foodApi } from "@/api/food.api";
-import { Category } from "@/types/category2";
-import { Food } from "@/types/food2";
+import { Category } from "@/types/category";
+import { Food } from "@/types/food";
 import { formatMoney } from "@/utils/money";
 import { Flex } from "antd";
 import Item from "antd/es/list/Item";

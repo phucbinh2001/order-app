@@ -1,5 +1,5 @@
 import useOrderStore from "@/store/orderStore";
-import { Order } from "@/types/order2";
+import { Order } from "@/types/order";
 import { useCallback, useMemo, useRef } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";

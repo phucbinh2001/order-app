@@ -1,5 +1,5 @@
-import { Food } from "./food2";
-import { Table } from "./table2";
+import { Food } from "./food";
+import { Table } from "./table";
 
 export interface Order {
   _id: string;

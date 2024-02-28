@@ -1,4 +1,4 @@
-import { Order, orderStatusTrans } from "@/types/order2";
+import { Order, orderStatusTrans } from "@/types/order";
 import { formatUnixTimestamp } from "@/utils/date";
 import { Space, Tag } from "antd";
 import clsx from "clsx";

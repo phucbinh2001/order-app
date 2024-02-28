@@ -9,8 +9,8 @@ import OrderBottomSheetModal, {
 } from "@/components/OrderBottomSheet/OrderBottomSheet";
 import OrderDetailBtn from "@/components/OrderDetailBtn/OrderDetailBtn";
 import useOrderStore from "@/store/orderStore";
-import { Category } from "@/types/category2";
-import { Table } from "@/types/table2";
+import { Category } from "@/types/category";
+import { Table } from "@/types/table";
 import { Flex, Select, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { FaSortDown } from "react-icons/fa6";
