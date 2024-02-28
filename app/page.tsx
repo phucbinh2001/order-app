@@ -13,27 +13,7 @@ import { Category } from "@/types/category";
 import { Table } from "@/types/table";
 import { Flex, Select, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
-import { FaArrowDown, FaSortDown } from "react-icons/fa6";
-
-async function getCategory() {
-  const { data } = await categoryApi.findAll();
-
-  if (!data) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return data;
-}
-
-async function getTable() {
-  const { data } = await tableApi.findAll();
-
-  if (!data) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return data;
-}
+import { FaSortDown } from "react-icons/fa6";
 
 export default function Home() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -51,11 +31,11 @@ export default function Home() {
   }, []);
 
   const initData = async () => {
-    const tables = await getTable();
-    const categories = await getCategory();
-    setTables(tables);
-    setCategories(categories);
-    setSelectedCategory(categories?.[0]);
+    const { data } = await categoryApi.findAll();
+    const { data: tableData } = await tableApi.findAll();
+    setTables(tableData);
+    setCategories(data);
+    setSelectedCategory(data?.[0]);
   };
 
   return (

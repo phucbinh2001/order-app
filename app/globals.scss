@@ -27,6 +27,10 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+td.ant-descriptions-item {
+  padding-bottom: 10px !important;
+}
+
 .custom-select .ant-select-selection-item {
   color: #e86a12 !important;
   font-weight: 700 !important;

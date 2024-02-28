@@ -23,14 +23,10 @@ export interface CartBottomSheetRef {
 
 export const CartBottomSheet = React.forwardRef(
   ({ onSubmitOk }: { onSubmitOk: () => void }, ref) => {
-    const [visible, setVisible] = useState(true);
-    const [loading, setLoading] = useState(false);
-    const [selectedFood, setSelectedFood] = useState<Food>();
+    const [visible, setVisible] = useState(false);
 
-    const addToCard = useOrderStore((state) => state.order);
+    const resetCard = useOrderStore((state) => state.resetCard);
     const order = useOrderStore((state) => state.order);
-    const noteValue = useRef("");
-    console.log({ order });
 
     const numOfFoods = useMemo(
       () =>
@@ -56,7 +52,6 @@ export const CartBottomSheet = React.forwardRef(
         return {
           handleOpen(food: Food) {
             setVisible(true);
-            setSelectedFood(food);
           },
         };
       },
@@ -66,6 +61,9 @@ export const CartBottomSheet = React.forwardRef(
     const submitOrder = async () => {
       const dataPost = order;
       await orderApi.create(dataPost);
+      message.success("Các món của bạn đang được chuẩn bị. Bạn chờ xíu nhé!");
+      resetCard();
+      setVisible(false);
     };
 
     return (
@@ -116,18 +114,20 @@ export const CartBottomSheet = React.forwardRef(
             </Button>
           </div>
         </Drawer>
-        <div
-          onClick={() => setVisible(true)}
-          className="bg-[#e86a12] h-5 rounded-full shadow-lg  fixed bottom-5 right-5 text-white py-6  px-4 pl-1 flex items-center justify-center font-bold gap-2 text-xl"
-        >
-          <div className="bg-white p-[10px] rounded-full shadow-xl">
-            <FaArrowRight className="text-[#e86a12]" />
+        {!!order.orderDetails?.length && (
+          <div
+            onClick={() => setVisible(true)}
+            className="bg-[#e86a12] h-5 rounded-full shadow-lg  fixed bottom-5 right-5 text-white py-6  px-4 pl-1 flex items-center justify-center font-bold gap-2 text-xl"
+          >
+            <div className="bg-white p-[10px] rounded-full shadow-xl">
+              <FaArrowRight className="text-[#e86a12]" />
+            </div>
+            <div className="flex flex-col">
+              <p>Đặt ngay</p>
+              <span className="text-xs font-normal">{numOfFoods} món</span>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <p>Đặt ngay</p>
-            <span className="text-xs font-normal">{numOfFoods} món</span>
-          </div>
-        </div>
+        )}
       </>
     );
   }
@@ -165,13 +165,7 @@ const FoodItem = ({ data }: { data: OrderDetail }) => {
 
   return (
     <div className="flex rounded-xl mb-3 overflow-hidden ">
-      <img
-        className="rounded-xl"
-        width={100}
-        src={
-          "https://cdn.tgdd.vn/2021/12/CookDishThumb/cach-lam-bun-dau-mam-tom-ngon-ngat-ngay-an-mot-lan-la-ghien-thumb-620x620.jpg"
-        }
-      />
+      <img className="rounded-xl" width={100} src={data.food.image} />
       <div className="flex flex-col w-full p-2 ml-2 relative">
         <h2 className="text-xl font-semibold">{data.food.title}</h2>
         <p>{data.food.description}</p>
@@ -188,8 +182,6 @@ const FoodItem = ({ data }: { data: OrderDetail }) => {
           <div className="flex items-center gap-2">
             <QuantityInput
               onQuantityChange={(newQuantity) => {
-                console.log("newQuantity", newQuantity);
-
                 updateItemQuantity(data.foodId, newQuantity);
               }}
               quantity={data.quantity}

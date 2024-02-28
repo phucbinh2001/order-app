@@ -69,7 +69,11 @@ export const OrderBottomSheetModal = React.forwardRef(
         }}
       >
         {selectedFood && (
-          <FoodItem data={selectedFood} onQuantityChange={setQuantity} />
+          <FoodItem
+            food={selectedFood}
+            quantity={quantity}
+            onQuantityChange={setQuantity}
+          />
         )}
         <div className="mt-5">
           <label className="font-semibold">Ghi chú</label>
@@ -94,25 +98,20 @@ export const OrderBottomSheetModal = React.forwardRef(
 );
 
 const FoodItem = ({
-  data,
+  food,
+  quantity,
   onQuantityChange,
 }: {
-  data: Food;
+  food: Food;
+  quantity: number;
   onQuantityChange: (value: number) => void;
 }) => {
   return (
     <div className="flex rounded-xl mb-3 overflow-hidden ">
-      <img
-        className="rounded-xl"
-        width={100}
-        src={
-          "https://cdn.tgdd.vn/2021/12/CookDishThumb/cach-lam-bun-dau-mam-tom-ngon-ngat-ngay-an-mot-lan-la-ghien-thumb-620x620.jpg"
-        }
-      />
+      <img className="rounded-xl" width={100} height={100} src={food.image} />
       <div className="flex flex-col w-full p-2 ml-2 relative">
-        <h2 className="text-xl font-semibold">{data.title}</h2>
-        {data._id}
-        <p>{data.description}</p>
+        <h2 className="text-xl font-semibold">{food.title}</h2>
+        <p>{food.description}</p>
         <Flex
           justify="space-between"
           align="center"
@@ -120,9 +119,12 @@ const FoodItem = ({
           style={{ width: "100%" }}
         >
           <span className="font-semibold text-sm">
-            {formatMoney(data.price)}đ
+            {formatMoney(food.price)}đ
           </span>
-          <QuantityInput onQuantityChange={onQuantityChange} />
+          <QuantityInput
+            onQuantityChange={onQuantityChange}
+            quantity={quantity}
+          />
         </Flex>
       </div>
     </div>
