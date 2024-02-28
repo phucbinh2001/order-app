@@ -4,8 +4,7 @@ import { tableApi } from "@/api/table.api";
 import { CartBottomSheet } from "@/components/CartBottomSheet/CartBottomSheet";
 import CategorySlider from "@/components/CategorySlider/CategorySlider";
 import FoodList from "@/components/FoodList/FoodList";
-import {
-  OrderBottomSheetModal,
+import OrderBottomSheetModal, {
   OrderBottomSheetRef,
 } from "@/components/OrderBottomSheet/OrderBottomSheet";
 import OrderDetailBtn from "@/components/OrderDetailBtn/OrderDetailBtn";
@@ -81,12 +80,7 @@ export default function Home() {
           selectedCategory={selectedCategory}
         />
       </div>
-      <OrderBottomSheetModal
-        ref={orderBottomSheetRef}
-        onSubmitOk={function (): void {
-          throw new Error("Function not implemented.");
-        }}
-      />
+      <OrderBottomSheetModal ref={orderBottomSheetRef} />
       <CartBottomSheet
         onSubmitOk={function (): void {
           throw new Error("Function not implemented.");
