@@ -1,6 +1,6 @@
 import { orderDetailApi } from "@/api/orderDetail.api";
 import useOrderStore from "@/store/orderStore";
-import { OrderDetail, OrderStatusEnum, orderStatusTrans } from "@/types/order";
+import { OrderDetail, OrderStatusEnum, orderStatusTrans } from "@/types/order2";
 import { Badge, Dropdown, Space } from "antd";
 import { useCallback } from "react";
 import { FaBowlRice, FaCheck, FaX } from "react-icons/fa6";

@@ -1,6 +1,6 @@
 import { orderApi } from "@/api/order.api";
 import useOrderStore from "@/store/orderStore";
-import { Order, OrderStatusEnum, orderStatusTrans } from "@/types/order";
+import { Order, OrderStatusEnum, orderStatusTrans } from "@/types/order2";
 import { formatUnixTimestamp } from "@/utils/date";
 import { Button, Popconfirm, Space, Tag } from "antd";
 import { useEffect, useMemo, useState } from "react";

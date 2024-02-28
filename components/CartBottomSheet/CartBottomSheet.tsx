@@ -1,5 +1,5 @@
-import { Food } from "@/types/food";
-import { OrderDetail } from "@/types/order";
+import { Food } from "@/types/food2";
+import { OrderDetail } from "@/types/order2";
 import { formatMoney } from "@/utils/money";
 import {
   Button,

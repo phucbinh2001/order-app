@@ -1,5 +1,5 @@
 import { orderApi } from "@/api/order.api";
-import { Order, OrderDetail } from "@/types/order";
+import { Order, OrderDetail } from "@/types/order2";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

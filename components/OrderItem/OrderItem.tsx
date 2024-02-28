@@ -1,4 +1,4 @@
-import { OrderDetail, OrderStatusEnum, orderStatusTrans } from "@/types/order";
+import { OrderDetail, OrderStatusEnum, orderStatusTrans } from "@/types/order2";
 import { Dropdown, Space, Tag } from "antd";
 import "./style/style.scss";
 import { useCallback } from "react";

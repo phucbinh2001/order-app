@@ -2,7 +2,7 @@
 
 import { orderApi } from "@/api/order.api";
 import OrderItem from "@/components/OrderItem/OrderItem";
-import { Order } from "@/types/order";
+import { Order } from "@/types/order2";
 import { formatMoney } from "@/utils/money";
 import { getLastNCharacter } from "@/utils/string";
 import { Descriptions, Space } from "antd";

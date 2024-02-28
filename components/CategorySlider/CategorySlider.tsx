@@ -1,4 +1,4 @@
-import { Category } from "@/types/category";
+import { Category } from "@/types/category2";
 import clsx from "clsx";
 import React from "react";
 
