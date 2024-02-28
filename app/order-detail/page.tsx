@@ -68,7 +68,7 @@ export default function OrderDetailPage() {
 
         <div className="mt-5">
           {orderDetailData.orderDetails.map((item) => (
-            <OrderItem data={item} />
+            <OrderItem data={item} onFetchDetail={fetchOrderDetail} />
           ))}
         </div>
       </div>

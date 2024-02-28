@@ -8,6 +8,7 @@ import {
   OrderBottomSheetModal,
   OrderBottomSheetRef,
 } from "@/components/OrderBottomSheet/OrderBottomSheet";
+import OrderDetailBtn from "@/components/OrderDetailBtn/OrderDetailBtn";
 import useOrderStore from "@/store/orderStore";
 import { Category } from "@/types/category";
 import { Table } from "@/types/table";
@@ -34,6 +35,7 @@ export default function Home() {
     const { data } = await categoryApi.findAll();
     const { data: tableData } = await tableApi.findAll();
     setTables(tableData);
+    updateTableId(tableData?.[0]?._id);
     setCategories(data);
     setSelectedCategory(data?.[0]);
   };
@@ -44,22 +46,24 @@ export default function Home() {
         <div className="container mx-auto px-2">
           <Flex justify="space-between" align="center" className="py-5">
             <img src="/logo.png" alt="" />
-            <Select
-              suffixIcon={
-                <FaSortDown className="text-[#e86a12] -translate-y-[3px]" />
-              }
-              className="custom-select"
-              defaultValue={tables?.[0]?._id}
-              size="large"
-              variant="borderless"
-              style={{ width: 100 }}
-              options={tables.map((item: Table) => ({
-                label: item.title,
-                value: item._id,
-              }))}
-              onChange={(value) => updateTableId(value)}
-              value={order.tableId}
-            ></Select>
+            <div>
+              <Select
+                suffixIcon={
+                  <FaSortDown className="text-[#e86a12] -translate-y-[3px]" />
+                }
+                className="custom-select"
+                defaultValue={tables?.[0]?._id}
+                size="large"
+                variant="borderless"
+                style={{ width: 100 }}
+                options={tables.map((item: Table) => ({
+                  label: item.title,
+                  value: item._id,
+                }))}
+                onChange={(value) => updateTableId(value)}
+                value={order.tableId}
+              ></Select>
+            </div>
           </Flex>
           <Space className="bg-[#fff1e6] text-[#e86a12] font-semibold w-full p-1 rounded-md">
             👋 Mời quý khách chọn món
@@ -88,6 +92,7 @@ export default function Home() {
           throw new Error("Function not implemented.");
         }}
       />
+      <OrderDetailBtn />
     </>
   );
 }
