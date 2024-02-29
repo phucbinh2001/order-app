@@ -1,4 +1,4 @@
-export const uploadImage = async (image: any) => {
+export const uploadImage = async (image: any, folderName: string) => {
   const data = new FormData();
   data.append("file", image);
   data.append(
@@ -9,7 +9,7 @@ export const uploadImage = async (image: any) => {
     "cloud_name",
     process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || ""
   );
-  data.append("folder", "Food");
+  data.append("folder", folderName);
 
   try {
     const response = await fetch(

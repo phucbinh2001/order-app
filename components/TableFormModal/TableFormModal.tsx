@@ -1,38 +1,31 @@
-import { foodApi } from "@/api/food.api";
-import { useCategory } from "@/hooks/useCategory";
-import { Food } from "@/types/food";
+import { tableApi } from "@/api/table.api";
 import { ModalStatus } from "@/types/modalStatus";
-import { Form, Input, Modal, Select, message } from "antd";
+import { Table } from "@/types/table";
+import { Form, Input, Modal, message } from "antd";
 import { Rule } from "antd/lib/form";
 import { useForm, useWatch } from "antd/lib/form/Form";
 import FormItem from "antd/lib/form/FormItem";
-import React, { useEffect, useImperativeHandle, useState } from "react";
-import { SingleImageUpload } from "../Uploads/SingleImageUpload";
+import React, { useImperativeHandle, useState } from "react";
 const rules: Rule[] = [{ required: true }];
 
-export interface FoodModalRef {
-  handleOpen: (status: ModalStatus, record?: Food) => void;
+export interface TableModalRef {
+  handleOpen: (status: ModalStatus, record?: Table) => void;
 }
 
-export const FoodModal = React.forwardRef(
+export const TableModal = React.forwardRef(
   ({ onSubmitOk }: { onSubmitOk: () => void }, ref) => {
     const [status, setStatus] = useState<ModalStatus>("create");
     const [form] = useForm();
     const [visibleModal, setVisibleModal] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [selectedData, setSelectedData] = useState<Food>();
-    const { fetchCategories, categories } = useCategory({ initQuery: {} });
+    const [selectedData, setSelectedData] = useState<Table>();
     const imageUrl = useWatch("image", form);
-
-    useEffect(() => {
-      fetchCategories();
-    }, []);
 
     useImperativeHandle(
       ref,
       () => {
         return {
-          handleOpen(status: ModalStatus, record?: Food) {
+          handleOpen(status: ModalStatus, record?: Table) {
             setSelectedData(record);
             setStatus(status);
             setVisibleModal(true);
@@ -53,13 +46,13 @@ export const FoodModal = React.forwardRef(
       try {
         switch (status) {
           case "update":
-            await foodApi.update(selectedData?._id || "", dataPost);
+            await tableApi.update(selectedData?._id || "", dataPost);
             message.success("Đã sửa");
             break;
 
           //create
           default:
-            await foodApi.create(dataPost);
+            await tableApi.create(dataPost);
             message.success("Đã thêm");
             break;
         }
@@ -75,37 +68,15 @@ export const FoodModal = React.forwardRef(
       <Modal
         onCancel={() => setVisibleModal(false)}
         open={visibleModal}
-        title={status == "create" ? "Thêm món ăn" : "Cập nhật món ăn"}
+        title={status == "create" ? "Thêm bàn" : "Cập nhật bàn"}
         confirmLoading={loading}
         onOk={handleSubmitForm}
         destroyOnClose
         afterClose={() => form.resetFields()}
       >
         <Form form={form} layout="vertical">
-          <FormItem rules={rules} required label="Ảnh" name={"image"}>
-            <SingleImageUpload
-              imageUrl={imageUrl}
-              onUploadOk={(image) => {
-                form.setFieldValue("image", image);
-              }}
-            />
-          </FormItem>
-          <FormItem rules={rules} required label="Tên món" name={"title"}>
+          <FormItem rules={rules} required label="Tên bàn" name={"title"}>
             <Input />
-          </FormItem>
-          <FormItem rules={rules} required label="Giá" name={"price"}>
-            <Input />
-          </FormItem>
-          <FormItem rules={rules} required label="Danh mục" name={"categoryId"}>
-            <Select
-              style={{ width: "100%" }}
-              allowClear
-              showSearch
-              options={categories?.map((item) => ({
-                label: item.title,
-                value: item._id,
-              }))}
-            />
           </FormItem>
         </Form>
       </Modal>

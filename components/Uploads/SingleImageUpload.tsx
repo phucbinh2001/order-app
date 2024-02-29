@@ -13,6 +13,7 @@ interface SingleImageUploadProps {
   height?: number | string;
   disabled?: boolean;
   uploadText?: string;
+  folderName?: string;
 }
 
 export const SingleImageUpload = React.memo(
@@ -23,6 +24,7 @@ export const SingleImageUpload = React.memo(
     width = 100,
     disabled,
     uploadText,
+    folderName = "Food",
   }: SingleImageUploadProps) => {
     const [loading, setLoading] = useState(false);
     const uploadRef = useRef(null);
@@ -62,7 +64,7 @@ export const SingleImageUpload = React.memo(
 
       const { onSuccess, file } = options;
       try {
-        const url = await uploadImage(file);
+        const url = await uploadImage(file, folderName);
         onSuccess(url);
       } catch (error) {
         // onError({ error });

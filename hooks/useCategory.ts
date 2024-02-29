@@ -17,7 +17,7 @@ export const useCategory = ({ initQuery }: UseCategoryProps) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { data } = await categoryApi.findAll();
+      const { data } = await categoryApi.findAll(query.current);
 
       setData(data);
     } finally {

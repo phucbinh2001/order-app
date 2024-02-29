@@ -1,29 +1,30 @@
 "use client";
-import { foodApi } from "@/api/food.api";
+import { categoryApi } from "@/api/category.api";
 import {
-  FoodModal,
-  FoodModalRef,
-} from "@/components/FoodFormModal/FoodFormModal";
-import { useFood } from "@/hooks/useFood";
-import { Food } from "@/types/food";
-import { formatMoney } from "@/utils/money";
+  CategoryModal,
+  CategoryModalRef,
+} from "@/components/CategoryFormModal/CategoryFormModal";
+import { useCategory } from "@/hooks/useCategory";
+import { Category } from "@/types/category";
 import { DeleteFilled, EditFilled, PlusOutlined } from "@ant-design/icons";
 import { Button, Popconfirm, Space, Table } from "antd";
 import Search from "antd/es/input/Search";
 import Column from "antd/es/table/Column";
 import { useEffect, useRef } from "react";
 
-export default function FoodPage() {
-  const { fetchFoods, foods, query, loading } = useFood({ initQuery: {} });
-  const foodModalRef = useRef<FoodModalRef>();
+export default function CategoryPage() {
+  const { fetchCategories, categories, query, loading } = useCategory({
+    initQuery: {},
+  });
+  const categoryModalRef = useRef<CategoryModalRef>();
 
   useEffect(() => {
-    fetchFoods();
+    fetchCategories();
   }, []);
 
   const handelDelete = async (id: string) => {
-    await foodApi.delete(id);
-    fetchFoods();
+    await categoryApi.delete(id);
+    fetchCategories();
   };
 
   return (
@@ -34,7 +35,7 @@ export default function FoodPage() {
           placeholder="Nhập tên món để tìm kiếm..."
           onSearch={(value) => {
             query.search = value;
-            fetchFoods();
+            fetchCategories();
           }}
           enterButton
         />
@@ -42,13 +43,17 @@ export default function FoodPage() {
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          onClick={() => foodModalRef.current?.handleOpen("create")}
+          onClick={() => categoryModalRef.current?.handleOpen("create")}
         >
           Thêm mới
         </Button>
       </Space>
 
-      <Table className="table-striped-rows" dataSource={foods} size="small">
+      <Table
+        className="table-striped-rows"
+        dataSource={categories}
+        size="small"
+      >
         <Column
           align="center"
           width={80}
@@ -58,30 +63,19 @@ export default function FoodPage() {
             <img className="size-14 rounded-lg object-cover" src={text} />
           )}
         />
-        <Column width={200} title="Tên món" dataIndex="title" key="title" />
-        <Column
-          width={100}
-          title="Giá"
-          dataIndex="price"
-          key="price"
-          align="right"
-          render={(text) => formatMoney(text)}
-        />
-        <Column
-          title="Danh mục"
-          dataIndex="category"
-          key="category"
-          render={(item) => item?.title}
-        />
+        <Column title="Tên danh mục" dataIndex="title" key="title" />
         <Column
           width={100}
           title="Hành động"
           key="action"
-          render={(text, record: Food) => (
+          render={(text, record: Category) => (
             <Space>
               <Button
                 onClick={() =>
-                  foodModalRef.current?.handleOpen("update", record as Food)
+                  categoryModalRef.current?.handleOpen(
+                    "update",
+                    record as Category
+                  )
                 }
                 type="primary"
                 icon={<EditFilled />}
@@ -89,7 +83,7 @@ export default function FoodPage() {
                 Chỉnh sửa
               </Button>
               <Popconfirm
-                title={`Món ăn này sẽ bị xóa. Tiếp tục?`}
+                title={`Danh mục này sẽ bị xóa. Tiếp tục?`}
                 onConfirm={() => handelDelete(record._id)}
                 okText={"Xóa"}
                 cancelText={"Hủy"}
@@ -103,7 +97,7 @@ export default function FoodPage() {
         />
       </Table>
 
-      <FoodModal ref={foodModalRef} onSubmitOk={fetchFoods} />
+      <CategoryModal ref={categoryModalRef} onSubmitOk={fetchCategories} />
     </>
   );
 }

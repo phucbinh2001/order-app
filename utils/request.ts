@@ -52,9 +52,9 @@ service.interceptors.response.use(
     if (status) {
       msg = error.response.data.message;
     } else {
-      msg = error.message;
+      msg = error.errors;
     }
-
+    message.error(msg);
     //Handle user login on other device
     if (status == 401) {
       message.warning("Vui lòng đăng nhập lại");
