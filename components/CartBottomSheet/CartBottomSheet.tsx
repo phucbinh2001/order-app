@@ -24,7 +24,7 @@ export interface CartBottomSheetRef {
 export const CartBottomSheet = React.forwardRef(
   ({ onSubmitOk }: { onSubmitOk: () => void }, ref) => {
     const [visible, setVisible] = useState(false);
-
+    const [loading, setLoading] = useState(false);
     const resetCard = useOrderStore((state) => state.resetCard);
     const order = useOrderStore((state) => state.order);
 
@@ -59,11 +59,16 @@ export const CartBottomSheet = React.forwardRef(
     );
 
     const submitOrder = async () => {
-      const dataPost = order;
-      await orderApi.create(dataPost);
-      message.success("Các món của bạn đang được chuẩn bị. Bạn chờ xíu nhé!");
-      resetCard();
-      setVisible(false);
+      try {
+        setLoading(true);
+        const dataPost = order;
+        await orderApi.create(dataPost);
+        message.success("Các món của bạn đang được chuẩn bị. Bạn chờ xíu nhé!");
+        resetCard();
+        setVisible(false);
+      } finally {
+        setLoading(false);
+      }
     };
 
     return (
@@ -104,6 +109,7 @@ export const CartBottomSheet = React.forwardRef(
             </Space>
 
             <Button
+              loading={loading}
               onClick={submitOrder}
               block
               className="!font-semibold mt-2"
