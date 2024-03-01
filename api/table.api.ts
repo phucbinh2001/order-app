@@ -2,7 +2,7 @@ import { request } from "@/utils/request";
 import { AxiosPromise } from "axios";
 
 export const tableApi = {
-  findAll: (params: any): AxiosPromise<any> =>
+  findAll: (params?: any): AxiosPromise<any> =>
     request({
       url: "/table",
       params,
