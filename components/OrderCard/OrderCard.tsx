@@ -60,7 +60,7 @@ const OrderCard = ({ order, active }: { order: Order; active: boolean }) => {
         {order.orderDetails.slice(0, MAX_ITEMS_TO_SHOW).map((item) => (
           <Space key={item.foodId} className="w-full mb-3 last:mb-0">
             <img
-              className="size-12 rounded-md"
+              className="size-12 rounded-md object-cover"
               src={item.food.image || "https://placehold.co/50x50"}
             />
             <Space direction="vertical">

@@ -46,7 +46,7 @@ const OrderDetailList = ({
       autoSize={true}
       style={{
         width: "100%",
-        minHeight: "100vh",
+        minHeight: "calc(100vh - 210px)",
         backgroundSize: "100% 100%",
         overflow: "hidden",
       }}

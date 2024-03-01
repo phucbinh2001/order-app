@@ -1,8 +1,8 @@
 import { orderDetailApi } from "@/api/orderDetail.api";
 import useOrderStore from "@/store/orderStore";
 import { OrderDetail, OrderStatusEnum, orderStatusTrans } from "@/types/order";
-import { Badge, Dropdown, Space } from "antd";
-import { useCallback } from "react";
+import { Badge, Dropdown, Space, Spin } from "antd";
+import { useCallback, useState } from "react";
 import { FaBowlRice, FaCheck, FaX } from "react-icons/fa6";
 import { HiDotsVertical } from "react-icons/hi";
 import { PiDotsSixVerticalBold } from "react-icons/pi";
@@ -14,6 +14,7 @@ const OrderDetailItem = ({
   orderDetail: OrderDetail;
   onFetchDetail: () => void;
 }) => {
+  const [loading, setLoading] = useState(false);
   const fetchOrders = useOrderStore((state) => state.fetchOrders);
 
   const getDropDownItems = useCallback((item: OrderDetail) => {
@@ -47,14 +48,19 @@ const OrderDetailItem = ({
     orderDetail: OrderDetail,
     status: OrderStatusEnum
   ) => {
-    await orderDetailApi.update(orderDetail._id, { status });
+    try {
+      setLoading(true);
+      await orderDetailApi.update(orderDetail._id, { status });
 
-    onFetchDetail();
-    fetchOrders();
+      onFetchDetail();
+      fetchOrders();
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <>
+    <Spin spinning={loading}>
       <Badge.Ribbon
         style={{ fontWeight: 700 }}
         text={orderStatusTrans[orderDetail.status].label}
@@ -73,7 +79,7 @@ const OrderDetailItem = ({
               <PiDotsSixVerticalBold className="text-lg" />
             </div>
             <img
-              className="size-12 rounded-md mt-2"
+              className="size-12 rounded-md mt-2 object-cover"
               src={orderDetail.food.image || "https://placehold.co/50x50"}
             />
             <Space size={1} direction="vertical" className="w-full">
@@ -94,7 +100,7 @@ const OrderDetailItem = ({
           </div>
         </Dropdown>
       </Badge.Ribbon>
-    </>
+    </Spin>
   );
 };
 

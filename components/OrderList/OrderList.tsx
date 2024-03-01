@@ -52,7 +52,7 @@ const OrderList = ({ orders }: { orders: Order[] }) => {
   return (
     <div
       ref={draggableContainerRef}
-      className="order-list bg-[#4e4cb8] rounded-2xl p-4"
+      className="order-list bg-[#4e4cb8] rounded-2xl p-4 max-h-[calc(100vh-220px)] overflow-auto"
     >
       {orders.length > 0 && (
         <ResponsiveReactGridLayout
