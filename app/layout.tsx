@@ -2,6 +2,7 @@ import { AntdRegistry } from "@ant-design/nextjs-registry";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.scss";
+import { ConfigProvider, ThemeConfig } from "antd";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +19,12 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
+const theme: ThemeConfig = {
+  token: {
+    colorPrimary: "#ff7819",
+  },
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,7 +33,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AntdRegistry>{children}</AntdRegistry>
+        <ConfigProvider theme={theme}>
+          <AntdRegistry>{children}</AntdRegistry>
+        </ConfigProvider>
       </body>
     </html>
   );

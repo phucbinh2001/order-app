@@ -1,6 +1,7 @@
 "use client";
 
 import { orderApi } from "@/api/order.api";
+import AppLoading from "@/components/AppLoading/AppLoading";
 import OrderItem from "@/components/OrderItem/OrderItem";
 import { Order } from "@/types/order";
 import { formatMoney } from "@/utils/money";
@@ -13,16 +14,23 @@ import { FaAngleLeft } from "react-icons/fa6";
 const tempId = "65daafc3d6090135a72881f7";
 
 export default function OrderDetailPage() {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [orderDetailData, setOrderDetailData] = useState<Order>();
   const fetchOrderDetail = async () => {
-    const { data } = await orderApi.getDetail(tempId);
-    setOrderDetailData(data);
+    try {
+      setLoading(true);
+      const { data } = await orderApi.getDetail(tempId);
+      setOrderDetailData(data);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchOrderDetail();
   }, []);
+  if (loading) return <AppLoading />;
   if (!orderDetailData) return <></>;
   return (
     <>

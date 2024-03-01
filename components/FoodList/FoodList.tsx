@@ -7,6 +7,7 @@ import { Flex } from "antd";
 import Item from "antd/es/list/Item";
 import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
+import FoodListSkeleton from "./components/FoodListSkeleton";
 
 const FoodList = ({
   selectedCategory,
@@ -16,6 +17,7 @@ const FoodList = ({
   onSelectFood: (food: Food) => void;
 }) => {
   const [foods, setFoods] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (selectedCategory?._id) {
@@ -24,12 +26,17 @@ const FoodList = ({
   }, [selectedCategory]);
 
   const fetchData = async () => {
-    const { data } = await foodApi.findAll({
-      categoryId: selectedCategory._id,
-    });
-    setFoods(data);
+    try {
+      setLoading(true);
+      const { data } = await foodApi.findAll({
+        categoryId: selectedCategory._id,
+      });
+      setFoods(data);
+    } finally {
+      setLoading(false);
+    }
   };
-
+  if (loading) return <FoodListSkeleton />;
   return (
     <div className="mt-5">
       {foods.map((item: Food) => (

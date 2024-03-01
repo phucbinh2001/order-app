@@ -10,11 +10,6 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   (config) => {
-    if (config.headers) {
-      const token = process.env.NEXT_PUBLIC_ACCESS_TOKEN;
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
-
     return config;
   },
   (error) => {

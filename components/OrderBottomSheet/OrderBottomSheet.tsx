@@ -6,6 +6,7 @@ import React, { useImperativeHandle, useRef, useState } from "react";
 import QuantityInput from "../QuantityInput/QuantityInput";
 import useOrderStore from "@/store/orderStore";
 import FoodItem from "./components/FoodItem";
+import { FaCartPlus } from "react-icons/fa6";
 
 export interface OrderBottomSheetRef {
   handleOpen: (food: Food) => void;
@@ -84,6 +85,7 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
       </div>
 
       <Button
+        icon={<FaCartPlus className="translate-y-[2px]" />}
         onClick={handleAddToCard}
         block
         className="!font-semibold mt-5"
