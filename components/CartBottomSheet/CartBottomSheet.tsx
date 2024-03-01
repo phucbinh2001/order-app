@@ -91,6 +91,11 @@ export const CartBottomSheet = React.forwardRef(
             header: { border: "none" },
           }}
         >
+          <h2 className="text-xl font-semibold">Kiểm tra lại đơn hàng</h2>
+          <Space className="bg-[#fff1e6] text-[#e86a12] font-semibold w-full p-1 rounded-md text-base mb-5 mt-2">
+            <span className="text-xl">👋</span>
+            Kiểm tra lại thông tin gọi món của bạn để tránh đặt sai bạn nhé!
+          </Space>
           <div className="pb-[100px]">
             {!!order.orderDetails?.length && (
               <>

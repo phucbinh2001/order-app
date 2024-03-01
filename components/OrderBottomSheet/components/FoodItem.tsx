@@ -15,7 +15,12 @@ const FoodItem = ({
 }) => {
   return (
     <div className="flex rounded-xl mb-3 overflow-hidden ">
-      <img className="rounded-xl" width={100} height={100} src={food.image} />
+      <img
+        className="rounded-xl object-cover"
+        width={100}
+        height={100}
+        src={food.image}
+      />
       <div className="flex flex-col w-full p-2 ml-2 relative">
         <h2 className="text-xl font-semibold">{food.title}</h2>
         <p>{food.description}</p>

@@ -1,12 +1,10 @@
+import useOrderStore from "@/store/orderStore";
 import { Food } from "@/types/food";
 import { OrderDetail } from "@/types/order";
-import { formatMoney } from "@/utils/money";
-import { Button, Drawer, Flex, Input, message } from "antd";
+import { Button, Drawer, Input, message } from "antd";
 import React, { useImperativeHandle, useRef, useState } from "react";
-import QuantityInput from "../QuantityInput/QuantityInput";
-import useOrderStore from "@/store/orderStore";
-import FoodItem from "./components/FoodItem";
 import { FaCartPlus } from "react-icons/fa6";
+import FoodItem from "./components/FoodItem";
 
 export interface OrderBottomSheetRef {
   handleOpen: (food: Food) => void;
@@ -14,12 +12,10 @@ export interface OrderBottomSheetRef {
 
 const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [selectedFood, setSelectedFood] = useState<Food>();
   const [quantity, setQuantity] = useState(1);
 
   const addToCard = useOrderStore((state) => state.addToCard);
-  const order = useOrderStore((state) => state.order);
 
   const noteValue = useRef("");
 
@@ -53,6 +49,11 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
 
   return (
     <Drawer
+      afterOpenChange={(open) => {
+        if (!open) {
+          setQuantity(1);
+        }
+      }}
       destroyOnClose
       placement="bottom"
       onClose={() => setVisible(false)}

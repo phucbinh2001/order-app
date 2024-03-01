@@ -25,12 +25,17 @@ const useOrderStore = create<IOrderStore>()(
       selectedOrder: undefined,
       fetchOrders: async () => {
         const { data } = await orderApi.findAll();
-        return set(() => ({ orders: data }));
+        set(() => ({ orders: data }));
       },
-      updateOrder: (newOrder: Order) => set({ order: newOrder }),
-      setSelectedOrder: (newOrder: Order) => set({ selectedOrder: newOrder }),
-      updateTableId: (tableId: string) =>
-        set((state) => ({ order: { ...state, tableId } })),
+      updateOrder: (newOrder: Order) => {
+        set({ order: newOrder });
+      },
+      setSelectedOrder: (newOrder: Order) => {
+        set({ selectedOrder: newOrder });
+      },
+      updateTableId: (tableId: string) => {
+        set((state) => ({ order: { ...state.order, tableId } }));
+      },
       updateItemQuantity: (itemId: string, newQuantity: number) => {
         const order = get().order;
         const find = order.orderDetails?.find((item) => item.foodId == itemId);

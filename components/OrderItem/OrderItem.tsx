@@ -49,11 +49,11 @@ const OrderItem = ({
           align="start"
         >
           <img
-            className="size-12 rounded-md mt-2"
+            className="size-[100px] rounded-md mt-2 object-cover"
             src={data.food.image || "https://placehold.co/50x50"}
           />
           <Space direction="vertical" size={1}>
-            <p className="font-semibold">{data.food.title}</p>
+            <p className="font-semibold mt-1">{data.food.title}</p>
             <span>Số lượng: {data.quantity}</span>
             <Tag
               color={orderStatusTrans[data.status].color}
