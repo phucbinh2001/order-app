@@ -24,8 +24,9 @@ export const orderApi = {
     request({
       url: `/order/${id}`,
     }),
-  findAll: (): AxiosPromise<any> =>
+  findAll: (params?: any): AxiosPromise<any> =>
     request({
       url: "/order",
+      params,
     }),
 };

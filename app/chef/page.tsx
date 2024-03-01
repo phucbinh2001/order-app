@@ -2,15 +2,30 @@
 import OrderDetail from "@/components/OrderDetail/OrderDetail";
 import OrderList from "@/components/OrderList/OrderList";
 import useOrderStore from "@/store/orderStore";
-import { useEffect } from "react";
+import { OrderStatusEnum } from "@/types/order";
+import { QueryParam } from "@/types/query";
+import { SearchOutlined } from "@ant-design/icons";
+import { Input } from "antd";
+import { debounce } from "lodash";
+import { useCallback, useEffect, useState } from "react";
 
 export default function Home() {
+  const [query, setQuery] = useState<QueryParam>({
+    status: OrderStatusEnum.pending,
+  });
   const orders = useOrderStore((state) => state.orders);
   const fetchOrders = useOrderStore((state) => state.fetchOrders);
 
   useEffect(() => {
-    fetchOrders();
-  }, []);
+    fetchOrders(query);
+  }, [query]);
+
+  const debounceSearch = useCallback(
+    debounce((search) => {
+      setQuery({ ...query, search });
+    }, 300),
+    []
+  );
 
   return (
     <div className="grid grid-cols-12 h-screen">
@@ -24,6 +39,23 @@ export default function Home() {
                 Có <b className="font-bold">{orders.length} đơn hàng</b> chờ bạn
                 chuẩn bị
               </p>
+            </div>
+
+            <div className="ml-auto">
+              <Input
+                prefix={
+                  <SearchOutlined
+                    onClick={() => ""}
+                    className="!text-[#383799] text-2xl ml-auto cursor-pointer mr-2"
+                  />
+                }
+                placeholder="Tìm kiếm theo mã đơn"
+                style={{ width: 300 }}
+                className="ml-auto"
+                // variant="outlined"
+                size="large"
+                onChange={(e) => debounceSearch(e.target.value)}
+              />
             </div>
           </div>
           <OrderList orders={orders} />

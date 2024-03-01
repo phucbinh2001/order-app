@@ -7,7 +7,7 @@ interface IOrderStore {
   order: Partial<Order>;
   orders: Order[];
   selectedOrder: Order | undefined;
-  fetchOrders: () => void;
+  fetchOrders: (query?: any) => void;
   updateOrder: (newOrder: Order) => void;
   addToCard: (newOrderDetail: OrderDetail) => void;
   updateTableId: (tabledId: string) => void;
@@ -23,8 +23,8 @@ const useOrderStore = create<IOrderStore>()(
       orders: [],
       order: { orderDetails: [] },
       selectedOrder: undefined,
-      fetchOrders: async () => {
-        const { data } = await orderApi.findAll();
+      fetchOrders: async (query?: any) => {
+        const { data } = await orderApi.findAll(query);
         set(() => ({ orders: data }));
       },
       updateOrder: (newOrder: Order) => {
