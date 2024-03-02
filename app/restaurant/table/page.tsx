@@ -7,7 +7,7 @@ import {
 import { useTable } from "@/hooks/useTable";
 import { Table as ITable } from "@/types/table";
 import { DeleteFilled, EditFilled, PlusOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Space, Table } from "antd";
+import { Button, Popconfirm, Space, Table, Tooltip } from "antd";
 import Search from "antd/es/input/Search";
 import Column from "antd/es/table/Column";
 import { useEffect, useRef } from "react";
@@ -32,7 +32,7 @@ export default function TablePage() {
       <Space style={{ width: 300, marginBottom: 15 }}>
         <Search
           loading={loading}
-          placeholder="Nhập tên món để tìm kiếm..."
+          placeholder="Nhập tên bàn để tìm kiếm..."
           onSearch={(value) => {
             query.search = value;
             fetchTable();
@@ -51,6 +51,12 @@ export default function TablePage() {
 
       <Table className="table-striped-rows" dataSource={tables} size="small">
         <Column title="Tên bàn" dataIndex="title" key="title" />
+        <Column
+          align="center"
+          title="Vị trí"
+          dataIndex="position"
+          key="position"
+        />
         <Column
           width={100}
           title="Hành động"

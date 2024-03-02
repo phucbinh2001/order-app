@@ -32,7 +32,7 @@ export default function CategoryPage() {
       <Space style={{ width: 300, marginBottom: 15 }}>
         <Search
           loading={loading}
-          placeholder="Nhập tên món để tìm kiếm..."
+          placeholder="Nhập tên danh mục để tìm kiếm..."
           onSearch={(value) => {
             query.search = value;
             fetchCategories();
@@ -64,6 +64,12 @@ export default function CategoryPage() {
           )}
         />
         <Column title="Tên danh mục" dataIndex="title" key="title" />
+        <Column
+          align="center"
+          title="Vị trí"
+          dataIndex="position"
+          key="position"
+        />
         <Column
           width={100}
           title="Hành động"

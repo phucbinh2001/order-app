@@ -1,7 +1,7 @@
 import { tableApi } from "@/api/table.api";
 import { ModalStatus } from "@/types/modalStatus";
 import { Table } from "@/types/table";
-import { Form, Input, Modal, message } from "antd";
+import { Form, Input, InputNumber, Modal, message } from "antd";
 import { Rule } from "antd/lib/form";
 import { useForm, useWatch } from "antd/lib/form/Form";
 import FormItem from "antd/lib/form/FormItem";
@@ -77,6 +77,9 @@ export const TableModal = React.forwardRef(
         <Form form={form} layout="vertical">
           <FormItem rules={rules} required label="Tên bàn" name={"title"}>
             <Input />
+          </FormItem>
+          <FormItem required label="Vị trí" name={"position"}>
+            <InputNumber min={0} style={{ width: "100%" }} />
           </FormItem>
         </Form>
       </Modal>

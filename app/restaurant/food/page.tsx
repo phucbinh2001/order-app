@@ -74,6 +74,12 @@ export default function FoodPage() {
           render={(item) => item?.title}
         />
         <Column
+          align="center"
+          title="Vị trí"
+          dataIndex="position"
+          key="position"
+        />
+        <Column
           width={100}
           title="Hành động"
           key="action"

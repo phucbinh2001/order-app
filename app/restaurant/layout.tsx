@@ -1,13 +1,9 @@
 "use client";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+import { adminMenu } from "@/constants";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
-import React, { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useMemo, useState } from "react";
 
 const { Header, Sider, Content } = Layout;
 
@@ -17,35 +13,34 @@ export default function RestaurantLayout({
   children: React.ReactNode;
 }>) {
   const [collapsed, setCollapsed] = useState(false);
+  const pathname = usePathname();
+  const navigateRouter = useRouter();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+
+  const currentPathname = useMemo(() => pathname.split("/")[2], [pathname]);
+  const currentPageName = useMemo(
+    () => adminMenu.find((item) => item.path == currentPathname)?.label,
+    [currentPathname]
+  );
+
   return (
     <Layout style={{ height: "100vh" }}>
       <Sider theme="light" trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical flex items-center justify-center py-2">
           <img className="size-[40px]" src="/logo.png" />
         </div>
+
         <Menu
           mode="inline"
-          defaultSelectedKeys={["1"]}
-          items={[
-            {
-              key: "1",
-              icon: <UserOutlined />,
-              label: "Món ăn",
-            },
-            {
-              key: "2",
-              icon: <VideoCameraOutlined />,
-              label: "Bàn ghế",
-            },
-            {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: "Hóa đơn",
-            },
-          ]}
+          selectedKeys={[currentPathname]}
+          items={adminMenu.map((item) => ({
+            icon: <item.icon />,
+            label: item.label,
+            onClick: () => navigateRouter.push(item.path),
+            key: item.path,
+          }))}
         />
       </Sider>
       <Layout>
@@ -60,6 +55,7 @@ export default function RestaurantLayout({
               height: 64,
             }}
           />
+          <span>{currentPageName}</span>
         </Header>
         <Content
           style={{

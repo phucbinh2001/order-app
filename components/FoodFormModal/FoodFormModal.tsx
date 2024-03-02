@@ -2,7 +2,7 @@ import { foodApi } from "@/api/food.api";
 import { useCategory } from "@/hooks/useCategory";
 import { Food } from "@/types/food";
 import { ModalStatus } from "@/types/modalStatus";
-import { Form, Input, Modal, Select, message } from "antd";
+import { Form, Input, InputNumber, Modal, Select, message } from "antd";
 import { Rule } from "antd/lib/form";
 import { useForm, useWatch } from "antd/lib/form/Form";
 import FormItem from "antd/lib/form/FormItem";
@@ -106,6 +106,9 @@ export const FoodModal = React.forwardRef(
                 value: item._id,
               }))}
             />
+          </FormItem>
+          <FormItem required label="Vị trí" name={"position"}>
+            <InputNumber min={0} style={{ width: "100%" }} />
           </FormItem>
         </Form>
       </Modal>
