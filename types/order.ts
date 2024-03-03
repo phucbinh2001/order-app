@@ -9,6 +9,7 @@ export interface Order {
   status: OrderStatusEnum;
   orderDetails: OrderDetail[];
   createdAt: number;
+  orderCode: string;
 }
 
 export interface OrderDetail {
