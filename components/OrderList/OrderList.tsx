@@ -1,22 +1,21 @@
 import useOrderStore from "@/store/orderStore";
-import { Order } from "@/types/order";
 import { useCallback, useMemo, useRef } from "react";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import OrderCard from "../OrderCard/OrderCard";
 
-import ReactGridLayout, { Responsive, WidthProvider } from "react-grid-layout";
-import { getGridItemPosition } from "@/utils/grid";
 import { orderApi } from "@/api/order.api";
+import { getGridItemPosition } from "@/utils/grid";
 import { debounce } from "lodash";
+import ReactGridLayout, { Responsive, WidthProvider } from "react-grid-layout";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-const OrderList = ({ orders }: { orders: Order[] }) => {
+const OrderList = ({}) => {
   const layoutPositionIds = useRef<string[]>([]);
   const setSelectedOrder = useOrderStore((state) => state.setSelectedOrder);
-  const fetchOrders = useOrderStore((state) => state.fetchOrders);
   const draggableContainerRef = useRef(null);
   const selectedOrder = useOrderStore((state) => state.selectedOrder);
+  const orders = useOrderStore((state) => state.orders);
 
   const layout = useMemo(
     () =>
@@ -52,7 +51,7 @@ const OrderList = ({ orders }: { orders: Order[] }) => {
   return (
     <div
       ref={draggableContainerRef}
-      className="order-list bg-[#4e4cb8] rounded-2xl p-4 max-h-[calc(100vh-220px)] overflow-auto"
+      className="order-list bg-[#4e4cb8] rounded-2xl p-4 min-h-[calc(100vh-220px)] max-h-[calc(100vh-220px)] overflow-auto"
     >
       {orders.length > 0 && (
         <ResponsiveReactGridLayout

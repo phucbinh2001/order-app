@@ -2,8 +2,10 @@
 import { adminMenu } from "@/constants";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
+import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
+import { FaSignOutAlt } from "react-icons/fa";
 
 const { Header, Sider, Content } = Layout;
 
@@ -12,6 +14,7 @@ export default function RestaurantLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
   const navigateRouter = useRouter();
@@ -24,6 +27,12 @@ export default function RestaurantLayout({
     () => adminMenu.find((item) => item.path == currentPathname)?.label,
     [currentPathname]
   );
+
+  const logOut = () => {
+    Cookies.remove("accessToken");
+    Cookies.remove("user");
+    router.push("/login/restaurant");
+  };
 
   return (
     <Layout style={{ height: "100vh" }}>
@@ -42,12 +51,31 @@ export default function RestaurantLayout({
             key: item.path,
           }))}
         />
+        <div className="mt-auto absolute bottom-0 w-full p-3" onClick={logOut}>
+          <div className="w-full hover:bg-red-200 duration-300 cursor-pointer text-red-600 flex items-center justify-center gap-2 rounded-md p-2 font-semibold">
+            <FaSignOutAlt /> Đăng xuất
+          </div>
+        </div>
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
+        <Header
+          style={{
+            padding: 0,
+            background:
+              "linear-gradient(109.6deg, rgb(255, 78, 80) 11.2%, rgb(249, 212, 35) 100.2%)",
+            fontWeight: "bold",
+            color: "white",
+          }}
+        >
           <Button
             type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            icon={
+              collapsed ? (
+                <MenuUnfoldOutlined className="!text-white !text-xl" />
+              ) : (
+                <MenuFoldOutlined className="!text-white !text-xl" />
+              )
+            }
             onClick={() => setCollapsed(!collapsed)}
             style={{
               fontSize: "16px",

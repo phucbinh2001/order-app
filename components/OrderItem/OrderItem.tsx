@@ -7,9 +7,11 @@ import { orderDetailApi } from "@/api/orderDetail.api";
 
 const OrderItem = ({
   data,
+  disableItem,
   onFetchDetail,
 }: {
   data: OrderDetail;
+  disableItem?: boolean;
   onFetchDetail: () => void;
 }) => {
   const getDropDownItems = useCallback(
@@ -41,6 +43,7 @@ const OrderItem = ({
       trigger={["click"]}
       key={data.foodId}
       menu={{ items: getDropDownItems(data) }}
+      disabled={disableItem}
     >
       <div className={"rounded-lg mb-4"}>
         <Space

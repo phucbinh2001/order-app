@@ -8,8 +8,12 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Input } from "antd";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
+import { FaSignOutAlt } from "react-icons/fa";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   const [query, setQuery] = useState<QueryParam>({
     status: OrderStatusEnum.pending,
   });
@@ -27,6 +31,12 @@ export default function Home() {
     []
   );
 
+  const handleLogout = () => {
+    Cookies.remove("accessToken");
+    Cookies.remove("user");
+    router.push("/login/chef");
+  };
+
   return (
     <div className="grid grid-cols-12 h-screen">
       <div className="col-span-9 p-3">
@@ -34,7 +44,15 @@ export default function Home() {
           <div className="header flex gap-2 items-center">
             <img width={150} src="/icons/chef-hat.png" alt="" />
             <div className="text-white">
-              <h2 className="font-bold text-xl mb-2">Chào, Bình!</h2>
+              <h2 className="font-bold text-xl mb-2 flex">
+                Chào, Bình!{" "}
+                <div
+                  onClick={handleLogout}
+                  className="flex items-center text-yellow-500 text-base ml-3 gap-1 cursor-pointer group font-normal hover:bg-yellow-200 hover:text-yellow-900 duration-300 rounded-md px-3"
+                >
+                  <FaSignOutAlt /> <span>Đăng xuất</span>
+                </div>
+              </h2>
               <p className="text-3xl font-light">
                 Có <b className="font-bold">{orders.length} đơn hàng</b> chờ bạn
                 chuẩn bị
@@ -58,7 +76,7 @@ export default function Home() {
               />
             </div>
           </div>
-          <OrderList orders={orders} />
+          <OrderList />
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 import { orderApi } from "@/api/order.api";
-import { Order } from "@/types/order";
+import { Order, orderStatusTrans } from "@/types/order";
 import { formatMoney } from "@/utils/money";
-import { Descriptions, Modal } from "antd";
+import { Descriptions, Modal, Tag } from "antd";
 import { Rule } from "antd/lib/form";
 import React, { useImperativeHandle, useState } from "react";
 import AppLoading from "../AppLoading/AppLoading";
@@ -76,12 +76,22 @@ export const OrderDetailModal = React.forwardRef(({}, ref) => {
                 <Descriptions.Item label="Tổng tiền">
                   {formatMoney(order?.totalMoney)}đ
                 </Descriptions.Item>
+                <Descriptions.Item label="Trạng thái">
+                  {order && (
+                    <Tag
+                      className="font-bold !mr-0"
+                      color={orderStatusTrans[order.status].color}
+                    >
+                      {orderStatusTrans[order.status].label}
+                    </Tag>
+                  )}
+                </Descriptions.Item>
               </Descriptions>
             </div>
 
             <div className="mt-5">
               {order?.orderDetails?.map((item) => (
-                <OrderItem data={item} onFetchDetail={() => ""} />
+                <OrderItem data={item} onFetchDetail={() => ""} disableItem />
               ))}
             </div>
           </div>

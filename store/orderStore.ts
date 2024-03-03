@@ -6,6 +6,7 @@ import { persist } from "zustand/middleware";
 interface IOrderStore {
   order: Partial<Order>;
   orders: Order[];
+  loadingOrders: boolean;
   selectedOrder: Order | undefined;
   fetchOrders: (query?: any) => void;
   updateOrder: (newOrder: Order) => void;
@@ -23,9 +24,15 @@ const useOrderStore = create<IOrderStore>()(
       orders: [],
       order: { orderDetails: [] },
       selectedOrder: undefined,
+      loadingOrders: false,
       fetchOrders: async (query?: any) => {
-        const { data } = await orderApi.findAll(query);
-        set(() => ({ orders: data }));
+        try {
+          set(() => ({ loadingOrders: true }));
+          const { data } = await orderApi.findAll(query);
+          set(() => ({ orders: data }));
+        } finally {
+          set(() => ({ loadingOrders: false }));
+        }
       },
       updateOrder: (newOrder: Order) => {
         set({ order: newOrder });
