@@ -33,7 +33,7 @@ export const OrderDetailModal = React.forwardRef(({}, ref) => {
   const fetchDetail = async (orderId: string) => {
     try {
       setLoading(true);
-      const { data } = await orderApi.getDetail(orderId);
+      const { data } = await orderApi.getDetailById(orderId);
       setOrder(data);
     } finally {
       setLoading(false);

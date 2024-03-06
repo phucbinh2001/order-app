@@ -23,7 +23,7 @@ export default function ChefLoginPage() {
       const { accessToken, user } = await authApi.chefLogin(dataPost);
       setLoginCookie(accessToken, user);
       router.push("/chef");
-    } finally {
+    } catch {
       setLoading(false);
     }
   };

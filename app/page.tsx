@@ -34,7 +34,7 @@ export default function Home() {
     const { data } = await categoryApi.findAll();
     const { data: tableData } = await tableApi.findAll();
     setTables(tableData);
-    updateTableId(tableData?.[0]?._id);
+    updateTableId(tableData?.[0]?._id, tableData?.[0]?.sessionKey);
     setCategories(data);
     setSelectedCategory(data?.[0]);
   };
@@ -65,8 +65,12 @@ export default function Home() {
                   options={tables.map((item: Table) => ({
                     label: item.title,
                     value: item._id,
+                    sessionKey: item.sessionKey,
                   }))}
-                  onChange={(value) => updateTableId(value)}
+                  onChange={(value, option) =>
+                    //@ts-ignore
+                    updateTableId(value, option?.sessionKey)
+                  }
                   value={order.tableId}
                 ></Select>
               </div>

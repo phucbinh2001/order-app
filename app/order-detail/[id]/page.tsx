@@ -2,24 +2,29 @@
 
 import { orderApi } from "@/api/order.api";
 import AppLoading from "@/components/AppLoading/AppLoading";
-import OrderHistoryItem from "@/components/OrderHistoryItem/OrderHistoryItem";
+import OrderItem from "@/components/OrderItem/OrderItem";
 import useOrderStore from "@/store/orderStore";
 import { Order } from "@/types/order";
-import { Space } from "antd";
+import { formatMoney } from "@/utils/money";
+import { getLastNCharacter } from "@/utils/string";
+import { Descriptions, Space } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
 
-export default function OrderDetailPage() {
-  const sessionKey = useOrderStore((state) => state.order.sessionKey);
+export default function OrderDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [orderDetailData, setOrderDetailData] = useState<Order[]>([]);
+  const [orderDetailData, setOrderDetailData] = useState<Order>();
   const fetchOrderDetail = async () => {
-    if (!sessionKey) return;
+    if (!params.id) return;
     try {
       setLoading(true);
-      const { data } = await orderApi.getOrdersBySessionKey(sessionKey || "");
+      const { data } = await orderApi.getDetailById(params.id);
       setOrderDetailData(data);
     } finally {
       setLoading(false);
@@ -28,7 +33,7 @@ export default function OrderDetailPage() {
 
   useEffect(() => {
     fetchOrderDetail();
-  }, [sessionKey]);
+  }, [params.id]);
   if (loading) return <AppLoading />;
 
   return (
@@ -55,15 +60,37 @@ export default function OrderDetailPage() {
             </Space>
           </div>
         </div>
+        {orderDetailData?._id ? (
+          <div className="container mx-auto px-4">
+            <div className="summary bg-slate-100 border border-slate-300 rounded-xl px-4 py-2">
+              <h2 className="font-bold text-slate-600 mb-2">Thông tin đơn</h2>
+              <Descriptions
+                className="font-semibold"
+                column={1}
+                contentStyle={{
+                  textAlign: "right",
+                  width: "100%",
+                  display: "block",
+                }}
+              >
+                <Descriptions.Item label="Mã đơn">
+                  #{getLastNCharacter(orderDetailData?._id, 5).toUpperCase()}
+                </Descriptions.Item>
+                <Descriptions.Item label="Bàn">
+                  {orderDetailData.table.title}
+                </Descriptions.Item>
+                <Descriptions.Item label="Tổng tiền">
+                  {formatMoney(orderDetailData.totalMoney)}đ
+                </Descriptions.Item>
+              </Descriptions>
+            </div>
 
-        {orderDetailData.length ? (
-          <>
-            <div className="container mx-auto px-4 space-y-4">
-              {orderDetailData.map((item, key) => (
-                <OrderHistoryItem order={item} key={key} />
+            <div className="mt-5">
+              {orderDetailData.orderDetails.map((item) => (
+                <OrderItem data={item} onFetchDetail={fetchOrderDetail} />
               ))}
             </div>
-          </>
+          </div>
         ) : (
           <div className="h-[50vh] text-slate-500 flex flex-col justify-center items-center gap-5">
             <img src="/icons/empty-box.png" alt="" width={150} />

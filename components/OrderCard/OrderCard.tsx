@@ -1,12 +1,10 @@
 import { Order, orderStatusTrans } from "@/types/order";
 import { formatUnixTimestamp } from "@/utils/date";
+import { getLastNCharacter } from "@/utils/string";
 import { Space, Tag } from "antd";
 import clsx from "clsx";
 import { useMemo } from "react";
-import { HiDotsVertical } from "react-icons/hi";
 import "./style/style.scss";
-import OrderDetail from "../OrderDetail/OrderDetail";
-import { getLastNCharacter } from "@/utils/string";
 
 const MAX_ITEMS_TO_SHOW = 2;
 
@@ -54,7 +52,6 @@ const OrderCard = ({ order, active }: { order: Order; active: boolean }) => {
             {totalFoods} món • {formatUnixTimestamp(order.createdAt)}
           </div>
         </div>
-        <HiDotsVertical className="text-2xl text-slate-400" />
       </Space>
       <div>
         {order.orderDetails.slice(0, MAX_ITEMS_TO_SHOW).map((item) => (

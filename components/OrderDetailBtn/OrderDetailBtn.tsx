@@ -7,6 +7,9 @@ import { FaReceipt } from "react-icons/fa6";
 const OrderDetailBtn = () => {
   const order = useOrderStore((state) => state.order);
   const haveOrderInCart = !!order.orderDetails?.length;
+
+  if (!order.sessionKey) return <></>;
+
   return (
     <Link href={"/order-detail"}>
       <div

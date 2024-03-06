@@ -45,7 +45,7 @@ const OrderItem = ({
       menu={{ items: getDropDownItems(data) }}
       disabled={disableItem}
     >
-      <div className={"rounded-lg mb-4"}>
+      <div className={"rounded-lg "}>
         <Space
           key={data.foodId}
           className="w-full mb-3 last:mb-0"

@@ -4,6 +4,7 @@ import { Table } from "./table";
 export interface Order {
   _id: string;
   tableId: string;
+  sessionKey: string;
   table: Table;
   totalMoney: number;
   status: OrderStatusEnum;

@@ -20,9 +20,13 @@ export const orderApi = {
       method: "post",
       data,
     }),
-  getDetail: (id: string): AxiosPromise<any> =>
+  getDetailById: (id: string): AxiosPromise<any> =>
     request({
       url: `/order/${id}`,
+    }),
+  getOrdersBySessionKey: (sessionKey: string): AxiosPromise<any> =>
+    request({
+      url: `/order/${sessionKey}/session`,
     }),
   findAll: (params?: any): AxiosPromise<any> =>
     request({

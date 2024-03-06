@@ -1,0 +1,45 @@
+.order-card {
+    cursor: pointer;
+    transition: 0.1s;
+    background-color: #383799;
+    color: #9b9af6;
+    padding-top: 20px;
+
+    .header {
+        transition: 0;
+        border-bottom: 1px dashed #4e4cb8;
+    }
+
+
+    &.active {
+        background-color: white;
+        color: #191853;
+
+        .header {
+            border-bottom: 1px dashed #4e4cb841;
+        }
+    }
+
+    .drag-handle {
+        height: 20px;
+        position: absolute;
+        top: 0px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        cursor: grab !important;
+        background-color: red($color: #000000);
+
+        &::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 5px;
+            top: 50%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            border-radius: 10px;
+            background-color: gray;
+        }
+    }
+}

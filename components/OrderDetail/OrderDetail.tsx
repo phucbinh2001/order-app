@@ -28,11 +28,13 @@ const OrderDetail = () => {
     fetchDetail(selectedOrder?._id || "");
   }, [selectedOrder]);
 
-  const fetchDetail = async (orderId: string) => {
+  const fetchDetail = async (orderId: string, isLoading: boolean = true) => {
     try {
-      setLoading(true);
+      if (isLoading) {
+        setLoading(true);
+      }
       if (!orderId) return setOrderDetailData(undefined);
-      const { data } = await orderApi.getDetail(orderId);
+      const { data } = await orderApi.getDetailById(orderId);
       setOrderDetailData(data);
     } finally {
       setLoading(false);
@@ -83,7 +85,7 @@ const OrderDetail = () => {
       </div>
       <div>
         <OrderDetailList
-          onFetchDetail={() => fetchDetail(orderDetailData._id)}
+          onFetchDetail={() => fetchDetail(orderDetailData._id, false)}
           order={orderDetailData}
         />
       </div>

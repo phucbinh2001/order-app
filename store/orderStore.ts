@@ -11,7 +11,7 @@ interface IOrderStore {
   fetchOrders: (query?: any) => void;
   updateOrder: (newOrder: Order) => void;
   addToCard: (newOrderDetail: OrderDetail) => void;
-  updateTableId: (tabledId: string) => void;
+  updateTableId: (tabledId: string, sessionKey: string) => void;
   deleteItem: (foodId: string) => void;
   updateItemQuantity: (itemId: string, quantity: number) => void;
   setSelectedOrder: (order?: Order) => void;
@@ -40,8 +40,8 @@ const useOrderStore = create<IOrderStore>()(
       setSelectedOrder: (newOrder?: Order) => {
         set({ selectedOrder: newOrder });
       },
-      updateTableId: (tableId: string) => {
-        set((state) => ({ order: { ...state.order, tableId } }));
+      updateTableId: (tableId: string, sessionKey: string) => {
+        set((state) => ({ order: { ...state.order, tableId, sessionKey } }));
       },
       updateItemQuantity: (itemId: string, newQuantity: number) => {
         const order = get().order;
@@ -66,7 +66,13 @@ const useOrderStore = create<IOrderStore>()(
       },
 
       resetCart: () => {
-        set({ order: { orderDetails: [] } });
+        set((state) => ({
+          order: {
+            orderDetails: [],
+            tableId: state.order.tableId,
+            sessionKey: state.order.sessionKey,
+          },
+        }));
       },
 
       addToCard: (newOrderDetail: OrderDetail) => {
