@@ -12,7 +12,13 @@ import {
   Space,
   message,
 } from "antd";
-import React, { useImperativeHandle, useMemo, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import QuantityInput from "../QuantityInput/QuantityInput";
 import useOrderStore from "@/store/orderStore";
 import { FaArrowRight, FaTrash } from "react-icons/fa6";
@@ -28,6 +34,7 @@ export const CartBottomSheet = React.forwardRef(
     const [loading, setLoading] = useState(false);
     const resetCard = useOrderStore((state) => state.resetCard);
     const order = useOrderStore((state) => state.order);
+    const [innerWidth, setInnerWidth] = useState(0);
 
     const numOfFoods = useMemo(
       () =>
@@ -58,6 +65,10 @@ export const CartBottomSheet = React.forwardRef(
       },
       []
     );
+
+    useEffect(() => {
+      setInnerWidth(window.innerWidth);
+    }, []);
 
     const submitOrder = async () => {
       try {
@@ -92,7 +103,7 @@ export const CartBottomSheet = React.forwardRef(
             header: { border: "none" },
           }}
           style={{
-            maxWidth: window.innerWidth > 500 ? 500 : "auto",
+            maxWidth: innerWidth > 500 ? 500 : "auto",
             margin: "auto",
           }}
           className="relative"

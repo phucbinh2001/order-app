@@ -3,7 +3,7 @@ import useOrderStore from "@/store/orderStore";
 import { Food } from "@/types/food";
 import { OrderDetail } from "@/types/order";
 import { Button, Drawer, Input, message } from "antd";
-import React, { useImperativeHandle, useRef, useState } from "react";
+import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import { FaCartPlus } from "react-icons/fa6";
 import FoodItem from "./components/FoodItem";
 
@@ -15,10 +15,15 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
   const [visible, setVisible] = useState(false);
   const [selectedFood, setSelectedFood] = useState<Food>();
   const [quantity, setQuantity] = useState(1);
+  const [innerWidth, setInnerWidth] = useState(0);
 
   const addToCard = useOrderStore((state) => state.addToCard);
 
   const noteValue = useRef("");
+
+  useEffect(() => {
+    setInnerWidth(window.innerWidth);
+  }, []);
 
   useImperativeHandle(
     ref,
@@ -50,7 +55,6 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
 
   return (
     <Drawer
-      width={window.innerWidth > 1200 ? 800 : "auto"}
       afterOpenChange={(open) => {
         if (!open) {
           setQuantity(1);
@@ -67,7 +71,7 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
         </div>
       }
       style={{
-        maxWidth: window.innerWidth > 500 ? 500 : "auto",
+        maxWidth: innerWidth > 500 ? 500 : "auto",
         margin: "auto",
       }}
       styles={{
