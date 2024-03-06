@@ -1,29 +1,37 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
-  let user;
+export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-  const userJSON = request.cookies.get("user")?.value;
   const accessToken = request.cookies.get("accessToken")?.value;
 
-  if (userJSON) {
-    try {
-      user = JSON.parse(userJSON);
-    } finally {
-    }
-  }
+  try {
+    const { data } = await (
+      await fetch(process.env.NEXT_PUBLIC_APP_API_URL + "/profile", {
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      })
+    ).json();
 
-  //RESTAURANT
-  if (pathname.includes("/restaurant")) {
-    if (user?.role !== "ADMIN" || !accessToken) {
+    //RESTAURANT
+    if (pathname.includes("/restaurant")) {
+      if (data?.role !== "ADMIN" || !accessToken) {
+        throw new Error("Vui lòng đăng nhập");
+      }
+    }
+
+    //CHEF
+    if (pathname.includes("/chef")) {
+      if (data?.role !== "CHEF" || !accessToken) {
+        throw new Error("Vui lòng đăng nhập");
+      }
+    }
+  } catch (error) {
+    if (pathname.includes("/restaurant")) {
       return NextResponse.redirect(new URL("/login/restaurant", request.url));
     }
-  }
-
-  //CHEF
-  if (pathname.includes("/chef")) {
-    if (user?.role !== "CHEF" || !accessToken) {
+    if (pathname.includes("/chef")) {
       return NextResponse.redirect(new URL("/login/chef", request.url));
     }
   }

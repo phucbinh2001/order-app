@@ -14,4 +14,8 @@ export const authApi = {
       data,
       method: "post",
     }),
+  profile: (): AxiosPromise<any> =>
+    request({
+      url: `/profile`,
+    }),
 };

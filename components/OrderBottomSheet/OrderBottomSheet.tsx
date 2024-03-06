@@ -49,6 +49,7 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
 
   return (
     <Drawer
+      width={window.innerWidth > 1200 ? 800 : "auto"}
       afterOpenChange={(open) => {
         if (!open) {
           setQuantity(1);
@@ -64,6 +65,10 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
           <div className="w-[50px] bg-slate-500 h-[6px] rounded-full"></div>
         </div>
       }
+      style={{
+        maxWidth: window.innerWidth > 500 ? 500 : "auto",
+        margin: "auto",
+      }}
       styles={{
         content: { borderRadius: "20px 20px 0 0", boxShadow: "none" },
         wrapper: { boxShadow: "none" },
@@ -84,7 +89,6 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
           onChange={(e) => (noteValue.current = e.target.value)}
         />
       </div>
-
       <Button
         icon={<FaCartPlus className="translate-y-[2px]" />}
         onClick={handleAddToCard}

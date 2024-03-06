@@ -1,5 +1,6 @@
 import { message } from "antd";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 // create an axios instance
 const service = axios.create({
@@ -10,6 +11,11 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
   (config) => {
+    const token = Cookies.get("accessToken");
+    if (token && config.headers) {
+      config.headers["token"] = token;
+    }
+
     return config;
   },
   (error) => {
@@ -49,13 +55,12 @@ service.interceptors.response.use(
     } else {
       msg = error.errors;
     }
-    message.error(msg);
-    //Handle user login on other device
-    if (status == 401) {
-      message.warning("Vui lòng đăng nhập lại");
-      setTimeout(() => {
-        window.location.replace("/");
-      }, 1000);
+    if (typeof window !== "undefined") {
+      message.error(msg);
+      //Handle user login on other device
+      if (status == 401) {
+        message.warning("Vui lòng đăng nhập lại");
+      }
     }
 
     return Promise.reject(error);

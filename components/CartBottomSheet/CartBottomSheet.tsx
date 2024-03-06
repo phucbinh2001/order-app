@@ -90,6 +90,11 @@ export const CartBottomSheet = React.forwardRef(
             wrapper: { boxShadow: "none" },
             header: { border: "none" },
           }}
+          style={{
+            maxWidth: window.innerWidth > 500 ? 500 : "auto",
+            margin: "auto",
+          }}
+          className="relative"
         >
           <h2 className="text-xl font-semibold">Kiểm tra lại đơn hàng</h2>
           <Space className="bg-[#fff1e6] text-[#e86a12] font-semibold w-full p-1 rounded-md text-base mb-5 mt-2">
@@ -105,7 +110,7 @@ export const CartBottomSheet = React.forwardRef(
               </>
             )}
           </div>
-          <div className="fixed bottom-0 w-full left-0 bg-white/80 p-4 pt-2 border-t shadow-xl backdrop-blur-xl">
+          <div className="absolute bottom-0 w-full left-0 bg-white/80 p-4 pt-2 border-t shadow-xl backdrop-blur-xl">
             <Space
               className="text-lg pt-1"
               style={{ width: "100%", justifyContent: "space-between" }}
