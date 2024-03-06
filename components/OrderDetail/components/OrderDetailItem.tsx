@@ -53,7 +53,9 @@ const OrderDetailItem = ({
       await orderDetailApi.update(orderDetail._id, { status });
 
       onFetchDetail();
-      fetchOrders();
+      fetchOrders({
+        status: OrderStatusEnum.pending,
+      });
     } finally {
       setLoading(false);
     }

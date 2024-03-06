@@ -5,13 +5,14 @@ import { formatUnixTimestamp } from "@/utils/date";
 import { getLastNCharacter } from "@/utils/string";
 import { Button, Popconfirm, Space, Tag } from "antd";
 import { useEffect, useMemo, useState } from "react";
-import OrderDetailList from "./components/OrderDetailList";
 import AppLoading from "../AppLoading/AppLoading";
+import OrderDetailList from "./components/OrderDetailList";
 
 const OrderDetail = () => {
   const [orderDetailData, setOrderDetailData] = useState<Order>();
   const [loading, setLoading] = useState(false);
   const selectedOrder = useOrderStore((state) => state.selectedOrder);
+  const setSelectedOrder = useOrderStore((state) => state.setSelectedOrder);
   const fetchOrders = useOrderStore((state) => state.fetchOrders);
 
   const totalFoods = useMemo(
@@ -30,7 +31,7 @@ const OrderDetail = () => {
   const fetchDetail = async (orderId: string) => {
     try {
       setLoading(true);
-      if (!orderId) return;
+      if (!orderId) return setOrderDetailData(undefined);
       const { data } = await orderApi.getDetail(orderId);
       setOrderDetailData(data);
     } finally {
@@ -40,11 +41,19 @@ const OrderDetail = () => {
 
   const changeOrderStatus = async (status: OrderStatusEnum) => {
     await orderApi.update(orderDetailData?._id || "", { status });
-    fetchDetail(orderDetailData?._id || "");
-    fetchOrders();
+    fetchOrders({
+      status: OrderStatusEnum.pending,
+    });
+    setSelectedOrder(undefined);
   };
   if (loading) return <AppLoading />;
-  if (!orderDetailData) return <></>;
+  if (!orderDetailData)
+    return (
+      <div className="h-screen flex items-center justify-center flex-col gap-5">
+        <img width={200} src="/icons/empty-box.png" />
+        <h2 className="text-slate-500">Chọn một thực đơn để xem chi tiết</h2>
+      </div>
+    );
   return (
     <div className={"rounded-lg pl-1 pr-4 h-screen overflow-auto relative"}>
       <div className="sticky top-0 z-10 bg-white pt-10">

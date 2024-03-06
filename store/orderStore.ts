@@ -14,8 +14,8 @@ interface IOrderStore {
   updateTableId: (tabledId: string) => void;
   deleteItem: (foodId: string) => void;
   updateItemQuantity: (itemId: string, quantity: number) => void;
-  setSelectedOrder: (order: Order) => void;
-  resetCard: () => void;
+  setSelectedOrder: (order?: Order) => void;
+  resetCart: () => void;
 }
 
 const useOrderStore = create<IOrderStore>()(
@@ -37,7 +37,7 @@ const useOrderStore = create<IOrderStore>()(
       updateOrder: (newOrder: Order) => {
         set({ order: newOrder });
       },
-      setSelectedOrder: (newOrder: Order) => {
+      setSelectedOrder: (newOrder?: Order) => {
         set({ selectedOrder: newOrder });
       },
       updateTableId: (tableId: string) => {
@@ -65,7 +65,7 @@ const useOrderStore = create<IOrderStore>()(
         }
       },
 
-      resetCard: () => {
+      resetCart: () => {
         set({ order: { orderDetails: [] } });
       },
 

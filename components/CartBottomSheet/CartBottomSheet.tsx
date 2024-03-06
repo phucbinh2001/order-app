@@ -32,7 +32,7 @@ export const CartBottomSheet = React.forwardRef(
   ({ onSubmitOk }: { onSubmitOk: () => void }, ref) => {
     const [visible, setVisible] = useState(false);
     const [loading, setLoading] = useState(false);
-    const resetCard = useOrderStore((state) => state.resetCard);
+    const resetCart = useOrderStore((state) => state.resetCart);
     const order = useOrderStore((state) => state.order);
     const [innerWidth, setInnerWidth] = useState(0);
 
@@ -76,7 +76,7 @@ export const CartBottomSheet = React.forwardRef(
         const dataPost = order;
         await orderApi.create(dataPost);
         message.success("Các món của bạn đang được chuẩn bị. Bạn chờ xíu nhé!");
-        resetCard();
+        resetCart();
         setVisible(false);
       } finally {
         setLoading(false);

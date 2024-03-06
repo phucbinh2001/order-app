@@ -45,7 +45,7 @@ export default function Home() {
             <img width={150} src="/icons/chef-hat.png" alt="" />
             <div className="text-white">
               <h2 className="font-bold text-xl mb-2 flex">
-                Chào, Bình!{" "}
+                Xin chào!{" "}
                 <div
                   onClick={handleLogout}
                   className="flex items-center text-yellow-500 text-base ml-3 gap-1 cursor-pointer group font-normal hover:bg-yellow-200 hover:text-yellow-900 duration-300 rounded-md px-3"
