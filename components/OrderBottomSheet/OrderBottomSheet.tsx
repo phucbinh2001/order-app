@@ -1,3 +1,4 @@
+"use client";
 import useOrderStore from "@/store/orderStore";
 import { Food } from "@/types/food";
 import { OrderDetail } from "@/types/order";

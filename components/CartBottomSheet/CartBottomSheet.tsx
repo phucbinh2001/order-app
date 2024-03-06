@@ -1,3 +1,4 @@
+"use client";
 import { Food } from "@/types/food";
 import { OrderDetail } from "@/types/order";
 import { formatMoney } from "@/utils/money";
