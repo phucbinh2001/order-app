@@ -91,6 +91,7 @@ const useOrderStore = create<IOrderStore>()(
         } else {
           const newOrder = {
             tableId: order.tableId,
+            sessionKey: order.sessionKey,
             orderDetails: [{ ...newOrderDetail }],
           };
           set({ order: newOrder });

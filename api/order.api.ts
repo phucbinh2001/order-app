@@ -1,3 +1,4 @@
+import { OrderStatusEnum } from "@/types/order";
 import { request } from "@/utils/request";
 import { AxiosPromise } from "axios";
 
@@ -27,6 +28,19 @@ export const orderApi = {
   getOrdersBySessionKey: (sessionKey: string): AxiosPromise<any> =>
     request({
       url: `/order/${sessionKey}/session`,
+    }),
+  summary: (sessionKey: string): AxiosPromise<any> =>
+    request({
+      url: `/order/${sessionKey}/summary`,
+    }),
+  updateStatus: (
+    sessionKey: string,
+    status: OrderStatusEnum
+  ): AxiosPromise<any> =>
+    request({
+      url: `/order/${sessionKey}/status`,
+      data: { status },
+      method: "post",
     }),
   findAll: (params?: any): AxiosPromise<any> =>
     request({

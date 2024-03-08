@@ -1,9 +1,10 @@
 import { OrderDetail, OrderStatusEnum, orderStatusTrans } from "@/types/order";
-import { Dropdown, Space, Tag } from "antd";
+import { Divider, Dropdown, Space, Tag } from "antd";
 import "./style/style.scss";
 import { useCallback } from "react";
 import { FaBowlRice, FaCheck, FaX } from "react-icons/fa6";
 import { orderDetailApi } from "@/api/orderDetail.api";
+import { formatMoney } from "@/utils/money";
 
 const OrderItem = ({
   data,
@@ -57,10 +58,17 @@ const OrderItem = ({
           />
           <Space direction="vertical" size={1}>
             <p className="font-semibold mt-1">{data.food.title}</p>
-            <span>Số lượng: {data.quantity}</span>
+            <Space
+              size={0}
+              split={<Divider type="vertical" />}
+              className="font-semibold mb-1"
+            >
+              <span className="text-slate-600">x{data.quantity}</span>
+              <span>{formatMoney(data.price)}đ</span>
+            </Space>
             <Tag
               color={orderStatusTrans[data.status].color}
-              className="font-bold"
+              className="font-bold mt-2 inline-block"
             >
               {orderStatusTrans[data.status].label}
             </Tag>

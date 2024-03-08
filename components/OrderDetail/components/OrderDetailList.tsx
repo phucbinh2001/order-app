@@ -17,7 +17,7 @@ const OrderDetailList = ({
 }) => {
   const layout = useMemo(
     () =>
-      order.orderDetails.map((item, index) => {
+      order?.orderDetails?.map((item, index) => {
         return {
           i: item._id,
           x: 1,
