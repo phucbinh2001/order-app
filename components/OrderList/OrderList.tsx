@@ -40,11 +40,13 @@ const OrderList = ({}) => {
       return b.y - a.y; // Sắp xếp theo y lớn nhất
     });
     layoutPositionIds.current = sortedLayout.map((item) => item.i);
-    debounceUpdatePosition(layoutPositionIds.current);
   };
 
   const debounceUpdatePosition = useCallback(
-    debounce((ids) => orderApi.updatePosition({ ids }), 3000),
+    debounce(
+      () => orderApi.updatePosition({ ids: layoutPositionIds.current }),
+      2000
+    ),
     []
   );
 
@@ -70,6 +72,7 @@ const OrderList = ({}) => {
           draggableHandle=".drag-handle"
           onLayoutChange={onLayoutChange}
           compactType={"horizontal"}
+          onDragStop={debounceUpdatePosition}
         >
           {orders.map((item, index) => (
             <div key={item._id} onClick={() => setSelectedOrder(item)}>

@@ -11,6 +11,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { socket } from "@/utils/socket";
 
 export default function Home() {
   const router = useRouter();
@@ -22,6 +23,18 @@ export default function Home() {
 
   useEffect(() => {
     fetchOrders(query);
+  }, [query]);
+
+  const refreshData = () => {
+    fetchOrders(query);
+  };
+
+  useEffect(() => {
+    socket.on("new-order", refreshData);
+
+    return () => {
+      socket.off("new-order", refreshData);
+    };
   }, [query]);
 
   const debounceSearch = useCallback(

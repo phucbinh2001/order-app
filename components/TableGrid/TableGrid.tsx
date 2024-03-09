@@ -5,6 +5,7 @@ import {
   TableDetailModal,
   TableDetailModalRef,
 } from "../Table/components/TableDetailModal";
+import { socket } from "@/utils/socket";
 
 const TableGrid = () => {
   const tableDetailModalRef = useRef<TableDetailModalRef>();
@@ -12,6 +13,19 @@ const TableGrid = () => {
 
   useEffect(() => {
     getSummary();
+  }, []);
+
+  useEffect(() => {
+    function onNewOrder(data: any) {
+      console.log("new-order", data);
+      getSummary();
+    }
+
+    socket.on("new-order", onNewOrder);
+
+    return () => {
+      socket.off("new-order", onNewOrder);
+    };
   }, []);
 
   return (
