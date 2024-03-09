@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { FaMinus, FaPlus } from "react-icons/fa6";
 
 const QuantityInput = ({
@@ -10,8 +11,12 @@ const QuantityInput = ({
   return (
     <div className="flex items-center">
       <div
-        className="size-10 border rounded-md flex items-center justify-center"
+        className={clsx(
+          "size-10 border rounded-md flex items-center justify-center",
+          quantity <= 1 && "opacity-40"
+        )}
         onClick={() => {
+          if (quantity <= 1) return;
           const newQuantity = quantity - 1;
           onQuantityChange(newQuantity);
         }}

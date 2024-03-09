@@ -4,7 +4,6 @@ import { Category } from "@/types/category";
 import { Food } from "@/types/food";
 import { formatMoney } from "@/utils/money";
 import { Flex } from "antd";
-import Item from "antd/es/list/Item";
 import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import FoodListSkeleton from "./components/FoodListSkeleton";
@@ -38,7 +37,7 @@ const FoodList = ({
   };
   if (loading) return <FoodListSkeleton />;
   return (
-    <div className="mt-5">
+    <div className="mt-1 pb-5 divide-y divide-[#efefef]">
       {foods.map((item: Food) => (
         <FoodItem onSelectFood={onSelectFood} key={item._id} data={item} />
       ))}
@@ -56,15 +55,15 @@ const FoodItem = ({
   onSelectFood: (food: Food) => void;
 }) => {
   return (
-    <div className="flex rounded-xl mb-3 overflow-hidden ">
+    <div className="flex overflow-hidden py-3">
       <img
-        className="aspect-square rounded-xl object-cover"
+        className="aspect-square rounded-lg object-cover"
         width={100}
         height={100}
         src={data.image}
       />
-      <div className="flex flex-col w-full p-2 ml-2 relative">
-        <h2 className="text-xl font-semibold">{data.title}</h2>
+      <div className="flex flex-col w-full p-1 ml-2 relative">
+        <h2 className="text-lg font-normal">{data.title}</h2>
         <p>{data.description}</p>
         <Flex
           justify="space-between"
@@ -77,9 +76,9 @@ const FoodItem = ({
           </span>
           <div
             onClick={() => onSelectFood(data)}
-            className="absolute bottom-0 right-0 rounded-tl-xl px-4 flex gap-2 items-center cursor-pointer py-2  bg-[#e86a12] text-white font-semibold"
+            className="size-10 flex items-center justify-center absolute bottom-0 right-0 gap-2 cursor-pointer bg-[#e86a12] text-white font-semibold rounded-lg"
           >
-            <FaPlus /> Thêm
+            <FaPlus />
           </div>
         </Flex>
       </div>

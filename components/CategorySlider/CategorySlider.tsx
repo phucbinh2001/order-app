@@ -15,7 +15,7 @@ const CategorySlider = ({
   onSelectCategory: (category: Category) => void;
 }) => {
   return (
-    <div className="flex gap-4 py-6 px-4">
+    <div className="flex gap-4 py-4 px-1">
       {data?.map((item, index) => (
         <div
           onClick={() => onSelectCategory(item)}

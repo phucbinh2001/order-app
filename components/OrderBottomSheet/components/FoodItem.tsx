@@ -14,9 +14,9 @@ const FoodItem = ({
   onQuantityChange: (value: number) => void;
 }) => {
   return (
-    <div className="flex rounded-xl mb-3 overflow-hidden ">
+    <div className="flex mb-3 overflow-hidden ">
       <img
-        className="rounded-xl object-cover"
+        className="rounded-lg object-cover"
         width={100}
         height={100}
         src={food.image}

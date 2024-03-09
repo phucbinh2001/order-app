@@ -21,10 +21,12 @@ export default function OrderDetailPage({
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [orderDetailData, setOrderDetailData] = useState<Order>();
-  const fetchOrderDetail = async () => {
+  const fetchOrderDetail = async (showLoading: boolean = true) => {
     if (!params.id) return;
     try {
-      setLoading(true);
+      if (showLoading) {
+        setLoading(true);
+      }
       const { data } = await orderApi.getDetailById(params.id);
       setOrderDetailData(data);
     } finally {
@@ -53,13 +55,13 @@ export default function OrderDetailPage({
           "linear-gradient(109.6deg, rgb(255, 78, 80) 11.2%, rgb(249, 212, 35) 100.2%)",
       }}
     >
-      <div className="max-w-[500px] mx-auto min-h-svh bg-white">
-        <div className="pt-3 pb-3 mb-4 bg-[#fcf8f5]">
+      <div className="max-w-[500px] mx-auto min-h-svh bg-white pb-10">
+        <div className="pt-3 pb-3 mb-4 bg-[#fcf8f5] sticky top-0 z-10">
           <div className="container mx-auto px-4">
             <Space align="center" className="mb-2">
               <div
                 onClick={() => router.back()}
-                className="border border-orange-100 size-10 flex items-center justify-center rounded-lg bg-[#fff1e6]"
+                className="border border-orange-100 size-12 flex items-center justify-center rounded-lg bg-[#fff1e6]"
               >
                 <FaAngleLeft className="text-xl text-[#e54f00]" />
               </div>
@@ -95,9 +97,13 @@ export default function OrderDetailPage({
               </Descriptions>
             </div>
 
-            <div className="mt-5">
+            <div className="mt-5 divide-y divide-[#efefef]">
               {orderDetailData.orderDetails.map((item) => (
-                <OrderItem data={item} onFetchDetail={fetchOrderDetail} />
+                <OrderItem
+                  key={item._id}
+                  data={item}
+                  onFetchDetail={() => fetchOrderDetail(false)}
+                />
               ))}
             </div>
           </div>

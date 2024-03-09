@@ -60,12 +60,12 @@ export default function OrderDetailPage() {
       }}
     >
       <div className="max-w-[500px] mx-auto min-h-svh bg-white">
-        <div className="pt-3 pb-3 mb-4 bg-[#fcf8f5]">
+        <div className="pt-3 pb-3 mb-4 bg-[#fcf8f5] sticky top-0 z-10">
           <div className="container mx-auto px-4">
             <Space align="center" className="mb-2">
               <div
                 onClick={() => router.back()}
-                className="border border-orange-100 size-10 flex items-center justify-center rounded-lg bg-[#fff1e6]"
+                className="border border-orange-100 size-12 flex items-center justify-center rounded-lg bg-[#fff1e6]"
               >
                 <FaAngleLeft className="text-xl text-[#e54f00]" />
               </div>
@@ -79,7 +79,7 @@ export default function OrderDetailPage() {
 
         {orderDetailData.length ? (
           <>
-            <div className="container mx-auto px-4 space-y-4">
+            <div className="container mx-auto px-4 space-y-4 pb-10">
               {orderDetailData.map((item, key) => (
                 <OrderHistoryItem order={item} key={key} />
               ))}

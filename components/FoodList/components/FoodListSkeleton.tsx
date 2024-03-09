@@ -4,7 +4,7 @@ const foods = [1, 2, 3, 4, 5];
 
 const FoodListSkeleton = () => {
   return (
-    <div className="mt-5">
+    <div className="mt-5 space-y-3">
       {foods.map((item, index) => (
         <SkeletonItem key={index} />
       ))}
@@ -16,7 +16,7 @@ export default FoodListSkeleton;
 
 const SkeletonItem = () => {
   return (
-    <div className="flex rounded-xl mb-3 overflow-hidden ">
+    <div className="flex rounded-xl overflow-hidden ">
       <Skeleton.Avatar shape="square" active size={100} />
       <div className="flex flex-col w-full p-2 ml-2 relative">
         <Skeleton.Button size="small" block active />

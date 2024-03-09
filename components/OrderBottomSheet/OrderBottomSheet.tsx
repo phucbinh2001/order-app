@@ -71,13 +71,15 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
         </div>
       }
       style={{
-        maxWidth: innerWidth > 500 ? 500 : "auto",
+        maxWidth: 500,
         margin: "auto",
+        height: "fit-content",
       }}
       styles={{
         content: { borderRadius: "20px 20px 0 0", boxShadow: "none" },
         wrapper: { boxShadow: "none" },
         header: { border: "none" },
+        body: { paddingBottom: 40, paddingTop: 10 },
       }}
     >
       {selectedFood && (
@@ -98,7 +100,7 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
         icon={<FaCartPlus className="translate-y-[2px]" />}
         onClick={handleAddToCard}
         block
-        className="!font-semibold mt-5"
+        className="!font-semibold mt-5 btn-custom-lg"
         size="large"
         type="primary"
       >

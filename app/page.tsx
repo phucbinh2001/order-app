@@ -1,14 +1,12 @@
 "use client";
 import { categoryApi } from "@/api/category.api";
-import { orderApi } from "@/api/order.api";
 import { tableApi } from "@/api/table.api";
-import { CartBottomSheet } from "@/components/CartBottomSheet/CartBottomSheet";
+import BottomButtons from "@/components/BottomButtons/BottomButtons";
 import CategorySlider from "@/components/CategorySlider/CategorySlider";
 import FoodList from "@/components/FoodList/FoodList";
 import OrderBottomSheetModal, {
   OrderBottomSheetRef,
 } from "@/components/OrderBottomSheet/OrderBottomSheet";
-import OrderDetailBtn from "@/components/OrderDetailBtn/OrderDetailBtn";
 import { socketAction } from "@/constants";
 import useOrderStore from "@/store/orderStore";
 import { Category } from "@/types/category";
@@ -71,10 +69,10 @@ export default function Home() {
           "linear-gradient(109.6deg, rgb(255, 78, 80) 11.2%, rgb(249, 212, 35) 100.2%)",
       }}
     >
-      <div className="max-w-[500px] mx-auto bg-white min-h-screen relative">
-        <div className="header bg-[#fcf8f5]">
+      <div className="max-w-[500px] mx-auto bg-white min-h-screen relative pb-28">
+        <div className="header bg-[#fcf8f5] z-10 sticky top-0">
           <div className="container mx-auto px-2">
-            <Flex justify="space-between" align="center" className="py-5">
+            <Flex justify="space-between" align="center" className="py-2">
               <img src="/logo.png" alt="" />
               <div>
                 <Select
@@ -118,12 +116,9 @@ export default function Home() {
           />
         </div>
         <OrderBottomSheetModal ref={orderBottomSheetRef} />
-        <CartBottomSheet
-          onSubmitOk={function (): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
-        <OrderDetailBtn />
+
+        {/* <OrderDetailBtn /> */}
+        <BottomButtons />
       </div>
     </div>
   );

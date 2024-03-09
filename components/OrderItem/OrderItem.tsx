@@ -1,10 +1,10 @@
-import { OrderDetail, OrderStatusEnum, orderStatusTrans } from "@/types/order";
-import { Divider, Dropdown, Space, Tag } from "antd";
-import "./style/style.scss";
-import { useCallback } from "react";
-import { FaBowlRice, FaCheck, FaX } from "react-icons/fa6";
 import { orderDetailApi } from "@/api/orderDetail.api";
+import { OrderDetail, OrderStatusEnum, orderStatusTrans } from "@/types/order";
 import { formatMoney } from "@/utils/money";
+import { Divider, Dropdown, Space, Tag } from "antd";
+import { useCallback } from "react";
+import { FaX } from "react-icons/fa6";
+import "./style/style.scss";
 
 const OrderItem = ({
   data,
@@ -20,9 +20,9 @@ const OrderItem = ({
       return [
         {
           key: OrderStatusEnum.cancel,
-          label: <a>{"Hủy đơn"}</a>,
+          label: <a>{"Hủy món"}</a>,
           icon: <FaX />,
-          style: { color: "red", fontWeight: 600 },
+          style: { color: "red", fontWeight: 600, height: 56 },
           onClick: () => changeOrderDetailStatus(item, OrderStatusEnum.cancel),
         },
       ];
@@ -46,7 +46,7 @@ const OrderItem = ({
       menu={{ items: getDropDownItems(data) }}
       disabled={disableItem}
     >
-      <div className={"rounded-lg "}>
+      <div className={"rounded-lg py-2"}>
         <Space
           key={data.foodId}
           className="w-full mb-3 last:mb-0"

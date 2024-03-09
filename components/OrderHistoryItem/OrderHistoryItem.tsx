@@ -1,11 +1,12 @@
 import { Order, orderStatusTrans } from "@/types/order";
 import { formatUnixTimestamp } from "@/utils/date";
 import { getLastNCharacter } from "@/utils/string";
-import { Space, Tag } from "antd";
+import { Divider, Space, Tag } from "antd";
 import clsx from "clsx";
 import { useMemo } from "react";
 import "./style/style.scss";
 import Link from "next/link";
+import { formatMoney } from "@/utils/money";
 
 const MAX_ITEMS_TO_SHOW = 2;
 
@@ -62,7 +63,17 @@ const OrderHistoryItem = ({ order }: { order: Order }) => {
               />
               <Space direction="vertical">
                 <p className="font-semibold">{item.food.title}</p>
-                <span>x{item.quantity}</span>
+                <Space
+                  className="font-semibold"
+                  size={1}
+                  split={<Divider type="vertical" />}
+                >
+                  <span className="text-slate-600">x{item.quantity}</span>
+
+                  <span className="font-semibold">
+                    {formatMoney(item.price)}
+                  </span>
+                </Space>
               </Space>
             </Space>
           ))}
