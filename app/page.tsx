@@ -1,5 +1,6 @@
 "use client";
 import { categoryApi } from "@/api/category.api";
+import { orderApi } from "@/api/order.api";
 import { tableApi } from "@/api/table.api";
 import { CartBottomSheet } from "@/components/CartBottomSheet/CartBottomSheet";
 import CategorySlider from "@/components/CategorySlider/CategorySlider";
@@ -8,9 +9,11 @@ import OrderBottomSheetModal, {
   OrderBottomSheetRef,
 } from "@/components/OrderBottomSheet/OrderBottomSheet";
 import OrderDetailBtn from "@/components/OrderDetailBtn/OrderDetailBtn";
+import { socketAction } from "@/constants";
 import useOrderStore from "@/store/orderStore";
 import { Category } from "@/types/category";
 import { Table } from "@/types/table";
+import { socket } from "@/utils/socket";
 import { Flex, Select, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { FaSortDown } from "react-icons/fa6";
@@ -32,12 +35,33 @@ export default function Home() {
 
   const initData = async () => {
     const { data } = await categoryApi.findAll();
-    const { data: tableData } = await tableApi.findAll();
-    setTables(tableData);
-    updateTableId(tableData?.[0]?._id, tableData?.[0]?.sessionKey);
+    fetchTables();
     setCategories(data);
     setSelectedCategory(data?.[0]);
   };
+
+  const fetchTables = async () => {
+    const { data: tableData } = await tableApi.findAll();
+    setTables(tableData);
+
+    const selectedTableId = order.tableId;
+    if (selectedTableId) {
+      const find = tableData.find((item: Table) => item._id == selectedTableId);
+      if (find) {
+        updateTableId(find._id, find.sessionKey);
+      }
+    } else {
+      updateTableId(tableData?.[0]?._id, tableData?.[0]?.sessionKey);
+    }
+  };
+
+  useEffect(() => {
+    socket.on(socketAction.UPDATE_TABLE_SESSION, fetchTables);
+
+    return () => {
+      socket.off(socketAction.UPDATE_TABLE_SESSION, fetchTables);
+    };
+  }, []);
 
   return (
     <div

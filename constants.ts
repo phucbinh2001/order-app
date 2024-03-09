@@ -10,3 +10,11 @@ export const adminMenu: IMenu[] = [
 ];
 
 export const rules: Rule[] = [{ required: true }];
+
+export const socketAction = {
+  JOIN: "join",
+  LEAVE: "leave",
+  NEW_ORDER: "new-order",
+  UPDATE_ORDER_STATUS: "update-order-status",
+  UPDATE_TABLE_SESSION: "update-table-session",
+};
