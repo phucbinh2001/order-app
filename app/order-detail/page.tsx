@@ -3,8 +3,10 @@
 import { orderApi } from "@/api/order.api";
 import AppLoading from "@/components/AppLoading/AppLoading";
 import OrderHistoryItem from "@/components/OrderHistoryItem/OrderHistoryItem";
+import { socketAction } from "@/constants";
 import useOrderStore from "@/store/orderStore";
 import { Order } from "@/types/order";
+import { socket } from "@/utils/socket";
 import { Space } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,22 +17,41 @@ export default function OrderDetailPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [orderDetailData, setOrderDetailData] = useState<Order[]>([]);
-  const fetchOrderDetail = async () => {
+
+  const fetchOrders = async (showLoading = true) => {
     if (!sessionKey) return;
     try {
-      setLoading(true);
+      if (showLoading) {
+        setLoading(true);
+      }
       const { data } = await orderApi.getOrdersBySessionKey(sessionKey || "");
       setOrderDetailData(data);
+      joinOrderRoom(data);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchOrderDetail();
-  }, [sessionKey]);
-  if (loading) return <AppLoading />;
+  //Join room để nhận thông tin trạng thái đơn hàng realtime
+  const joinOrderRoom = (data: Order[]) => {
+    if (!data.length) return;
+    socket.emit(socketAction.JOIN, sessionKey);
+  };
 
+  useEffect(() => {
+    fetchOrders();
+  }, [sessionKey]);
+
+  useEffect(() => {
+    socket.on(socketAction.UPDATE_ORDER_STATUS, () => fetchOrders(false));
+
+    return () => {
+      socket.off(socketAction.UPDATE_ORDER_STATUS, fetchOrders);
+      socket.emit(socketAction.LEAVE, sessionKey);
+    };
+  }, [sessionKey]);
+
+  if (loading) return <AppLoading />;
   return (
     <div
       style={{
@@ -48,7 +69,7 @@ export default function OrderDetailPage() {
               >
                 <FaAngleLeft className="text-xl text-[#e54f00]" />
               </div>
-              <h2 className="text-xl font-semibold">Chi tiết đơn hàng</h2>
+              <h2 className="text-xl font-semibold">Đơn hàng của tôi</h2>
             </Space>
             <Space className="bg-[#fff1e6] text-[#e86a12] font-semibold w-full p-1 rounded-md">
               👋 Hân hạnh được phục vụ quý khách

@@ -3,9 +3,10 @@
 import { orderApi } from "@/api/order.api";
 import AppLoading from "@/components/AppLoading/AppLoading";
 import OrderItem from "@/components/OrderItem/OrderItem";
-import useOrderStore from "@/store/orderStore";
+import { socketAction } from "@/constants";
 import { Order } from "@/types/order";
 import { formatMoney } from "@/utils/money";
+import { socket } from "@/utils/socket";
 import { getLastNCharacter } from "@/utils/string";
 import { Descriptions, Space } from "antd";
 import { useRouter } from "next/navigation";
@@ -34,6 +35,15 @@ export default function OrderDetailPage({
   useEffect(() => {
     fetchOrderDetail();
   }, [params.id]);
+
+  useEffect(() => {
+    socket.on(socketAction.UPDATE_ORDER_STATUS, fetchOrderDetail);
+
+    return () => {
+      socket.off(socketAction.UPDATE_ORDER_STATUS, fetchOrderDetail);
+    };
+  }, []);
+
   if (loading) return <AppLoading />;
 
   return (

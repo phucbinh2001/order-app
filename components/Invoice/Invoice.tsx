@@ -57,9 +57,9 @@ const Invoice = ({
                 Ngày: {formatUnixTimestamp(dayjs().unix(), "DD/MM/YYYY")}
               </div>
               <div className="text-xs">
-                Hóa đơn: #{order.orderCode.toUpperCase()}
+                Hóa đơn: #{order?.orderCode?.toUpperCase()}
               </div>
-              <div className="text-xs">{order.table.title}</div>
+              <div className="text-xs">{order?.table?.title}</div>
             </div>
             <div className="flex items-center">
               <img className="h-8 w-8 mr-2" src="/logo.png" alt="Logo" />
@@ -67,7 +67,7 @@ const Invoice = ({
           </div>
           <table className="w-full text-left mb-2 pb-2 text-xs">
             <tbody>
-              {order.orderDetails.map((item) => (
+              {order?.orderDetails?.map((item) => (
                 <tr>
                   <td className="text-gray-700">{item.quantity}</td>
                   <td className="text-gray-700">{item.food.title}</td>
