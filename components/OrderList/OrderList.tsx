@@ -13,24 +13,27 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const OrderList = ({}) => {
   const layoutPositionIds = useRef<string[]>([]);
   const setSelectedOrder = useOrderStore((state) => state.setSelectedOrder);
-  const draggableContainerRef = useRef(null);
   const selectedOrder = useOrderStore((state) => state.selectedOrder);
   const orders = useOrderStore((state) => state.orders);
 
-  const layout = useMemo(
-    () =>
-      orders.map((item, index) => {
-        const { x, y } = getGridItemPosition(index);
-        return {
-          i: item._id,
-          x,
-          y,
-          w: 1,
-          h: 1,
-        };
-      }),
-    [orders]
-  );
+  const layout = useMemo(() => {
+    //@ts-ignore
+    const containerWidth =
+      document.querySelector("#draggableContainer")?.clientWidth || 1200;
+
+    const numOfCols = containerWidth >= 1200 ? 4 : 3;
+
+    return orders.map((item, index) => {
+      const { x, y } = getGridItemPosition(index, numOfCols);
+      return {
+        i: item._id,
+        x,
+        y,
+        w: 1,
+        h: 1,
+      };
+    });
+  }, [orders]);
 
   const onLayoutChange = (layout: ReactGridLayout.Layout[]) => {
     const sortedLayout = layout.sort((a, b) => {
@@ -52,7 +55,7 @@ const OrderList = ({}) => {
 
   return (
     <div
-      ref={draggableContainerRef}
+      id={"draggableContainer"}
       className="order-list bg-[#4e4cb8] rounded-2xl p-4 min-h-[calc(100vh-220px)] max-h-[calc(100vh-220px)] overflow-auto"
     >
       {orders.length > 0 && (
@@ -64,10 +67,10 @@ const OrderList = ({}) => {
             backgroundSize: "100% 100%",
             overflow: "hidden",
           }}
-          breakpoints={{ lg: 1200 }}
-          cols={{ lg: 4 }}
+          breakpoints={{ lg: 1200, md: 996 }}
+          cols={{ lg: 4, md: 3 }}
           rowHeight={270}
-          layouts={{ lg: layout }}
+          layouts={{ lg: layout, md: layout }}
           isResizable={false}
           draggableHandle=".drag-handle"
           onLayoutChange={onLayoutChange}

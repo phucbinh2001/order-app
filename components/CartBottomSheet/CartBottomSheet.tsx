@@ -148,7 +148,7 @@ export const CartBottomSheet = React.forwardRef(({}, ref) => {
       </Drawer>
       <div
         onClick={() => setVisible(true)}
-        className="py-4 px-5 bg-orange-500 rounded-lg flex items-center w-full font-semibold text-white gap-2 justify-center"
+        className="max-h-[56px] py-4 px-5 bg-orange-500 rounded-lg flex items-center w-full font-semibold text-white gap-2 justify-center"
       >
         <FaCartShopping /> Các món đã chọn{" "}
         <span className="text-xs opacity-80">●</span> {numOfFoods} món
