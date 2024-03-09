@@ -19,7 +19,9 @@ const OrderList = ({}) => {
   const layout = useMemo(() => {
     //@ts-ignore
     const containerWidth =
-      document.querySelector("#draggableContainer")?.clientWidth || 1200;
+      typeof window !== "undefined"
+        ? document.querySelector("#draggableContainer")?.clientWidth || 1200
+        : 1200;
 
     const numOfCols = containerWidth >= 1200 ? 4 : 3;
 
