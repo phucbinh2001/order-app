@@ -1,4 +1,10 @@
-import { FaBowlFood, FaChair, FaJarWheat, FaMoneyBill } from "react-icons/fa6";
+import {
+  FaBowlFood,
+  FaChair,
+  FaJarWheat,
+  FaMoneyBill,
+  FaUser,
+} from "react-icons/fa6";
 import { IMenu } from "./types/menu";
 import { Rule } from "antd/es/form";
 
@@ -7,6 +13,7 @@ export const adminMenu: IMenu[] = [
   { label: "Món ăn", path: "food", icon: FaBowlFood },
   { label: "Danh mục", path: "category", icon: FaJarWheat },
   { label: "Bàn ghế", path: "table", icon: FaChair },
+  { label: "Nhân viên", path: "staff", icon: FaUser },
 ];
 
 export const rules: Rule[] = [{ required: true }];
