@@ -30,29 +30,32 @@ const OrderCard = ({ order, active }: { order: Order; active: boolean }) => {
   return (
     <div className={clsx("order-card rounded-lg p-4", active && "active")}>
       <div className="drag-handle" onClick={(e) => e.stopPropagation()}></div>
-      <Space className="header w-full justify-between mb-3 ">
-        <div>
-          <Tag
-            color={active ? "geekblue" : "geekblue"}
-            bordered={active}
-            className="font-bold !text-[13px]"
-          >
-            {order?.table?.title}
-          </Tag>
-          <Tag
-            className="font-bold !text-[13px]"
-            color={orderStatusTrans[order.status]?.color}
-          >
-            {orderStatusTrans[order.status]?.label}
-          </Tag>
-          <span className="ml-auto inline-block border-l pl-2 font-bold">
+      <div className="header w-full mb-3 ">
+        <div className="flex justify-between">
+          <Space size={1}>
+            <Tag
+              color={"geekblue"}
+              bordered={active}
+              className="font-bold !text-[13px]"
+            >
+              {order?.table?.title}
+            </Tag>
+            <Tag
+              className="font-bold !text-[13px]"
+              color={orderStatusTrans[order.status]?.color}
+            >
+              {orderStatusTrans[order.status]?.label}
+            </Tag>
+          </Space>
+
+          <span className="ml-auto inline-block pl-2 font-bold">
             #{getLastNCharacter(order._id, 5).toUpperCase()}
           </span>
-          <div className="my-2">
-            {totalFoods} món • {formatUnixTimestamp(order.createdAt)}
-          </div>
         </div>
-      </Space>
+        <div className="my-2">
+          {totalFoods} món • {formatUnixTimestamp(order.createdAt)}
+        </div>
+      </div>
       <div>
         {order.orderDetails.slice(0, MAX_ITEMS_TO_SHOW).map((item) => (
           <Space key={item.foodId} className="w-full mb-3 last:mb-0">

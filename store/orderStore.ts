@@ -7,6 +7,7 @@ interface IOrderStore {
   order: Partial<Order>;
   orders: Order[];
   loadingOrders: boolean;
+  visibleOrderDetailModal: boolean;
   selectedOrder: Order | undefined;
   fetchOrders: (query?: any) => void;
   updateOrder: (newOrder: Order) => void;
@@ -15,6 +16,7 @@ interface IOrderStore {
   deleteItem: (foodId: string) => void;
   updateItemQuantity: (itemId: string, quantity: number) => void;
   setSelectedOrder: (order?: Order) => void;
+  setVisibleOrderDetail: (visible: boolean) => void;
   resetCart: () => void;
 }
 
@@ -25,6 +27,7 @@ const useOrderStore = create<IOrderStore>()(
       order: { orderDetails: [] },
       selectedOrder: undefined,
       loadingOrders: false,
+      visibleOrderDetailModal: false,
       fetchOrders: async (query?: any) => {
         try {
           set(() => ({ loadingOrders: true }));
@@ -36,6 +39,9 @@ const useOrderStore = create<IOrderStore>()(
       },
       updateOrder: (newOrder: Order) => {
         set({ order: newOrder });
+      },
+      setVisibleOrderDetail: (isVisible: boolean) => {
+        set({ visibleOrderDetailModal: isVisible });
       },
       setSelectedOrder: (newOrder?: Order) => {
         set({ selectedOrder: newOrder });

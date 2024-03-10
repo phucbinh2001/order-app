@@ -53,7 +53,7 @@ const OrderItem = ({
           align="start"
         >
           <img
-            className="size-[100px] rounded-md mt-2 object-cover"
+            className="size-[70px] rounded-md mt-2 object-cover"
             src={data.food.image || "https://placehold.co/50x50"}
           />
           <Space direction="vertical" size={1}>

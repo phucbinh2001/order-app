@@ -30,18 +30,20 @@ const TableGrid = () => {
 
   return (
     <>
-      <div className="grid grid-cols-6">
+      <div className="grid grid-cols-5">
         {summary.map((item, key) => (
-          <Table
-            type={1}
-            key={key}
-            data={item}
-            onClick={() => {
-              if (item.startAt) {
-                tableDetailModalRef.current?.handleOpen(item);
-              }
-            }}
-          />
+          <div className="flex justify-center" key={key}>
+            <Table
+              type={1}
+              key={key}
+              data={item}
+              onClick={() => {
+                if (item.startAt) {
+                  tableDetailModalRef.current?.handleOpen(item);
+                }
+              }}
+            />
+          </div>
         ))}
       </div>
       <TableDetailModal ref={tableDetailModalRef} onSubmitOk={getSummary} />

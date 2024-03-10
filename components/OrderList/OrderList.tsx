@@ -5,6 +5,7 @@ import "react-resizable/css/styles.css";
 import OrderCard from "../OrderCard/OrderCard";
 
 import { orderApi } from "@/api/order.api";
+import { Order } from "@/types/order";
 import { getGridItemPosition } from "@/utils/grid";
 import { debounce } from "lodash";
 import ReactGridLayout, { Responsive, WidthProvider } from "react-grid-layout";
@@ -13,6 +14,9 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const OrderList = ({}) => {
   const layoutPositionIds = useRef<string[]>([]);
   const setSelectedOrder = useOrderStore((state) => state.setSelectedOrder);
+  const setVisibleOrderDetail = useOrderStore(
+    (state) => state.setVisibleOrderDetail
+  );
   const selectedOrder = useOrderStore((state) => state.selectedOrder);
   const orders = useOrderStore((state) => state.orders);
 
@@ -23,7 +27,7 @@ const OrderList = ({}) => {
         ? document.querySelector("#draggableContainer")?.clientWidth || 1200
         : 1200;
 
-    const numOfCols = containerWidth >= 1200 ? 4 : 3;
+    const numOfCols = containerWidth >= 1000 ? 4 : 3;
 
     return orders.map((item, index) => {
       const { x, y } = getGridItemPosition(index, numOfCols);
@@ -55,17 +59,24 @@ const OrderList = ({}) => {
     []
   );
 
+  const openOrderDetail = (item: Order) => {
+    setSelectedOrder(item);
+    if (typeof window != "undefined") {
+      if (window.innerWidth < 1280) setVisibleOrderDetail(true);
+    }
+  };
+
   return (
     <div
       id={"draggableContainer"}
-      className="order-list bg-[#4e4cb8] rounded-2xl p-4 min-h-[calc(100vh-220px)] max-h-[calc(100vh-220px)] overflow-auto"
+      className="order-list bg-[#4e4cb8] rounded-2xl p-4 min-h-[calc(100svh-220px)] max-h-[calc(100svh-220px)] overflow-auto"
     >
       {orders.length > 0 && (
         <ResponsiveReactGridLayout
           autoSize={true}
           style={{
             width: "100%",
-            minHeight: "100vh",
+            minHeight: "calc(100svh-50px)",
             backgroundSize: "100% 100%",
             overflow: "hidden",
           }}
@@ -80,7 +91,12 @@ const OrderList = ({}) => {
           onDragStop={debounceUpdatePosition}
         >
           {orders.map((item, index) => (
-            <div key={item._id} onClick={() => setSelectedOrder(item)}>
+            <div
+              key={item._id}
+              onClick={() => {
+                openOrderDetail(item);
+              }}
+            >
               <OrderCard
                 active={item._id == selectedOrder?._id}
                 order={item}

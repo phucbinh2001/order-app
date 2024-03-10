@@ -5,20 +5,21 @@ import useOrderStore from "@/store/orderStore";
 import { OrderStatusEnum } from "@/types/order";
 import { QueryParam } from "@/types/query";
 import { SearchOutlined } from "@ant-design/icons";
-import { Input } from "antd";
+import { Input, Spin } from "antd";
 import { debounce } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { socket } from "@/utils/socket";
+import OrderDetailDrawer from "@/components/OrderDetail/OrderDetailDrawer";
 
 export default function Home() {
   const router = useRouter();
   const [query, setQuery] = useState<QueryParam>({
     status: OrderStatusEnum.pending,
   });
-  const orders = useOrderStore((state) => state.orders);
+  const { orders, loadingOrders } = useOrderStore((state) => state);
   const fetchOrders = useOrderStore((state) => state.fetchOrders);
 
   useEffect(() => {
@@ -51,8 +52,8 @@ export default function Home() {
   };
 
   return (
-    <div className="grid grid-cols-12 h-screen">
-      <div className="col-span-9 p-3">
+    <div className="grid grid-cols-12 h-svh">
+      <div className="xl:col-span-9 col-span-12 p-3">
         <div className="wrapper bg-gradient-to-br from-blue-500 via-indigo-500 to-indigo-700 h-full rounded-3xl p-5">
           <div className="header flex gap-2 items-center">
             <img width={150} src="/icons/chef-hat.png" alt="" />
@@ -74,11 +75,9 @@ export default function Home() {
 
             <div className="ml-auto">
               <Input
+                suffix={loadingOrders && <Spin />}
                 prefix={
-                  <SearchOutlined
-                    onClick={() => ""}
-                    className="!text-[#383799] text-2xl ml-auto cursor-pointer mr-2"
-                  />
+                  <SearchOutlined className="!text-[#383799] text-2xl ml-auto cursor-pointer mr-2" />
                 }
                 placeholder="Tìm kiếm theo mã đơn"
                 style={{ width: 300 }}
@@ -93,9 +92,10 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="col-span-3">
+      <div className="xl:col-span-3 xl:block hidden">
         <OrderDetail />
       </div>
+      <OrderDetailDrawer />
     </div>
   );
 }

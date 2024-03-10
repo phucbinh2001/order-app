@@ -58,10 +58,10 @@ const Table = ({
 
   return (
     <div
-      className="relative p-3 size-fit hover:scale-110 duration-300 cursor-pointer"
+      className="relative p-3 size-fit xl:hover:scale-110 hover:scale-75 duration-300 cursor-pointer xl:scale-100 scale-[70%]"
       onClick={onClick}
     >
-      <div className={`size-52 rounded-3xl ${tableBorder1} p-2 z-20 relative`}>
+      <div className={`size-52 rounded-3xl p-2 z-20 relative`}>
         <div className={`size-full rounded-3xl ${tableBorder2} p-2`}>
           <div
             className={`size-full rounded-3xl ${tableBorder3} p-5 ${textColor} flex flex-col gap-2 justify-center`}

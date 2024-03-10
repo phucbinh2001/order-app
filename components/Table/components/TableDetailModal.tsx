@@ -1,5 +1,6 @@
 import { orderApi } from "@/api/order.api";
 import { tableApi } from "@/api/table.api";
+import AppLoading from "@/components/AppLoading/AppLoading";
 import Invoice from "@/components/Invoice/Invoice";
 import OrderItem from "@/components/OrderItem/OrderItem";
 import { Order, OrderStatusEnum } from "@/types/order";
@@ -37,8 +38,13 @@ export const TableDetailModal = React.forwardRef(
     );
 
     const getSummaryOrder = async (sessionKey: string) => {
-      const { data } = await orderApi.summary(sessionKey);
-      setOrderDetailData(data);
+      try {
+        setLoading(true);
+        const { data } = await orderApi.summary(sessionKey);
+        setOrderDetailData(data);
+      } finally {
+        setLoading(false);
+      }
     };
 
     const cancelOrder = async () => {
@@ -53,7 +59,7 @@ export const TableDetailModal = React.forwardRef(
         onSubmitOk();
         setVisibleModal(false);
       } finally {
-        setLoading(false);
+        setLoading(true);
       }
     };
 
@@ -65,14 +71,18 @@ export const TableDetailModal = React.forwardRef(
         confirmLoading={loading}
         centered
         footer={
+          !loading &&
           orderDetailData && (
             <Space direction="vertical" style={{ width: "100%" }}>
               <Popconfirm
-                title={`Xác nhận hủy các món của bàn này?`}
+                title={
+                  <p className="text-base">Xác nhận hủy các món của bàn này?</p>
+                }
                 onConfirm={() => cancelOrder()}
                 okText={"Hủy đơn"}
-                okButtonProps={{ danger: true }}
+                okButtonProps={{ danger: true, size: "large" }}
                 cancelText={"Hủy"}
+                cancelButtonProps={{ size: "large" }}
               >
                 <Button loading={loading} block danger size="large">
                   Hủy đơn
@@ -89,58 +99,59 @@ export const TableDetailModal = React.forwardRef(
           )
         }
       >
-        <div
-          style={{
-            background:
-              "linear-gradient(109.6deg, rgb(255, 78, 80) 11.2%, rgb(249, 212, 35) 100.2%)",
-          }}
-        >
-          <div className="max-w-[500px] mx-auto bg-white">
-            {orderDetailData?._id ? (
-              <div className="container mx-auto">
-                <div className="summary bg-slate-100 border border-slate-300 rounded-xl px-4 py-2">
-                  <h2 className="font-bold text-slate-600 mb-2">
-                    Thông tin đơn
-                  </h2>
-                  <Descriptions
-                    className="font-semibold"
-                    column={1}
-                    contentStyle={{
-                      textAlign: "right",
-                      width: "100%",
-                      display: "block",
-                    }}
-                  >
-                    <Descriptions.Item label="Mã đơn">
-                      #{(orderDetailData?.orderCode).toUpperCase()}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Bàn">
-                      {orderDetailData.table.title}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Tổng tiền">
-                      {formatMoney(orderDetailData.totalMoney)}đ
-                    </Descriptions.Item>
-                  </Descriptions>
-                </div>
+        {loading ? (
+          <AppLoading customClass="h-[500px]" />
+        ) : (
+          <div
+            style={{
+              background:
+                "linear-gradient(109.6deg, rgb(255, 78, 80) 11.2%, rgb(249, 212, 35) 100.2%)",
+            }}
+          >
+            <div className="max-w-[500px] mx-auto bg-white">
+              {orderDetailData?._id ? (
+                <div className="container mx-auto">
+                  <div className="summary bg-slate-100 border border-slate-300 rounded-xl px-4 py-1">
+                    <Descriptions
+                      className="font-semibold"
+                      column={1}
+                      contentStyle={{
+                        textAlign: "right",
+                        width: "100%",
+                        display: "block",
+                      }}
+                    >
+                      <Descriptions.Item label="Mã đơn">
+                        #{(orderDetailData?.orderCode).toUpperCase()}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Bàn">
+                        {orderDetailData.table.title}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Tổng tiền">
+                        {formatMoney(orderDetailData.totalMoney)}đ
+                      </Descriptions.Item>
+                    </Descriptions>
+                  </div>
 
-                <div className="mt-5">
-                  {orderDetailData.orderDetails.map((item) => (
-                    <OrderItem
-                      disableItem
-                      data={item}
-                      onFetchDetail={() => ""}
-                    />
-                  ))}
+                  <div className="mt-0 max-h-[calc(100svh-310px)] overflow-auto">
+                    {orderDetailData.orderDetails.map((item) => (
+                      <OrderItem
+                        disableItem
+                        data={item}
+                        onFetchDetail={() => ""}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="h-[50vh] text-slate-500 flex flex-col justify-center items-center gap-5">
-                <img src="/icons/empty-box.png" alt="" width={150} />
-                <p className="text-center">Chưa có món</p>
-              </div>
-            )}
+              ) : (
+                <div className="h-[50vh] text-slate-500 flex flex-col justify-center items-center gap-5">
+                  <img src="/icons/empty-box.png" alt="" width={150} />
+                  <p className="text-center">Chưa có món</p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </Modal>
     );
   }

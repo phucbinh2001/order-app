@@ -5,6 +5,7 @@ import { formatUnixTimestamp } from "@/utils/date";
 import { formatMoney } from "@/utils/money";
 import { Button, Popconfirm } from "antd";
 import dayjs from "dayjs";
+import { size } from "lodash";
 import React, { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 
@@ -35,10 +36,12 @@ const Invoice = ({
   return (
     <>
       <Popconfirm
-        title={`Xác nhận thanh toán cho bàn này?`}
+        title={<p className="text-base">Xác nhận thanh toán cho bàn này?</p>}
         onConfirm={() => completeOrder()}
         okText={"Xác nhận thanh toán"}
         cancelText={"Hủy"}
+        cancelButtonProps={{ size: "large" }}
+        okButtonProps={{ size: "large" }}
       >
         <Button loading={loading} block type="primary" size="large">
           Thanh toán
