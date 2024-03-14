@@ -78,7 +78,7 @@ export const TableModal = React.forwardRef(
           <FormItem rules={rules} required label="Tên bàn" name={"title"}>
             <Input />
           </FormItem>
-          <FormItem required label="Vị trí" name={"position"}>
+          <FormItem label="Vị trí" name={"position"}>
             <InputNumber min={0} style={{ width: "100%" }} />
           </FormItem>
         </Form>

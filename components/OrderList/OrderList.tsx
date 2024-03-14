@@ -69,7 +69,7 @@ const OrderList = ({}) => {
   return (
     <div
       id={"draggableContainer"}
-      className="order-list bg-[#4e4cb8] rounded-2xl p-4 min-h-[calc(100svh-220px)] max-h-[calc(100svh-220px)] overflow-auto"
+      className="order-list bg-[#4e4cb8] rounded-2xl p-4 min-h-[calc(100svh-190px)] max-h-[calc(100svh-220px)] overflow-auto"
     >
       {orders.length > 0 && (
         <ResponsiveReactGridLayout

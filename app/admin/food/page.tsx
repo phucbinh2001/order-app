@@ -14,7 +14,9 @@ import Column from "antd/es/table/Column";
 import { useEffect, useRef } from "react";
 
 export default function FoodPage() {
-  const { fetchFoods, foods, query, loading } = useFood({ initQuery: {} });
+  const { fetchFoods, foods, query, loading } = useFood({
+    initQuery: { orderBy: "createdAt" },
+  });
   const foodModalRef = useRef<FoodModalRef>();
 
   useEffect(() => {

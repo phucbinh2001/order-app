@@ -29,7 +29,7 @@ export async function middleware(request: NextRequest) {
     }
   } catch (error) {
     if (pathname.includes("/admin")) {
-      return NextResponse.redirect(new URL("/login/restaurant", request.url));
+      return NextResponse.redirect(new URL("/login/admin", request.url));
     }
     if (pathname.includes("/chef")) {
       return NextResponse.redirect(new URL("/login/chef", request.url));

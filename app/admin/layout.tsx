@@ -31,7 +31,7 @@ export default function RestaurantLayout({
   const logOut = () => {
     Cookies.remove("accessToken");
     Cookies.remove("user");
-    router.push("/login/restaurant");
+    router.push("/login/admin");
   };
 
   return (
