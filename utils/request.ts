@@ -13,7 +13,7 @@ service.interceptors.request.use(
   (config) => {
     const token = Cookies.get("accessToken");
     if (token && config.headers) {
-      config.headers["token"] = token;
+      config.headers["Authorization"] = "Bear " + token;
     }
 
     return config;

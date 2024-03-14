@@ -22,7 +22,7 @@ export default function ChefLoginPage() {
       //@ts-ignore
       const { accessToken, user } = await authApi.adminLogin(dataPost);
       setLoginCookie(accessToken, user);
-      router.push("/restaurant/order");
+      router.push("/admin/order");
     } finally {
       setLoading(false);
     }

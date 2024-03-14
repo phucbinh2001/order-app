@@ -35,7 +35,12 @@ const OrderDetail = () => {
       }
       if (!orderId) return setOrderDetailData(undefined);
       const { data } = await orderApi.getDetailById(orderId);
-      setOrderDetailData(data);
+      if (data.status == OrderStatusEnum.pending) {
+        setOrderDetailData(data);
+      } else {
+        setOrderDetailData(undefined);
+        setSelectedOrder(undefined);
+      }
     } finally {
       setLoading(false);
     }

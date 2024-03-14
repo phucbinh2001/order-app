@@ -53,8 +53,8 @@ export default function Home() {
 
   return (
     <div className="grid grid-cols-12 h-svh">
-      <div className="xl:col-span-9 col-span-12 p-3">
-        <div className="wrapper bg-gradient-to-br from-blue-500 via-indigo-500 to-indigo-700 h-full rounded-3xl p-5">
+      <div className="xl:col-span-9 col-span-12">
+        <div className="wrapper bg-gradient-to-br from-blue-500 via-indigo-500 to-indigo-700 h-full rounded-r-3xl p-5">
           <div className="header flex gap-2 items-center">
             <img width={150} src="/icons/chef-hat.png" alt="" />
             <div className="text-white">

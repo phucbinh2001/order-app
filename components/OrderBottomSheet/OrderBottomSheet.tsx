@@ -60,6 +60,7 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
           setQuantity(1);
         }
       }}
+      height={"max-content"}
       destroyOnClose
       placement="bottom"
       onClose={() => setVisible(false)}
@@ -73,7 +74,7 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
       style={{
         maxWidth: 500,
         margin: "auto",
-        height: "fit-content",
+        height: "max-content",
       }}
       styles={{
         content: { borderRadius: "20px 20px 0 0", boxShadow: "none" },

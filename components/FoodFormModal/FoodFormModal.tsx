@@ -93,6 +93,9 @@ export const FoodModal = React.forwardRef(
           <FormItem rules={rules} required label="Tên món" name={"title"}>
             <Input />
           </FormItem>
+          <FormItem label="Mô tả ngắn" name={"description"}>
+            <Input.TextArea rows={2} maxLength={100} showCount />
+          </FormItem>
           <FormItem rules={rules} required label="Giá" name={"price"}>
             <Input />
           </FormItem>
@@ -107,7 +110,7 @@ export const FoodModal = React.forwardRef(
               }))}
             />
           </FormItem>
-          <FormItem required label="Vị trí" name={"position"}>
+          <FormItem label="Vị trí" name={"position"}>
             <InputNumber min={0} style={{ width: "100%" }} />
           </FormItem>
         </Form>

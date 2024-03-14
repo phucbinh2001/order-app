@@ -82,7 +82,7 @@ const OrderList = ({}) => {
           }}
           breakpoints={{ lg: 1200, md: 996 }}
           cols={{ lg: 4, md: 3 }}
-          rowHeight={270}
+          rowHeight={300}
           layouts={{ lg: layout, md: layout }}
           isResizable={false}
           draggableHandle=".drag-handle"

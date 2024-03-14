@@ -1,3 +1,4 @@
+import AppList from "@/components/AppList/AppList";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ConfigProvider, ThemeConfig } from "antd";
 import type { Metadata } from "next";
@@ -26,6 +27,7 @@ export default function ChefLayout({
       <body className={inter.className}>
         <ConfigProvider theme={theme}>
           <AntdRegistry>{children}</AntdRegistry>
+          <AppList />
         </ConfigProvider>
       </body>
     </html>

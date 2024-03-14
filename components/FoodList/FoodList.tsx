@@ -56,22 +56,24 @@ const FoodItem = ({
 }) => {
   return (
     <div className="flex overflow-hidden py-3">
-      <img
-        className="aspect-square rounded-lg object-cover"
-        width={100}
-        height={100}
-        src={data.image}
-      />
+      <div className="min-w-[100px]">
+        <img
+          className="aspect-square rounded-lg object-cover"
+          width={100}
+          height={100}
+          src={data.image}
+        />
+      </div>
       <div className="flex flex-col w-full p-1 ml-2 relative">
-        <h2 className="text-lg font-normal">{data.title}</h2>
-        <p>{data.description}</p>
+        <h2 className="text-base font-normal">{data.title}</h2>
+        <p className="text-xs text-slate-500">{data.description}</p>
         <Flex
           justify="space-between"
           align="center"
           className="mt-auto"
           style={{ width: "100%" }}
         >
-          <span className="font-semibold text-sm">
+          <span className="font-bold text-base mt-3 text-red-600">
             {formatMoney(data.price)}đ
           </span>
           <div

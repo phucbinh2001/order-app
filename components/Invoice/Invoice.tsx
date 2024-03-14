@@ -72,9 +72,10 @@ const Invoice = ({
             <tbody>
               {order?.orderDetails?.map((item) => (
                 <tr>
-                  <td className="text-gray-700">{item.quantity}</td>
-                  <td className="text-gray-700">{item.food.title}</td>
-                  <td className="text-gray-700 text-right">
+                  <td className="text-gray-700 align-bottom">
+                    {item.food.title} <br />x{item.quantity}
+                  </td>
+                  <td className="text-gray-700 text-right align-bottom">
                     {formatMoney(item.price)}đ
                   </td>
                 </tr>

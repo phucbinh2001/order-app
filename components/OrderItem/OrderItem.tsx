@@ -52,19 +52,21 @@ const OrderItem = ({
           className="w-full mb-3 last:mb-0"
           align="start"
         >
-          <img
-            className="size-[70px] rounded-md mt-2 object-cover"
-            src={data.food.image || "https://placehold.co/50x50"}
-          />
+          <div className="w-[70px]">
+            <img
+              className="size-[70px] rounded-md mt-2 object-cover"
+              src={data.food.image || "https://placehold.co/50x50"}
+            />
+          </div>
           <Space direction="vertical" size={1}>
-            <p className="font-semibold mt-1">{data.food.title}</p>
+            <p className="text-base mt-1">{data.food.title}</p>
             <Space
               size={0}
               split={<Divider type="vertical" />}
               className="font-semibold mb-1"
             >
               <span className="text-slate-600">x{data.quantity}</span>
-              <span>{formatMoney(data.price)}đ</span>
+              <span className="text-red-600">{formatMoney(data.price)}đ</span>
             </Space>
             <Tag
               color={orderStatusTrans[data.status].color}

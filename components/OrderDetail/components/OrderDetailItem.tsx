@@ -87,13 +87,17 @@ const OrderDetailItem = ({
           >
             <PiDotsSixVerticalBold className="text-lg" />
           </div>
-          <img
-            className="size-12 rounded-md mt-2 object-cover"
-            src={orderDetail.food.image || "https://placehold.co/50x50"}
-          />
+          <div className="min-w-12">
+            <img
+              className="size-12 rounded-md mt-2 object-cover"
+              src={orderDetail.food.image || "https://placehold.co/50x50"}
+            />
+          </div>
           <Space size={1} direction="vertical" className="w-full">
             <Space className="w-full justify-between">
-              <p className="font-semibold">{orderDetail.food.title}</p>
+              <p className="font-semibold line-clamp-2 min-h-10">
+                {orderDetail.food.title}
+              </p>
               <Tag color={orderStatusTrans[orderDetail.status].color}>
                 {orderStatusTrans[orderDetail.status].label}
               </Tag>

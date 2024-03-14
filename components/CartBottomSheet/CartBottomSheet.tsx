@@ -87,7 +87,11 @@ export const CartBottomSheet = React.forwardRef(({}, ref) => {
           </div>
         }
         styles={{
-          content: { borderRadius: "20px 20px 0 0", boxShadow: "none" },
+          content: {
+            borderRadius: "20px 20px 0 0",
+            boxShadow: "none",
+            maxHeight: "90svh",
+          },
           wrapper: { boxShadow: "none" },
           header: { border: "none" },
           body: { paddingTop: 0 },
@@ -190,14 +194,16 @@ const FoodItem = ({ data }: { data: OrderDetail }) => {
 
   return (
     <div className="flex overflow-hidden py-3">
-      <img
-        className="rounded-xl aspect-square object-cover"
-        width={100}
-        src={data.food.image}
-      />
+      <div>
+        <img
+          className="rounded-xl aspect-square object-cover"
+          width={100}
+          src={data.food.image}
+        />
+      </div>
       <div className="flex flex-col w-full p-2 ml-2 relative">
-        <h2 className="text-xl font-semibold">{data.food.title}</h2>
-        <p>{data.food.description}</p>
+        <h2 className="text-base">{data.food.title}</h2>
+        <p className="text-slate-500 text-xs">{data.food.description}</p>
         <p>{data.note}</p>
         <Flex
           justify="space-between"
@@ -205,10 +211,10 @@ const FoodItem = ({ data }: { data: OrderDetail }) => {
           className="mt-auto"
           style={{ width: "100%" }}
         >
-          <span className="font-semibold text-sm">
+          <span className="font-bold text-base text-red-600 mt-2">
             {formatMoney(data.price)}đ
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mt-2">
             <QuantityInput
               onQuantityChange={(newQuantity) => {
                 updateItemQuantity(data.foodId, newQuantity);

@@ -59,12 +59,14 @@ const OrderCard = ({ order, active }: { order: Order; active: boolean }) => {
       <div>
         {order.orderDetails.slice(0, MAX_ITEMS_TO_SHOW).map((item) => (
           <Space key={item.foodId} className="w-full mb-3 last:mb-0">
-            <img
-              className="size-12 rounded-md object-cover"
-              src={item.food.image || "https://placehold.co/50x50"}
-            />
+            <div className="min-w-12">
+              <img
+                className="size-12 rounded-md object-cover"
+                src={item.food.image || "https://placehold.co/50x50"}
+              />
+            </div>
             <Space direction="vertical">
-              <p className="font-semibold">{item.food.title}</p>
+              <p className="font-semibold line-clamp-2">{item.food.title}</p>
               <span>x{item.quantity}</span>
             </Space>
           </Space>

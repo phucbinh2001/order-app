@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
     ).json();
 
     //RESTAURANT
-    if (pathname.includes("/restaurant")) {
+    if (pathname.includes("/admin")) {
       if (data?.role !== "ADMIN" || !accessToken) {
         throw new Error("Vui lòng đăng nhập");
       }
@@ -28,7 +28,7 @@ export async function middleware(request: NextRequest) {
       }
     }
   } catch (error) {
-    if (pathname.includes("/restaurant")) {
+    if (pathname.includes("/admin")) {
       return NextResponse.redirect(new URL("/login/restaurant", request.url));
     }
     if (pathname.includes("/chef")) {
@@ -38,5 +38,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/restaurant/:path*", "/chef/:path*"],
+  matcher: ["/admin/:path*", "/chef/:path*"],
 };

@@ -30,7 +30,7 @@ const TableGrid = () => {
 
   return (
     <>
-      <div className="grid grid-cols-5">
+      <div className="grid grid-cols-5 gap-y-5">
         {summary.map((item, key) => (
           <div className="flex justify-center" key={key}>
             <Table

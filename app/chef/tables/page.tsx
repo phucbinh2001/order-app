@@ -42,7 +42,7 @@ export default function Tables() {
             <TableGrid />
           </div>
         </div>
-        <div className="absolute bottom-5 right-5">
+        <div className="absolute bottom-5 right-5 text-white">
           <div className="flex items-center gap-2">
             <div className="size-3 rounded-full bg-orange-500"></div> Đang ăn
           </div>

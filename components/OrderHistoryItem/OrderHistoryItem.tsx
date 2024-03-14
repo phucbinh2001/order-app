@@ -57,12 +57,14 @@ const OrderHistoryItem = ({ order }: { order: Order }) => {
         <div>
           {order.orderDetails.slice(0, MAX_ITEMS_TO_SHOW).map((item) => (
             <Space key={item.foodId} className="w-full mb-3 last:mb-0">
-              <img
-                className="size-12 rounded-md object-cover"
-                src={item.food.image || "https://placehold.co/50x50"}
-              />
+              <div className="min-w-20">
+                <img
+                  className="size-20 rounded-md object-cover"
+                  src={item.food.image || "https://placehold.co/50x50"}
+                />
+              </div>
               <Space direction="vertical">
-                <p className="font-semibold">{item.food.title}</p>
+                <p className="font-normal text-sm">{item.food.title}</p>
                 <Space
                   className="font-semibold"
                   size={1}
@@ -70,7 +72,7 @@ const OrderHistoryItem = ({ order }: { order: Order }) => {
                 >
                   <span className="text-slate-600">x{item.quantity}</span>
 
-                  <span className="font-semibold">
+                  <span className="font-semibold text-red-600">
                     {formatMoney(item.price)}
                   </span>
                 </Space>
