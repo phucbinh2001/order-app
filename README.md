@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Order App - Web app gọi món tại nhà hàng
 
-## Getting Started
+## Project Description:
 
-First, run the development server:
+Ứng dụng cho phép gọi món tại nhà hàng mà không cần thông qua nhân viên.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Ứng dụng gồm 3 phân hệ (Admin, Nhân viên, Khách hàng) với các chức năng sau:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Chức năng cơ bản:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### Phân hệ admin:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Đăng nhập
+- Xem lịch sử đơn hàng
+- Thêm/Sửa/Xóa món ăn
+- Thêm/Sửa/Xóa danh mục món ăn
+- Thêm/Sửa/Xóa bàn ăn
+- Thêm/Sửa/Xóa nhân viên
 
-## Learn More
+#### Phân hệ nhân viên:
 
-To learn more about Next.js, take a look at the following resources:
+- Xem danh sách gọi món của khách hàng
+- Sắp xếp thứ tự thực hiện món ăn tùy theo mong muốn của người pha chế
+- Đánh dấu đã hoàn thành/tạm hết món cho món ăn
+- Xem danh sách bàn ăn
+- Tính tiền
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Phân hệ khách hàng:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Gọi món
+- Hủy món
+- Xem lại lịch sử các món đã gọi
 
-## Deploy on Vercel
+### Các chức năng tăng cường trải nghiệm người dùng:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Dễ dàng kéo thả để sắp xếp thứ tự món ăn
+- Các trạng thái món ăn được đồng bộ Realtime
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+
+## Giao diện:
+
+### Màn hình gọi món dành cho khách hàng
+
+![](./screenshots/mobile-1.png)
+![](./screenshots/mobile-2.png)
+
+### Màn hình dành cho nhân viên
+
+![](./screenshots/desktop-1.png)
+![](./screenshots/desktop-2.png)
+![](./screenshots/desktop-3.png)
+
+---
+
+#### Tài khoản test
+
+##### Phân hệ admin
+
+- username: **admin** Password: **admin**
+
+##### Phân hệ nhân viên
+
+- username: **chef** Password: **chef**
