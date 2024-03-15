@@ -1,5 +1,7 @@
 # Order App - Web app gọi món tại nhà hàng
 
+![](./screenshots/thumbnail.png)
+
 ## Project Description:
 
 Ứng dụng cho phép gọi món tại nhà hàng mà không cần thông qua nhân viên.
