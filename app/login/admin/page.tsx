@@ -43,7 +43,11 @@ export default function ChefLoginPage() {
                 href="/"
                 className="flex items-center mb-2 text-2xl font-semibold text-gray-900 text-center"
               >
-                <img className="size-14" src="/logo.png" alt="logo" />
+                <img
+                  className="size-14 rounded-xl"
+                  src="/logo.png"
+                  alt="logo"
+                />
               </Link>
             </div>
             <div className="p-10 pt-0 pb-10">

@@ -100,7 +100,7 @@ export const TableDetailModal = React.forwardRef(
         }
       >
         {loading ? (
-          <AppLoading customClass="h-[500px]" />
+          <AppLoading customClass="!h-[300px] max-h-[300px]" />
         ) : (
           <div
             style={{
