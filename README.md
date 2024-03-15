@@ -1,8 +1,8 @@
 # Order App - Web app gọi món tại nhà hàng
 
-![](./screenshots/thumbnail.png)
+![](./introduce/thumbnail.png)
 
-## Project Description:
+## Giới thiệu dự án:
 
 Ứng dụng cho phép gọi món tại nhà hàng mà không cần thông qua nhân viên.
 
@@ -44,23 +44,31 @@
 
 ### Màn hình gọi món dành cho khách hàng
 
-![](./screenshots/mobile-1.png)
-![](./screenshots/mobile-2.png)
+![](./introduce/mobile-1.png)
+![](./introduce/mobile-2.png)
 
 ### Màn hình dành cho nhân viên
 
-![](./screenshots/desktop-1.png)
-![](./screenshots/desktop-2.png)
-![](./screenshots/desktop-3.png)
+![](./introduce/desktop-1.png)
+![](./introduce/desktop-2.png)
+![](./introduce/desktop-3.png)
 
 ---
 
-#### Tài khoản test
+## Demo
 
-##### Phân hệ admin
+[![](./introduce//admin.png)](https://order-app-livid.vercel.app/admin)
+[![](./introduce//staff.png)](https://order-app-livid.vercel.app/chef)
+[![](./introduce//customer.png)](https://order-app-livid.vercel.app)
 
-- username: **admin** Password: **admin**
+## Tài khoản test
 
-##### Phân hệ nhân viên
+#### Phân hệ admin
 
-- username: **chef** Password: **chef**
+- username: **admin**
+- Password: **admin**
+
+#### Phân hệ nhân viên
+
+- username: **chef**
+- Password: **chef**
