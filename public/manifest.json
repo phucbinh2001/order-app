@@ -1,11 +1,12 @@
 {
-    "theme_color": "#e86a12",
-    "background_color": "#e86a12",
+    "theme_color": "#fe7e0a",
+    "background_color": "#fe7e0a",
     "display": "fullscreen",
     "scope": "/",
     "start_url": "/",
     "name": "Order App",
-    "short_name": "OA",
+    "short_name": "Order App",
+    "description": "\u1ee8ng d\u1ee5ng g\u1ecdi m\u00f3n t\u1ea1i nh\u00e0 h\u00e0ng",
     "icons": [
         {
             "src": "/icons/icon-192x192.png",

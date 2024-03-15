@@ -73,7 +73,7 @@ export default function Home() {
         <div className="header bg-[#fcf8f5] z-10 sticky top-0">
           <div className="container mx-auto px-2">
             <Flex justify="space-between" align="center" className="py-2">
-              <img src="/logo.png" alt="" />
+              <img src="/logo.png" alt="" className="size-14 rounded-xl" />
               <div>
                 <Select
                   suffixIcon={

@@ -20,6 +20,10 @@ export const metadata: Metadata = {
     { rel: "apple-touch-icon", url: "icons/icon-192x192.png" },
     { rel: "icon", url: "icons/icon-192x192.png" },
   ],
+  appleWebApp: {
+    title: "Order Food",
+    startupImage: ["/images/splash-screen.png"],
+  },
 };
 
 export const viewport: Viewport = {

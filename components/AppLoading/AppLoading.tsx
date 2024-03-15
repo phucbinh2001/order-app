@@ -10,7 +10,7 @@ const AppLoading = ({ customClass }: { customClass?: string }) => {
         customClass
       )}
     >
-      <img src="/logo.png" className="size-12" />
+      <img src="/logo.png" className="size-16 rounded-xl" />
       <Spin spinning size="large" />
     </div>
   );
