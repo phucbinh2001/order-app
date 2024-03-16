@@ -65,7 +65,12 @@ const FoodItem = ({
         />
       </div>
       <div className="flex flex-col w-full p-1 ml-2 relative">
-        <h2 className="text-base font-normal">{data.title}</h2>
+        <h2
+          className="text-base font-normal mb-1"
+          style={{ lineHeight: "120%" }}
+        >
+          {data.title}
+        </h2>
         <p className="text-xs text-slate-500">{data.description}</p>
         <Flex
           justify="space-between"

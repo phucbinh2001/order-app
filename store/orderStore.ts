@@ -1,15 +1,19 @@
 import { orderApi } from "@/api/order.api";
+import { tableApi } from "@/api/table.api";
 import { Order, OrderDetail } from "@/types/order";
+import { Table } from "@/types/table";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface IOrderStore {
   order: Partial<Order>;
   orders: Order[];
+  tables: Table[];
   loadingOrders: boolean;
   visibleOrderDetailModal: boolean;
   selectedOrder: Order | undefined;
   fetchOrders: (query?: any) => void;
+  fetchTables: () => void;
   updateOrder: (newOrder: Order) => void;
   addToCard: (newOrderDetail: OrderDetail) => void;
   updateTableId: (tabledId: string, sessionKey: string) => void;
@@ -24,6 +28,7 @@ const useOrderStore = create<IOrderStore>()(
   persist(
     (set, get) => ({
       orders: [],
+      tables: [],
       order: { orderDetails: [] },
       selectedOrder: undefined,
       loadingOrders: false,
@@ -35,6 +40,13 @@ const useOrderStore = create<IOrderStore>()(
           set(() => ({ orders: data }));
         } finally {
           set(() => ({ loadingOrders: false }));
+        }
+      },
+      fetchTables: async () => {
+        try {
+          const { data } = await tableApi.findAll();
+          set(() => ({ tables: data }));
+        } finally {
         }
       },
       updateOrder: (newOrder: Order) => {
