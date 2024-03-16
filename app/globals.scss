@@ -63,8 +63,13 @@ td.ant-descriptions-item {
 
 .custom-select {
   background-color: #fff1e6;
-  padding-left: 10px !important;
   border-radius: 10px;
+}
+
+.custom-select {
+  .ant-select-selector {
+    padding-left: 0 !important;
+  }
 }
 
 .confirm-modal-custom .ant-modal-confirm-btns {
@@ -127,6 +132,16 @@ td.ant-descriptions-item {
   }
 
 
+}
+
+.custom-notification {
+  .swal2-title {
+    font-size: 20px;
+  }
+
+  .swal2-icon {
+    margin: 1.7em auto 1em !important;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

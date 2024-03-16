@@ -15,6 +15,7 @@ import { socket } from "@/utils/socket";
 import { Flex, Select, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { FaSortDown } from "react-icons/fa6";
+import { MdTableRestaurant } from "react-icons/md";
 
 export default function Home() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -74,7 +75,8 @@ export default function Home() {
           <div className="container mx-auto px-2">
             <Flex justify="space-between" align="center" className="py-2">
               <img src="/logo.png" alt="" className="size-14 rounded-xl" />
-              <div>
+              <div className="flex items-center bg-[#fff1e6] rounded-md pl-2">
+                <MdTableRestaurant className="text-[#e86a12] mr-2" />
                 <Select
                   suffixIcon={
                     <FaSortDown className="text-[#e86a12] -translate-y-[3px]" />
@@ -83,7 +85,7 @@ export default function Home() {
                   defaultValue={tables?.[0]?._id}
                   size="large"
                   variant="borderless"
-                  style={{ width: 100 }}
+                  style={{ width: "max-content", maxWidth: "100px" }}
                   options={tables.map((item: Table) => ({
                     label: item.title,
                     value: item._id,

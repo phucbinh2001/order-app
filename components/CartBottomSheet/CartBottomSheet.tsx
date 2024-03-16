@@ -11,8 +11,9 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { FaCartShopping, FaTrash } from "react-icons/fa6";
+import { FaCartShopping, FaNoteSticky, FaTrash } from "react-icons/fa6";
 import QuantityInput from "../QuantityInput/QuantityInput";
+import Swal from "sweetalert2";
 
 export interface CartBottomSheetRef {
   handleOpen: (food: Food) => void;
@@ -64,7 +65,17 @@ export const CartBottomSheet = React.forwardRef(({}, ref) => {
       setLoading(true);
       const dataPost = order;
       await orderApi.create(dataPost);
-      message.success("Các món của bạn đang được chuẩn bị. Bạn chờ xíu nhé!");
+      Swal.fire({
+        customClass: "custom-notification",
+        position: "center",
+        icon: "success",
+        title: "<span className='!text-[10px]'>Đã gửi yêu cầu</span>",
+        html: `<p>
+            Các món của bạn đang được chuẩn bị. <br /> Bạn chờ xíu nhé!
+          </p>`,
+        showConfirmButton: false,
+        timer: 2500,
+      });
       resetCart();
       setVisible(false);
     } finally {
@@ -90,9 +101,8 @@ export const CartBottomSheet = React.forwardRef(({}, ref) => {
           content: {
             borderRadius: "20px 20px 0 0",
             boxShadow: "none",
-            maxHeight: "90svh",
           },
-          wrapper: { boxShadow: "none" },
+          wrapper: { boxShadow: "none", height: "90svh" },
           header: { border: "none" },
           body: { paddingTop: 0 },
         }}
@@ -131,7 +141,7 @@ export const CartBottomSheet = React.forwardRef(({}, ref) => {
                 loading={loading}
                 onClick={submitOrder}
                 block
-                className="!font-semibold mt-2 btn-custom-lg"
+                className="!font-semibold mt-2 btn-custom-lg !bg-gradient-to-b from-[#ff9114] to-[#ff6b04] text-white"
                 size="large"
                 type="primary"
               >
@@ -152,7 +162,7 @@ export const CartBottomSheet = React.forwardRef(({}, ref) => {
       </Drawer>
       <div
         onClick={() => setVisible(true)}
-        className="max-h-[56px] py-4 px-5 bg-orange-500 rounded-lg flex items-center w-full font-semibold text-white gap-2 justify-center"
+        className="max-h-[56px] py-4 px-5 bg-gradient-to-b from-[#ff9114] to-[#ff6b04] rounded-lg flex items-center w-full font-semibold text-white gap-2 justify-center"
       >
         <FaCartShopping /> Các món đã chọn{" "}
         <span className="text-xs opacity-80">●</span> {numOfFoods} món
@@ -204,7 +214,13 @@ const FoodItem = ({ data }: { data: OrderDetail }) => {
       <div className="flex flex-col w-full p-2 ml-2 relative">
         <h2 className="text-base">{data.food.title}</h2>
         <p className="text-slate-500 text-xs">{data.food.description}</p>
-        <p>{data.note}</p>
+        {data.note && (
+          <p className="mt-1 flex items-center gap-1 text-slate-600">
+            <FaNoteSticky />
+            {data.note}
+          </p>
+        )}
+
         <Flex
           justify="space-between"
           align="center"

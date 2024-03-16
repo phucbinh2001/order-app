@@ -1,8 +1,8 @@
 import { orderDetailApi } from "@/api/orderDetail.api";
 import { OrderDetail, OrderStatusEnum, orderStatusTrans } from "@/types/order";
 import { formatMoney } from "@/utils/money";
-import { Divider, Dropdown, Space, Tag } from "antd";
-import { useCallback } from "react";
+import { Divider, Dropdown, Space, Spin, Tag } from "antd";
+import { useCallback, useState } from "react";
 import { FaX } from "react-icons/fa6";
 import "./style/style.scss";
 
@@ -15,6 +15,7 @@ const OrderItem = ({
   disableItem?: boolean;
   onFetchDetail: () => void;
 }) => {
+  const [loading, setLoading] = useState(false);
   const getDropDownItems = useCallback(
     (item: OrderDetail) => {
       return [
@@ -34,9 +35,13 @@ const OrderItem = ({
     orderDetail: OrderDetail,
     status: OrderStatusEnum
   ) => {
-    await orderDetailApi.update(orderDetail._id, { status });
-
-    onFetchDetail();
+    try {
+      setLoading(true);
+      await orderDetailApi.update(orderDetail._id, { status });
+      onFetchDetail();
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -44,39 +49,41 @@ const OrderItem = ({
       trigger={["click"]}
       key={data.foodId}
       menu={{ items: getDropDownItems(data) }}
-      disabled={disableItem}
+      disabled={disableItem || data.status != OrderStatusEnum.pending}
     >
-      <div className={"rounded-lg py-2"}>
-        <Space
-          key={data.foodId}
-          className="w-full mb-3 last:mb-0"
-          align="start"
-        >
-          <div className="w-[70px]">
-            <img
-              className="size-[70px] rounded-md mt-2 object-cover"
-              src={data.food.image || "https://placehold.co/50x50"}
-            />
-          </div>
-          <Space direction="vertical" size={1}>
-            <p className="text-base mt-1">{data.food.title}</p>
-            <Space
-              size={0}
-              split={<Divider type="vertical" />}
-              className="font-semibold mb-1"
-            >
-              <span className="text-slate-600">x{data.quantity}</span>
-              <span className="text-red-600">{formatMoney(data.price)}đ</span>
+      <Spin spinning={loading}>
+        <div className={"rounded-lg py-2"}>
+          <Space
+            key={data.foodId}
+            className="w-full mb-3 last:mb-0"
+            align="start"
+          >
+            <div className="w-[70px]">
+              <img
+                className="size-[70px] rounded-md mt-2 object-cover"
+                src={data.food.image || "https://placehold.co/50x50"}
+              />
+            </div>
+            <Space direction="vertical" size={1}>
+              <p className="text-base mt-1">{data.food.title}</p>
+              <Space
+                size={0}
+                split={<Divider type="vertical" />}
+                className="font-semibold mb-1"
+              >
+                <span className="text-slate-600">x{data.quantity}</span>
+                <span className="text-red-600">{formatMoney(data.price)}đ</span>
+              </Space>
+              <Tag
+                color={orderStatusTrans[data.status].color}
+                className="font-bold mt-2 inline-block"
+              >
+                {orderStatusTrans[data.status].label}
+              </Tag>
             </Space>
-            <Tag
-              color={orderStatusTrans[data.status].color}
-              className="font-bold mt-2 inline-block"
-            >
-              {orderStatusTrans[data.status].label}
-            </Tag>
           </Space>
-        </Space>
-      </div>
+        </div>
+      </Spin>
     </Dropdown>
   );
 };

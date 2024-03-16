@@ -2,9 +2,10 @@
 import useOrderStore from "@/store/orderStore";
 import { Food } from "@/types/food";
 import { OrderDetail } from "@/types/order";
-import { Button, Drawer, Input, message } from "antd";
+import { Button, Drawer, Input } from "antd";
 import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 import { FaCartPlus } from "react-icons/fa6";
+import Swal from "sweetalert2";
 import FoodItem from "./components/FoodItem";
 
 export interface OrderBottomSheetRef {
@@ -49,7 +50,15 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
     };
 
     addToCard(orderDetail as OrderDetail);
-    message.success("Đã thêm món vào giỏ hàng");
+    Swal.fire({
+      customClass: "custom-notification",
+      position: "top",
+      icon: "success",
+      width: 157,
+      showConfirmButton: false,
+      timer: 1000,
+      backdrop: "rgba(0,0,0,0.2)",
+    });
     setVisible(false);
   };
 
@@ -101,7 +110,7 @@ const OrderBottomSheetModal = React.forwardRef(({}, ref) => {
         icon={<FaCartPlus className="translate-y-[2px]" />}
         onClick={handleAddToCard}
         block
-        className="!font-semibold mt-5 btn-custom-lg"
+        className="!font-semibold mt-5 btn-custom-lg !bg-gradient-to-b from-[#ff9114] to-[#ff6b04] border-none"
         size="large"
         type="primary"
       >

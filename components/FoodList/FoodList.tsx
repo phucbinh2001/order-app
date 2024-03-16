@@ -78,7 +78,7 @@ const FoodItem = ({
           </span>
           <div
             onClick={() => onSelectFood(data)}
-            className="size-10 flex items-center justify-center absolute bottom-0 right-0 gap-2 cursor-pointer bg-[#e86a12] text-white font-semibold rounded-lg"
+            className="size-10 flex items-center justify-center absolute bottom-0 right-0 gap-2 cursor-pointer bg-gradient-to-b from-[#ff9114] to-[#ff6b04] text-white font-semibold rounded-lg"
           >
             <FaPlus />
           </div>

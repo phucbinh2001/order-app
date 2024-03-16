@@ -14,7 +14,7 @@ const CategorySlider = ({
   onSelectCategory: (category: Category) => void;
 }) => {
   return (
-    <div className="wsmenu-list py-3 pb-4 container gap-2 md:justify-center mx-auto overflow-x-auto hidden-scrollbar justify-start flex md:flex sticky top-32">
+    <div className="py-3 pb-4 container gap-2 mx-auto overflow-x-auto hidden-scrollbar justify-start flex sticky top-32">
       {data?.map((item, index) => (
         <div
           onClick={() => onSelectCategory(item)}
