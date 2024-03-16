@@ -1,8 +1,8 @@
 "use client";
-import React, { useRef, useState } from "react";
-import ScanOverlay from "./components/ScanOverlay";
 import useOrderStore from "@/store/orderStore";
 import { message } from "antd";
+import { useRef, useState } from "react";
+import QrReader from "react-qr-reader";
 import Swal from "sweetalert2";
 
 const Scanner = () => {
@@ -10,7 +10,7 @@ const Scanner = () => {
   const [visible, setVisible] = useState(true);
   const { updateTableId, tables } = useOrderStore((state) => state);
   const checkTable = (tableId: string) => {
-    scannerRef.current.stop();
+    // scannerRef.current.stop();
     const find = tables.find((item) => item._id == tableId);
     if (find) {
       Swal.fire({
@@ -34,27 +34,23 @@ const Scanner = () => {
   if (!visible) return <></>;
   return (
     <QrReader
-      //@ts-ignore
       ref={scannerRef}
-      scanDelay={10000}
+      delay={5000}
       className="scanner"
-      onResult={(result, error) => {
+      onScan={(result) => {
         if (!!result) {
-          checkTable(result.getText());
-        }
-
-        if (!!error) {
-          console.info(error);
+          checkTable(result);
         }
       }}
-      constraints={{ facingMode: "user", aspectRatio: 1 }}
-      containerStyle={{
+      onError={() => ""}
+      facingMode="user"
+      style={{
         width: "100vw",
         maxWidth: "500px",
         margin: "auto",
         aspectRatio: "1/1",
       }}
-      ViewFinder={ScanOverlay}
+      showViewFinder
     />
   );
 };
