@@ -1,6 +1,6 @@
 # Order App - Web app gọi món tại nhà hàng
 
-![](./introduce/thumbnail.png)
+![](/public/introduce/thumbnail.png)
 
 ## Giới thiệu dự án:
 
@@ -44,22 +44,22 @@
 
 ### Màn hình gọi món dành cho khách hàng
 
-![](./introduce/mobile-1.png)
-![](./introduce/mobile-2.png)
+![](.//public/introduce/mobile-1.png)
+![](.//public/introduce/mobile-2.png)
 
 ### Màn hình dành cho nhân viên
 
-![](./introduce/desktop-1.png)
-![](./introduce/desktop-2.png)
-![](./introduce/desktop-3.png)
+![](.//public/introduce/desktop-1.png)
+![](.//public/introduce/desktop-2.png)
+![](.//public/introduce/desktop-3.png)
 
 ---
 
 ## Demo
 
-[![](./introduce//admin.png)](https://order-app-livid.vercel.app/admin)
-[![](./introduce//staff.png)](https://order-app-livid.vercel.app/chef)
-[![](./introduce//customer.png)](https://order-app-livid.vercel.app)
+[![](.//public/introduce//admin.png)](https://order-app-livid.vercel.app/admin)
+[![](.//public/introduce//staff.png)](https://order-app-livid.vercel.app/chef)
+[![](.//public/introduce//customer.png)](https://order-app-livid.vercel.app)
 
 ## Tài khoản test
 
