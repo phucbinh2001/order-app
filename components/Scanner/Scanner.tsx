@@ -1,16 +1,18 @@
 "use client";
 import useOrderStore from "@/store/orderStore";
+import { CloseCircleFilled } from "@ant-design/icons";
 import { message } from "antd";
+import clsx from "clsx";
 import { useRef, useState } from "react";
 import QrReader from "react-qr-reader";
 import Swal from "sweetalert2";
 
 const Scanner = () => {
   const scannerRef = useRef<any>(null);
-  const [visible, setVisible] = useState(true);
-  const { updateTableId, tables } = useOrderStore((state) => state);
+  const { updateTableId, tables, visibleScan, setVisibleScan } = useOrderStore(
+    (state) => state
+  );
   const checkTable = (tableId: string) => {
-    // scannerRef.current.stop();
     const find = tables.find((item) => item._id == tableId);
     if (find) {
       Swal.fire({
@@ -24,34 +26,47 @@ const Scanner = () => {
         title: find.title,
       });
       updateTableId(find._id, find.sessionKey);
-      setVisible(false);
+      setVisibleScan(false);
     } else {
       message.error("Không tìm thấy bàn này" + tableId);
       console.log("tables", tables, tableId);
     }
   };
 
-  if (!visible) return <></>;
   return (
-    <QrReader
-      ref={scannerRef}
-      delay={5000}
-      className="scanner"
-      onScan={(result) => {
-        if (!!result) {
-          checkTable(result);
-        }
-      }}
-      onError={() => ""}
-      facingMode="user"
-      style={{
-        width: "100vw",
-        maxWidth: "500px",
-        margin: "auto",
-        aspectRatio: "1/1",
-      }}
-      showViewFinder
-    />
+    <div
+      className={clsx(visibleScan ? "size-[100vw]" : "size-0", "duration-300")}
+    >
+      {visibleScan ? (
+        <>
+          <CloseCircleFilled
+            onClick={() => setVisibleScan(false)}
+            className="!text-white absolute text-2xl right-3 top-3 z-50"
+          />
+          <QrReader
+            ref={scannerRef}
+            delay={5000}
+            className="scanner"
+            onScan={(result) => {
+              if (!!result) {
+                checkTable(result);
+              }
+            }}
+            onError={() => ""}
+            facingMode="environment"
+            style={{
+              width: "100vw",
+              maxWidth: "500px",
+              margin: "auto",
+              aspectRatio: "1/1",
+            }}
+            showViewFinder
+          />
+        </>
+      ) : (
+        <></>
+      )}
+    </div>
   );
 };
 

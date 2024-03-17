@@ -1,18 +1,16 @@
-import { tableApi } from "@/api/table.api";
 import { socketAction } from "@/constants";
 import useOrderStore from "@/store/orderStore";
 import { Table } from "@/types/table";
 import { socket } from "@/utils/socket";
-import { Select } from "antd";
-import { useEffect, useState } from "react";
-import { FaSortDown } from "react-icons/fa6";
+import { Select, Space } from "antd";
+import { useEffect } from "react";
+import { AiOutlineScan } from "react-icons/ai";
 import { MdTableRestaurant } from "react-icons/md";
 
 const TableSelector = () => {
   const order = useOrderStore((state) => state.order);
-  const { updateTableId, fetchTables, tables } = useOrderStore(
-    (state) => state
-  );
+  const { updateTableId, fetchTables, tables, setVisibleScan, visibleScan } =
+    useOrderStore((state) => state);
 
   useEffect(() => {
     socket.on(socketAction.UPDATE_TABLE_SESSION, fetchTables);
@@ -26,28 +24,21 @@ const TableSelector = () => {
     fetchTables();
   }, []);
 
-  // const fetchTables = async () => {
-  //   const { data: tableData } = await tableApi.findAll();
-  //   setTables(tableData);
-
-  //   const selectedTableId = order.tableId;
-  //   if (selectedTableId) {
-  //     const find = tableData.find((item: Table) => item._id == selectedTableId);
-  //     if (find) {
-  //       updateTableId(find._id, find.sessionKey);
-  //     }
-  //   } else {
-  //     updateTableId(tableData?.[0]?._id, tableData?.[0]?.sessionKey);
-  //   }
-  // };
-
   return (
-    <>
+    <Space>
+      <div
+        className=" bg-[#fff1e6] rounded-md size-[40px] flex items-center justify-center"
+        onClick={() => setVisibleScan(!visibleScan)}
+      >
+        <AiOutlineScan className="text-[#e86a12] text-xl" />
+      </div>
       <div className="flex items-center bg-[#fff1e6] rounded-md pl-2">
         <MdTableRestaurant className="text-[#e86a12] mr-2" />
         <Select
+          popupMatchSelectWidth={false}
           suffixIcon={
-            <FaSortDown className="text-[#e86a12] -translate-y-[3px]" />
+            null
+            // <FaSortDown className="text-[#e86a12] -translate-y-[3px]" />
           }
           className="custom-select"
           defaultValue={tables?.[0]?._id}
@@ -66,7 +57,7 @@ const TableSelector = () => {
           value={order.tableId}
         ></Select>
       </div>
-    </>
+    </Space>
   );
 };
 

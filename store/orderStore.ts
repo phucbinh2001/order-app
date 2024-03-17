@@ -11,6 +11,7 @@ interface IOrderStore {
   tables: Table[];
   loadingOrders: boolean;
   visibleOrderDetailModal: boolean;
+  visibleScan: boolean;
   selectedOrder: Order | undefined;
   fetchOrders: (query?: any) => void;
   fetchTables: () => void;
@@ -21,6 +22,7 @@ interface IOrderStore {
   updateItemQuantity: (itemId: string, quantity: number) => void;
   setSelectedOrder: (order?: Order) => void;
   setVisibleOrderDetail: (visible: boolean) => void;
+  setVisibleScan: (visible: boolean) => void;
   resetCart: () => void;
 }
 
@@ -32,6 +34,7 @@ const useOrderStore = create<IOrderStore>()(
       order: { orderDetails: [] },
       selectedOrder: undefined,
       loadingOrders: false,
+      visibleScan: false,
       visibleOrderDetailModal: false,
       fetchOrders: async (query?: any) => {
         try {
@@ -54,6 +57,9 @@ const useOrderStore = create<IOrderStore>()(
       },
       setVisibleOrderDetail: (isVisible: boolean) => {
         set({ visibleOrderDetailModal: isVisible });
+      },
+      setVisibleScan: (isVisible: boolean) => {
+        set({ visibleScan: isVisible });
       },
       setSelectedOrder: (newOrder?: Order) => {
         set({ selectedOrder: newOrder });
