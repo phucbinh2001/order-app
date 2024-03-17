@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.scss";
 import { ConfigProvider, ThemeConfig } from "antd";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -50,6 +51,7 @@ export default function RootLayout({
         <ConfigProvider theme={theme}>
           <AntdRegistry>{children}</AntdRegistry>
         </ConfigProvider>
+        <Analytics />
       </body>
     </html>
   );
