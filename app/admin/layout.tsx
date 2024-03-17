@@ -3,6 +3,7 @@ import { adminMenu } from "@/constants";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import Cookies from "js-cookie";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useMemo, useState } from "react";
 import { FaSignOutAlt } from "react-icons/fa";
@@ -46,8 +47,11 @@ export default function RestaurantLayout({
           selectedKeys={[currentPathname]}
           items={adminMenu.map((item) => ({
             icon: <item.icon />,
-            label: item.label,
-            onClick: () => navigateRouter.push(item.path),
+            label: (
+              <Link prefetch={false} href={item.path}>
+                {item.label}
+              </Link>
+            ),
             key: item.path,
           }))}
         />

@@ -24,7 +24,6 @@ export default function ChefLoginPage() {
       setLoginCookie(accessToken, user);
       router.push("/admin/order");
     } finally {
-      setLoading(false);
     }
   };
 
