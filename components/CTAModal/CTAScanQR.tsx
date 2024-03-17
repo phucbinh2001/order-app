@@ -8,7 +8,7 @@ export interface CTAScanQRModalRef {
 }
 
 export const CTAScanQRModal = React.forwardRef(({}: {}, ref) => {
-  const [visibleModal, setVisibleModal] = useState(true);
+  const [visibleModal, setVisibleModal] = useState(false);
   const setVisibleScan = useOrderStore((state) => state.setVisibleScan);
 
   useImperativeHandle(
