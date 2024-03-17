@@ -1,11 +1,9 @@
-import AppLoading from "@/components/AppLoading/AppLoading";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { Analytics } from "@vercel/analytics/react";
-import { ConfigProvider, ThemeConfig } from "antd";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { Suspense } from "react";
 import "./globals.scss";
+import { ConfigProvider, ThemeConfig } from "antd";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -50,12 +48,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Suspense fallback={<AppLoading />}>
-          <ConfigProvider theme={theme}>
-            <AntdRegistry>{children}</AntdRegistry>
-          </ConfigProvider>
-          <Analytics />
-        </Suspense>
+        <ConfigProvider theme={theme}>
+          <AntdRegistry>{children}</AntdRegistry>
+        </ConfigProvider>
+        <Analytics />
       </body>
     </html>
   );
