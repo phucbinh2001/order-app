@@ -46,7 +46,7 @@ const TableSelector = () => {
     <Space>
       <div
         className=" bg-[#fff1e6] rounded-md size-[40px] flex items-center justify-center"
-        onClick={() => setVisibleScan(!visibleScan)}
+        onClick={() => setVisibleScan(true)}
       >
         <AiOutlineScan className="text-[#e86a12] text-xl" />
       </div>

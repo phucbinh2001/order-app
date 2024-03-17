@@ -13,6 +13,7 @@ const Scanner = () => {
   const { updateTableId, tables, visibleScan, setVisibleScan } = useOrderStore(
     (state) => state
   );
+  const [loaded, setLoaded] = useState(false);
   const checkTable = (link: string) => {
     const tableId = getSearchParam(link, "table");
     const find = tables.find((item) => item._id == tableId);
@@ -38,21 +39,27 @@ const Scanner = () => {
     <div
       className={clsx(
         visibleScan ? "size-[100vw] max-w-[500px] max-h-[500px]" : "size-0",
-        "duration-300 relative m-auto"
+        "duration-300 relative mx-auto"
       )}
     >
       {visibleScan ? (
-        <>
+        <div
+          className={clsx("opacity-0 duration-200", loaded && "opacity-100")}
+        >
           <CloseCircleFilled
-            onClick={() => setVisibleScan(false)}
+            onClick={() => {
+              setVisibleScan(false);
+              setLoaded(false);
+            }}
             className="!text-white absolute text-2xl right-3 top-3 z-50"
           />
           <div className="absolute bottom-2  left-0 z-50 flex w-full justify-center">
-            <Space className="bg-[#fff1e6]/80 text-[#e86a12] font-semibold p-1 rounded-md w-fit">
+            <Space className="bg-[#fff1e6]/80 text-[#e86a12] font-semibold p-1 rounded-md w-fit backdrop-blur-sm">
               🔎 Quét mã QR tại bàn của bạn
             </Space>
           </div>
           <QrReader
+            onLoad={() => setLoaded(true)}
             ref={scannerRef}
             delay={300}
             className="scanner"
@@ -71,7 +78,7 @@ const Scanner = () => {
             }}
             showViewFinder
           />
-        </>
+        </div>
       ) : (
         <></>
       )}
