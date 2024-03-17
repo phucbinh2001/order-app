@@ -38,7 +38,7 @@ export default function RestaurantLayout({
     <Layout style={{ height: "100vh" }}>
       <Sider theme="light" trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical flex items-center justify-center py-2">
-          <img className="size-[40px]" src="/logo.png" />
+          <img className="size-[50px] rounded-xl" src="/logo.png" />
         </div>
 
         <Menu

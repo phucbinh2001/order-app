@@ -1,6 +1,10 @@
 "use client";
 import { categoryApi } from "@/api/category.api";
 import BottomButtons from "@/components/BottomButtons/BottomButtons";
+import {
+  CTAScanQRModal,
+  CTAScanQRModalRef,
+} from "@/components/CTAModal/CTAScanQR";
 import CategorySlider from "@/components/CategorySlider/CategorySlider";
 import FoodList from "@/components/FoodList/FoodList";
 import OrderBottomSheetModal, {
@@ -8,15 +12,19 @@ import OrderBottomSheetModal, {
 } from "@/components/OrderBottomSheet/OrderBottomSheet";
 import Scanner from "@/components/Scanner/Scanner";
 import TableSelector from "@/components/TableSelector/TableSelector";
+import useOrderStore from "@/store/orderStore";
 import { Category } from "@/types/category";
+import { Food } from "@/types/food";
 import { Flex, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
+  const ctaScanQRRef = useRef<CTAScanQRModalRef>();
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category>(
     categories?.[0]
   );
+  const { order } = useOrderStore((state) => state);
 
   const orderBottomSheetRef = useRef<OrderBottomSheetRef>();
 
@@ -28,6 +36,14 @@ export default function Home() {
     const { data } = await categoryApi.findAll();
     setCategories(data);
     setSelectedCategory(data?.[0]);
+  };
+
+  const handleOnSelectFood = (food: Food) => {
+    if (order.tableId) {
+      orderBottomSheetRef.current?.handleOpen(food);
+    } else {
+      ctaScanQRRef.current?.handleOpen();
+    }
   };
 
   return (
@@ -58,17 +74,14 @@ export default function Home() {
         </div>
         <div className="container mx-auto px-3">
           <FoodList
-            onSelectFood={(food) =>
-              orderBottomSheetRef.current?.handleOpen(food)
-            }
+            onSelectFood={(food) => handleOnSelectFood(food)}
             selectedCategory={selectedCategory}
           />
         </div>
         <OrderBottomSheetModal ref={orderBottomSheetRef} />
-
-        {/* <OrderDetailBtn /> */}
         <BottomButtons />
       </div>
+      <CTAScanQRModal ref={ctaScanQRRef} />
     </div>
   );
 }

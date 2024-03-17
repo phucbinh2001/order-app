@@ -7,10 +7,19 @@ import {
 import { useTable } from "@/hooks/useTable";
 import { Table as ITable } from "@/types/table";
 import { DeleteFilled, EditFilled, PlusOutlined } from "@ant-design/icons";
-import { Button, Popconfirm, Space, Table, Tooltip } from "antd";
+import {
+  Button,
+  Popconfirm,
+  Popover,
+  QRCode,
+  Space,
+  Table,
+  Tooltip,
+} from "antd";
 import Search from "antd/es/input/Search";
 import Column from "antd/es/table/Column";
 import { useEffect, useRef } from "react";
+import { FaQrcode } from "react-icons/fa6";
 
 export default function TablePage() {
   const { fetchTable, tables, query, loading } = useTable({
@@ -56,6 +65,30 @@ export default function TablePage() {
           title="Vị trí"
           dataIndex="position"
           key="position"
+        />
+        <Column
+          align="center"
+          title="QR"
+          dataIndex="position"
+          key="position"
+          render={(text, record: ITable) => (
+            <div className="flex justify-center">
+              <Popover
+                trigger={["click"]}
+                placement="left"
+                content={
+                  <QRCode
+                    errorLevel="L"
+                    icon="/logo.png"
+                    size={200}
+                    value={`${process.env.NEXT_PUBLIC_DOMAIN}?table=${record._id}`}
+                  />
+                }
+              >
+                <Button icon={<FaQrcode />}>Xem QR</Button>
+              </Popover>
+            </div>
+          )}
         />
         <Column
           width={100}

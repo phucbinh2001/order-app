@@ -4,6 +4,7 @@ import useOrderStore from "@/store/orderStore";
 import { Table } from "@/types/table";
 import { socket } from "@/utils/socket";
 import { Select, Space } from "antd";
+import clsx from "clsx";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { AiOutlineScan } from "react-icons/ai";
@@ -50,18 +51,19 @@ const TableSelector = () => {
         <AiOutlineScan className="text-[#e86a12] text-xl" />
       </div>
       <div className="flex items-center bg-[#fff1e6] rounded-md pl-2">
-        <MdTableRestaurant className="text-[#e86a12] mr-2" />
+        <MdTableRestaurant className={clsx(`text-[#e86a12] mr-2`)} />
         <Select
           popupMatchSelectWidth={false}
           suffixIcon={
             null
             // <FaSortDown className="text-[#e86a12] -translate-y-[3px]" />
           }
+          placeholder={"Chọn bàn"}
           className="custom-select"
           defaultValue={tables?.[0]?._id}
           size="large"
           variant="borderless"
-          style={{ width: "max-content", maxWidth: "100px" }}
+          style={{ width: "max-content", minWidth: "", maxWidth: "100px" }}
           options={tables.map((item: Table) => ({
             label: item.title,
             value: item._id,
