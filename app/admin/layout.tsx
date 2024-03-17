@@ -66,7 +66,7 @@ export default function RestaurantLayout({
           style={{
             padding: 0,
             background:
-              "linear-gradient(109.6deg, #ff6f04 11.2%, #ff9416 100.2%)",
+              "linear-gradient(109.6deg, rgb(255, 78, 80) 11.2%, rgb(249, 212, 35) 100.2%)",
             fontWeight: "bold",
             color: "white",
           }}
