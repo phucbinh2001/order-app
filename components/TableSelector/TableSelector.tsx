@@ -1,13 +1,17 @@
+"use client";
 import { socketAction } from "@/constants";
 import useOrderStore from "@/store/orderStore";
 import { Table } from "@/types/table";
 import { socket } from "@/utils/socket";
 import { Select, Space } from "antd";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { AiOutlineScan } from "react-icons/ai";
 import { MdTableRestaurant } from "react-icons/md";
 
 const TableSelector = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const order = useOrderStore((state) => state.order);
   const { updateTableId, fetchTables, tables, setVisibleScan, visibleScan } =
     useOrderStore((state) => state);
@@ -23,6 +27,19 @@ const TableSelector = () => {
   useEffect(() => {
     fetchTables();
   }, []);
+
+  useEffect(() => {
+    const tableId = searchParams.get("table");
+    if (!tables.length || !tableId) return;
+    const find = tables.find((item) => item._id == searchParams.get("table"));
+    if (find) {
+      updateTableId(find._id, find.sessionKey);
+    }
+    //clear search param
+    const url = new URL(window.location.href);
+    url.searchParams.delete("table");
+    router.push(url.toString());
+  }, [tables]);
 
   return (
     <Space>

@@ -1,7 +1,8 @@
 "use client";
 import useOrderStore from "@/store/orderStore";
+import { getSearchParam } from "@/utils/string";
 import { CloseCircleFilled } from "@ant-design/icons";
-import { message } from "antd";
+import { Space, message } from "antd";
 import clsx from "clsx";
 import { useRef, useState } from "react";
 import QrReader from "react-qr-reader";
@@ -12,7 +13,8 @@ const Scanner = () => {
   const { updateTableId, tables, visibleScan, setVisibleScan } = useOrderStore(
     (state) => state
   );
-  const checkTable = (tableId: string) => {
+  const checkTable = (link: string) => {
+    const tableId = getSearchParam(link, "table");
     const find = tables.find((item) => item._id == tableId);
     if (find) {
       Swal.fire({
@@ -29,13 +31,15 @@ const Scanner = () => {
       setVisibleScan(false);
     } else {
       message.error("Không tìm thấy bàn này" + tableId);
-      console.log("tables", tables, tableId);
     }
   };
 
   return (
     <div
-      className={clsx(visibleScan ? "size-[100vw]" : "size-0", "duration-300")}
+      className={clsx(
+        visibleScan ? "size-[100vw] max-w-[500px] max-h-[500px]" : "size-0",
+        "duration-300 relative m-auto"
+      )}
     >
       {visibleScan ? (
         <>
@@ -43,9 +47,14 @@ const Scanner = () => {
             onClick={() => setVisibleScan(false)}
             className="!text-white absolute text-2xl right-3 top-3 z-50"
           />
+          <div className="absolute bottom-2  left-0 z-50 flex w-full justify-center">
+            <Space className="bg-[#fff1e6]/80 text-[#e86a12] font-semibold p-1 rounded-md w-fit">
+              🔎 Quét mã QR tại bàn của bạn
+            </Space>
+          </div>
           <QrReader
             ref={scannerRef}
-            delay={5000}
+            delay={300}
             className="scanner"
             onScan={(result) => {
               if (!!result) {
