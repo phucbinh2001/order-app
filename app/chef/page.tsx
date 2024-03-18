@@ -92,7 +92,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="xl:col-span-3 xl:block hidden">
+      <div className="xl:col-span-3 xl:block hidden px-2">
         <OrderDetail />
       </div>
       <OrderDetailDrawer />

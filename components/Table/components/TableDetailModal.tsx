@@ -8,7 +8,6 @@ import { TableSummary } from "@/types/table";
 import { formatMoney } from "@/utils/money";
 import { Button, Descriptions, Modal, Popconfirm, Space } from "antd";
 import { Rule } from "antd/lib/form";
-import { useForm } from "antd/lib/form/Form";
 import React, { useImperativeHandle, useState } from "react";
 const rules: Rule[] = [{ required: true }];
 
@@ -18,7 +17,6 @@ export interface TableDetailModalRef {
 
 export const TableDetailModal = React.forwardRef(
   ({ onSubmitOk }: { onSubmitOk: () => void }, ref) => {
-    const [form] = useForm();
     const [visibleModal, setVisibleModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [orderDetailData, setOrderDetailData] = useState<Order>();

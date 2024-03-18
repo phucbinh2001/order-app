@@ -1,17 +1,16 @@
+import { OrderStatusEnum } from "@/types/order";
 import { TableSummary } from "@/types/table";
 import { formatMinutesToTimeString } from "@/utils/date";
 import { formatMoney } from "@/utils/money";
-import dayjs, { Dayjs } from "dayjs";
-import { useEffect, useState } from "react";
+import dayjs from "dayjs";
+import { useEffect, useMemo, useState } from "react";
 import { FaClock } from "react-icons/fa6";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
 
 const Table = ({
-  type = 1,
   data,
   onClick,
 }: {
-  type?: number;
   data: TableSummary;
   onClick: () => void;
 }) => {
@@ -19,19 +18,22 @@ const Table = ({
 
   const freeTable = data.startAt == 0;
 
-  const tableBorder1 = !freeTable ? "bg-orange-100" : "bg-transparent";
   const tableBorder2 = !freeTable ? "bg-orange-200" : "bg-slate-300";
-  const tableBorder3 = !freeTable
-    ? "bg-orange-500"
-    : type == 2
-    ? "bg-orange-300"
-    : "bg-white";
+  const tableBorder3 = !freeTable ? "bg-orange-500" : "bg-white";
 
-  const textColor = !freeTable
-    ? "text-white"
-    : type == 2
-    ? "text-orange-800"
-    : "text-black";
+  const textColor = !freeTable ? "text-white" : "text-black";
+
+  const totalMoney = useMemo(() => {
+    if (!data.orderDetails.length) return 0;
+
+    return data.orderDetails
+      .filter((item) =>
+        [OrderStatusEnum.complete, OrderStatusEnum.pending].includes(
+          item.status
+        )
+      )
+      .reduce((total, order) => (total += order.price * order.quantity), 0);
+  }, [data]);
 
   useEffect(() => {
     calcStayTime(data.startAt);
@@ -71,7 +73,7 @@ const Table = ({
               <>
                 <div className="flex items-center gap-1 border rounded-full  border-orange-400 pl-1 w-fit pr-2">
                   <RiMoneyDollarCircleFill className="text-xl" />{" "}
-                  {formatMoney(data.totalMoney)}đ
+                  {formatMoney(totalMoney)}đ
                 </div>
                 <div className="flex items-center gap-1 border rounded-full  border-orange-400 w-fit pr-2 pl-1">
                   <FaClock className="text-base" />{" "}

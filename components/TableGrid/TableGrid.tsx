@@ -34,7 +34,6 @@ const TableGrid = () => {
         {summary.map((item, key) => (
           <div className="flex justify-center" key={key}>
             <Table
-              type={1}
               key={key}
               data={item}
               onClick={() => {

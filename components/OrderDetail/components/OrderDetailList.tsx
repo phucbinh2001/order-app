@@ -60,7 +60,11 @@ const OrderDetailList = ({
     >
       {order?.orderDetails?.map((item) => (
         <div key={item._id}>
-          <OrderDetailItem orderDetail={item} onFetchDetail={onFetchDetail} />
+          <OrderDetailItem
+            orderDetail={item}
+            order={order}
+            onFetchDetail={onFetchDetail}
+          />
         </div>
       ))}
     </ResponsiveReactGridLayout>

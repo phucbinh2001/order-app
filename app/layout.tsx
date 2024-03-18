@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.scss";
 import { ConfigProvider, ThemeConfig } from "antd";
 import { Analytics } from "@vercel/analytics/react";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -53,6 +54,7 @@ export default function RootLayout({
         </ConfigProvider>
         <Analytics />
       </body>
+      <NextTopLoader color="#fb9113" />
     </html>
   );
 }

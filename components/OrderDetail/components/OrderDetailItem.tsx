@@ -1,16 +1,23 @@
+import { orderApi } from "@/api/order.api";
 import { orderDetailApi } from "@/api/orderDetail.api";
 import useOrderStore from "@/store/orderStore";
-import { OrderDetail, OrderStatusEnum, orderStatusTrans } from "@/types/order";
-import { Badge, Dropdown, Space, Spin, Tag } from "antd";
+import {
+  Order,
+  OrderDetail,
+  OrderStatusEnum,
+  orderStatusTrans,
+} from "@/types/order";
+import { Dropdown, Space, Spin, Tag, message } from "antd";
 import { useCallback, useState } from "react";
 import { FaBowlRice, FaCheck, FaX } from "react-icons/fa6";
-import { HiDotsVertical } from "react-icons/hi";
 import { PiDotsSixVerticalBold } from "react-icons/pi";
 
 const OrderDetailItem = ({
   orderDetail,
+  order,
   onFetchDetail,
 }: {
+  order: Order;
   orderDetail: OrderDetail;
   onFetchDetail: () => void;
 }) => {
@@ -63,11 +70,32 @@ const OrderDetailItem = ({
     try {
       setLoading(true);
       await orderDetailApi.update(orderDetail._id, { status });
+      //Nếu hủy món hoặc báo hết món thì check xem đơn còn món nào không
+      //Nếu chỉ có món bị hủy thì đóng đơn luôn
+      if (
+        status == OrderStatusEnum.cancel ||
+        status == OrderStatusEnum.outOfStock
+      ) {
+        debugger;
+        if (
+          order?.orderDetails.every(
+            (item) =>
+              [OrderStatusEnum.cancel, OrderStatusEnum.outOfStock].includes(
+                item.status
+              ) || item._id == orderDetail._id
+          )
+        ) {
+          await orderApi.update(order?._id || "", {
+            status: OrderStatusEnum.cancel,
+          });
+        }
+      }
 
       onFetchDetail();
       fetchOrders({
         status: OrderStatusEnum.pending,
       });
+      message.success("Đã thay đổi trạng thái");
     } finally {
       setLoading(false);
     }
@@ -78,6 +106,7 @@ const OrderDetailItem = ({
       <Dropdown
         trigger={["click"]}
         key={orderDetail.foodId}
+        disabled={orderDetail.status != OrderStatusEnum.pending}
         menu={{ items: getDropDownItems(orderDetail) }}
       >
         <div className="bg-white w-full mb-3 last:mb-0 flex gap-2 shadow-lg pt-2 pl-2 pb-1 rounded-xl cursor-pointer">

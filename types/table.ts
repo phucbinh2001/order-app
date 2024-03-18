@@ -1,3 +1,5 @@
+import { OrderDetail } from "./order";
+
 export interface Table {
   title: string;
   _id: string;
@@ -6,8 +8,8 @@ export interface Table {
 
 export interface TableSummary {
   _id: string;
-  totalMoney: number;
   sessionKey: string;
   startAt: number;
   title: string;
+  orderDetails: OrderDetail[];
 }

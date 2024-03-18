@@ -85,7 +85,9 @@ export default function TablePage() {
                   />
                 }
               >
-                <Button icon={<FaQrcode />}>Xem QR</Button>
+                <Button icon={<FaQrcode className="translate-y-[2px]" />}>
+                  Xem QR
+                </Button>
               </Popover>
             </div>
           )}
