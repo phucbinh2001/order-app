@@ -7,6 +7,7 @@ import { Button, Popconfirm, Space, Tag, message } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import AppLoading from "../AppLoading/AppLoading";
 import OrderDetailList from "./components/OrderDetailList";
+import { orderDetailApi } from "@/api/orderDetail.api";
 
 const OrderDetail = () => {
   const [orderDetailData, setOrderDetailData] = useState<Order>();
@@ -48,6 +49,22 @@ const OrderDetail = () => {
 
   const changeOrderStatus = async (status: OrderStatusEnum) => {
     await orderApi.update(orderDetailData?._id || "", { status });
+
+    let promiseArr: any[] = [];
+    orderDetailData?.orderDetails.forEach((order) => {
+      if (order.status == OrderStatusEnum.pending) {
+        promiseArr.push(
+          orderDetailApi.update(order._id, {
+            status:
+              status == OrderStatusEnum.complete
+                ? OrderStatusEnum.complete
+                : OrderStatusEnum.cancel,
+          })
+        );
+      }
+    });
+    await Promise.all(promiseArr);
+
     fetchOrders({
       status: OrderStatusEnum.pending,
     });

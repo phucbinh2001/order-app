@@ -23,18 +23,6 @@ const Table = ({
 
   const textColor = !freeTable ? "text-white" : "text-black";
 
-  const totalMoney = useMemo(() => {
-    if (!data.orderDetails.length) return 0;
-
-    return data.orderDetails
-      .filter((item) =>
-        [OrderStatusEnum.complete, OrderStatusEnum.pending].includes(
-          item.status
-        )
-      )
-      .reduce((total, order) => (total += order.price * order.quantity), 0);
-  }, [data]);
-
   useEffect(() => {
     calcStayTime(data.startAt);
   }, [data]);
@@ -73,7 +61,7 @@ const Table = ({
               <>
                 <div className="flex items-center gap-1 border rounded-full  border-orange-400 pl-1 w-fit pr-2">
                   <RiMoneyDollarCircleFill className="text-xl" />{" "}
-                  {formatMoney(totalMoney)}đ
+                  {formatMoney(data.totalMoney)}đ
                 </div>
                 <div className="flex items-center gap-1 border rounded-full  border-orange-400 w-fit pr-2 pl-1">
                   <FaClock className="text-base" />{" "}

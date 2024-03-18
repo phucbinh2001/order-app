@@ -5,8 +5,7 @@ import { formatUnixTimestamp } from "@/utils/date";
 import { formatMoney } from "@/utils/money";
 import { Button, Popconfirm } from "antd";
 import dayjs from "dayjs";
-import { size } from "lodash";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 
 const Invoice = ({
@@ -70,16 +69,22 @@ const Invoice = ({
           </div>
           <table className="w-full text-left mb-2 pb-2 text-xs">
             <tbody>
-              {order?.orderDetails?.map((item) => (
-                <tr>
-                  <td className="text-gray-700 align-bottom">
-                    {item.food.title} <br />x{item.quantity}
-                  </td>
-                  <td className="text-gray-700 text-right align-bottom">
-                    {formatMoney(item.price)}đ
-                  </td>
-                </tr>
-              ))}
+              {order?.orderDetails
+                .filter((item) =>
+                  [OrderStatusEnum.complete, OrderStatusEnum.pending].includes(
+                    item.status
+                  )
+                )
+                ?.map((item) => (
+                  <tr>
+                    <td className="text-gray-700 align-bottom">
+                      {item.food.title} <br />x{item.quantity}
+                    </td>
+                    <td className="text-gray-700 text-right align-bottom">
+                      {formatMoney(item.price)}đ
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
           <div className="flex justify-between border-t pt-2 border-dashed">

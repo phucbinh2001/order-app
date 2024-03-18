@@ -2,9 +2,10 @@ import { orderDetailApi } from "@/api/orderDetail.api";
 import { OrderDetail, OrderStatusEnum, orderStatusTrans } from "@/types/order";
 import { formatMoney } from "@/utils/money";
 import { Divider, Dropdown, Space, Spin, Tag } from "antd";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { FaX } from "react-icons/fa6";
 import "./style/style.scss";
+import clsx from "clsx";
 
 const OrderItem = ({
   data,
@@ -16,6 +17,12 @@ const OrderItem = ({
   onFetchDetail: () => void;
 }) => {
   const [loading, setLoading] = useState(false);
+  const isCancel = useMemo(
+    () =>
+      data.status == OrderStatusEnum.cancel ||
+      data.status == OrderStatusEnum.outOfStock,
+    [data]
+  );
   const getDropDownItems = useCallback(
     (item: OrderDetail) => {
       return [
@@ -52,7 +59,7 @@ const OrderItem = ({
       disabled={disableItem || data.status != OrderStatusEnum.pending}
     >
       <Spin spinning={loading}>
-        <div className={"rounded-lg py-2"}>
+        <div className={clsx("rounded-lg py-2", isCancel && "grayscale")}>
           <Space
             key={data.foodId}
             className="w-full mb-3 last:mb-0"
@@ -72,7 +79,11 @@ const OrderItem = ({
                 className="font-semibold mb-1"
               >
                 <span className="text-slate-600">x{data.quantity}</span>
-                <span className="text-red-600">{formatMoney(data.price)}đ</span>
+                <span
+                  className={clsx("text-red-600", isCancel && "line-through")}
+                >
+                  {formatMoney(data.price)}đ
+                </span>
               </Space>
               <Tag
                 color={orderStatusTrans[data.status].color}

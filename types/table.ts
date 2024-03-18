@@ -10,6 +10,7 @@ export interface TableSummary {
   _id: string;
   sessionKey: string;
   startAt: number;
+  totalMoney: number;
   title: string;
   orderDetails: OrderDetail[];
 }
