@@ -6,6 +6,7 @@ import {
   TableDetailModalRef,
 } from "../Table/components/TableDetailModal";
 import { socket } from "@/utils/socket";
+import { socketAction } from "@/constants";
 
 const TableGrid = () => {
   const tableDetailModalRef = useRef<TableDetailModalRef>();
@@ -16,15 +17,12 @@ const TableGrid = () => {
   }, []);
 
   useEffect(() => {
-    function onNewOrder(data: any) {
-      console.log("new-order", data);
-      getSummary();
-    }
-
-    socket.on("new-order", onNewOrder);
+    socket.on(socketAction.NEW_ORDER, getSummary);
+    socket.on(socketAction.UPDATE_ORDER_DETAIL_STATUS, getSummary);
 
     return () => {
-      socket.off("new-order", onNewOrder);
+      socket.off(socketAction.UPDATE_ORDER_DETAIL_STATUS, getSummary);
+      socket.off(socketAction.NEW_ORDER, getSummary);
     };
   }, []);
 
@@ -34,7 +32,7 @@ const TableGrid = () => {
         {summary.map((item, key) => (
           <div className="flex justify-center" key={key}>
             <Table
-              key={key}
+              key={item.sessionKey}
               data={item}
               onClick={() => {
                 if (item.startAt) {

@@ -13,7 +13,7 @@ interface IOrderStore {
   visibleOrderDetailModal: boolean;
   visibleScan: boolean;
   selectedOrder: Order | undefined;
-  fetchOrders: (query?: any) => void;
+  fetchOrders: (query?: any, disableLoading?: boolean) => void;
   fetchTables: () => void;
   updateOrder: (newOrder: Order) => void;
   addToCard: (newOrderDetail: OrderDetail) => void;
@@ -36,9 +36,11 @@ const useOrderStore = create<IOrderStore>()(
       loadingOrders: false,
       visibleScan: false,
       visibleOrderDetailModal: false,
-      fetchOrders: async (query?: any) => {
+      fetchOrders: async (query?: any, disableLoading?: boolean) => {
         try {
-          set(() => ({ loadingOrders: true }));
+          if (!disableLoading) {
+            set(() => ({ loadingOrders: true }));
+          }
           const { data } = await orderApi.findAll(query);
           set(() => ({ orders: data }));
         } finally {
@@ -49,6 +51,21 @@ const useOrderStore = create<IOrderStore>()(
         try {
           const { data } = await tableApi.findAll();
           set(() => ({ tables: data }));
+          const order = get().order;
+
+          //Update lai table session key moi
+          if (order.tableId) {
+            const find = data.find((item: Table) => item._id == order.tableId);
+            if (find) {
+              set(() => ({
+                order: {
+                  ...order,
+                  tableId: find._id,
+                  sessionKey: find.sessionKey,
+                },
+              }));
+            }
+          }
         } finally {
         }
       },

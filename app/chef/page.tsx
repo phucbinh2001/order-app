@@ -27,7 +27,7 @@ export default function Home() {
   }, [query]);
 
   const refreshData = () => {
-    fetchOrders(query);
+    fetchOrders(query, true);
   };
 
   useEffect(() => {

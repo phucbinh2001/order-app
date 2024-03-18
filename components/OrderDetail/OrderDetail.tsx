@@ -48,7 +48,7 @@ const OrderDetail = () => {
   };
 
   const changeOrderStatus = async (status: OrderStatusEnum) => {
-    await orderApi.update(orderDetailData?._id || "", { status });
+    await orderApi.updateStatus(orderDetailData?.sessionKey || "", status);
 
     let promiseArr: any[] = [];
     orderDetailData?.orderDetails.forEach((order) => {

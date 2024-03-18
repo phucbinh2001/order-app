@@ -28,6 +28,7 @@ export default function OrderDetailPage({
         setLoading(true);
       }
       const { data } = await orderApi.getDetailById(params.id);
+      socket.emit(socketAction.JOIN, data.sessionKey);
       setOrderDetailData(data);
     } finally {
       setLoading(false);
@@ -39,10 +40,11 @@ export default function OrderDetailPage({
   }, [params.id]);
 
   useEffect(() => {
-    socket.on(socketAction.UPDATE_ORDER_STATUS, fetchOrderDetail);
+    socket.on(socketAction.UPDATE_ORDER_STATUS, () => fetchOrderDetail(false));
 
     return () => {
       socket.off(socketAction.UPDATE_ORDER_STATUS, fetchOrderDetail);
+      socket.emit(socketAction.LEAVE, orderDetailData?.sessionKey);
     };
   }, []);
 
@@ -73,7 +75,15 @@ export default function OrderDetailPage({
           </div>
         </div>
         {orderDetailData?._id ? (
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 relative">
+            {orderDetailData.isPaid && (
+              <img
+                src="/icons/paid.png"
+                alt=""
+                className="w-28 absolute right-28 top-5 z-0 opacity-40"
+              />
+            )}
+
             <div className="summary bg-slate-100 border border-slate-300 rounded-xl px-4 py-2">
               <h2 className="font-bold text-slate-600 mb-2">Thông tin đơn</h2>
               <Descriptions

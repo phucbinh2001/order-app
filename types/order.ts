@@ -11,6 +11,7 @@ export interface Order {
   orderDetails: OrderDetail[];
   createdAt: number;
   orderCode: string;
+  isPaid: boolean;
 }
 
 export interface OrderDetail {

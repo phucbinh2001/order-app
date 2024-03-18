@@ -44,7 +44,7 @@ const OrderItem = ({
   ) => {
     try {
       setLoading(true);
-      await orderDetailApi.update(orderDetail._id, { status });
+      await orderDetailApi.updateStatus(orderDetail._id, status);
       onFetchDetail();
     } finally {
       setLoading(false);

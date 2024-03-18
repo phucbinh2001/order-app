@@ -23,5 +23,6 @@ export const socketAction = {
   LEAVE: "leave",
   NEW_ORDER: "new-order",
   UPDATE_ORDER_STATUS: "update-order-status",
+  UPDATE_ORDER_DETAIL_STATUS: "update-order-detail-status",
   UPDATE_TABLE_SESSION: "update-table-session",
 };

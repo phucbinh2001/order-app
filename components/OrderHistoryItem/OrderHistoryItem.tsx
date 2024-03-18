@@ -31,7 +31,19 @@ const OrderHistoryItem = ({ order }: { order: Order }) => {
 
   return (
     <Link href={`order-detail/${order._id}`} className="block">
-      <div className={clsx("border shadow-lg rounded-lg p-4 cursor-pointer")}>
+      <div
+        className={clsx(
+          "border shadow-lg rounded-lg p-4 cursor-pointer relative"
+        )}
+      >
+        {order.isPaid && (
+          <img
+            src="/icons/paid.png"
+            alt=""
+            className="w-28 absolute right-2 top-20 z-0 opacity-40"
+          />
+        )}
+
         <div className="drag-handle" onClick={(e) => e.stopPropagation()}></div>
         <div className="header w-full justify-between mb-3 border-b border-dashed">
           <div className="flex flex-col w-full">
@@ -45,7 +57,7 @@ const OrderHistoryItem = ({ order }: { order: Order }) => {
               >
                 {orderStatusTrans[order.status]?.label}
               </Tag>
-              <span className="ml-auto inline-block border-l pl-2 font-bold">
+              <span className="ml-auto inline-block border-l pl-2 font-bold relative z-10">
                 #{getLastNCharacter(order._id, 5).toUpperCase()}
               </span>
             </div>

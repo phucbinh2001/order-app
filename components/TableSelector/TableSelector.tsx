@@ -14,8 +14,9 @@ const TableSelector = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const order = useOrderStore((state) => state.order);
-  const { updateTableId, fetchTables, tables, setVisibleScan, visibleScan } =
-    useOrderStore((state) => state);
+  const { updateTableId, fetchTables, tables, setVisibleScan } = useOrderStore(
+    (state) => state
+  );
 
   useEffect(() => {
     socket.on(socketAction.UPDATE_TABLE_SESSION, fetchTables);
