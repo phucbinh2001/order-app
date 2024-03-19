@@ -23,7 +23,8 @@ export default function ChefLoginPage() {
       const { accessToken, user } = await authApi.adminLogin(dataPost);
       setLoginCookie(accessToken, user);
       router.push("/admin/order");
-    } finally {
+    } catch {
+      setLoading(false);
     }
   };
 
