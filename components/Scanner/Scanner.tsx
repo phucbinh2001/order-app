@@ -68,7 +68,11 @@ const Scanner = () => {
                 checkTable(result);
               }
             }}
-            onError={() => ""}
+            onError={() => {
+              message.config({ maxCount: 1 });
+              message.warning("Vui lòng cho phép quyền truy cập camera");
+              setVisibleScan(false);
+            }}
             facingMode="environment"
             style={{
               width: "100vw",

@@ -55,13 +55,9 @@ const TableSelector = () => {
         <MdTableRestaurant className={clsx(`text-[#e86a12] mr-2`)} />
         <Select
           popupMatchSelectWidth={false}
-          suffixIcon={
-            null
-            // <FaSortDown className="text-[#e86a12] -translate-y-[3px]" />
-          }
+          suffixIcon={null}
           placeholder={"Chọn bàn"}
           className="custom-select"
-          defaultValue={tables?.[0]?._id}
           size="large"
           variant="borderless"
           style={{ width: "max-content", minWidth: "", maxWidth: "100px" }}
