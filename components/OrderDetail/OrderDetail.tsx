@@ -50,21 +50,6 @@ const OrderDetail = () => {
   const changeOrderStatus = async (status: OrderStatusEnum) => {
     await orderApi.updateStatus(orderDetailData?.sessionKey || "", status);
 
-    let promiseArr: any[] = [];
-    orderDetailData?.orderDetails.forEach((order) => {
-      if (order.status == OrderStatusEnum.pending) {
-        promiseArr.push(
-          orderDetailApi.update(order._id, {
-            status:
-              status == OrderStatusEnum.complete
-                ? OrderStatusEnum.complete
-                : OrderStatusEnum.cancel,
-          })
-        );
-      }
-    });
-    await Promise.all(promiseArr);
-
     fetchOrders({
       status: OrderStatusEnum.pending,
     });
