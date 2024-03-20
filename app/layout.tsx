@@ -1,10 +1,10 @@
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { Analytics } from "@vercel/analytics/react";
+import { ConfigProvider, ThemeConfig } from "antd";
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import "./globals.scss";
-import { ConfigProvider, ThemeConfig } from "antd";
-import { Analytics } from "@vercel/analytics/react";
 import NextTopLoader from "nextjs-toploader";
+import "./globals.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   generator: "Next.js",
   manifest: "/manifest.json",
   keywords: ["nextjs", "nextjs13", "next13", "pwa", "next-pwa"],
-  themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
+  // themeColor: [{ media: "(prefers-color-scheme: dark)", color: "#fff" }],
   authors: [{ name: "Phúc Bình" }],
   viewport:
     "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",

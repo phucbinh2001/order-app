@@ -7,6 +7,7 @@ import {
 } from "@/components/CTAModal/CTAScanQR";
 import CategorySlider from "@/components/CategorySlider/CategorySlider";
 import FoodList from "@/components/FoodList/FoodList";
+import InstallBanner from "@/components/InstallPWABanner/InstallPWABanner";
 import OrderBottomSheetModal, {
   OrderBottomSheetRef,
 } from "@/components/OrderBottomSheet/OrderBottomSheet";
@@ -55,6 +56,7 @@ export default function Home() {
       }}
     >
       <Scanner />
+      <InstallBanner />
       <div className="max-w-[500px] mx-auto bg-white min-h-screen relative pb-28">
         <div className="header bg-[#fcf8f5] z-10 sticky top-0">
           <div className="container mx-auto px-2">
