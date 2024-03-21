@@ -30,14 +30,16 @@ export default function Home() {
   const { order } = useOrderStore((state) => state);
   const [initialized, setInitialized] = useState(false);
 
-  OneSignal.init({
-    appId: "0ed8f04a-f4d2-46ec-82f9-5e375d4c9daf",
-    allowLocalhostAsSecureOrigin: true,
-  }).then(() => {
-    setInitialized(true);
-    OneSignal.Slidedown.promptPush();
-    // do other stuff
-  });
+  useEffect(() => {
+    OneSignal.init({
+      appId: "0ed8f04a-f4d2-46ec-82f9-5e375d4c9daf",
+      allowLocalhostAsSecureOrigin: true,
+    }).then(() => {
+      setInitialized(true);
+      OneSignal.Slidedown.promptPush();
+      // do other stuff
+    });
+  }, []);
 
   const orderBottomSheetRef = useRef<OrderBottomSheetRef>();
 
