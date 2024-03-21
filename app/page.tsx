@@ -16,6 +16,7 @@ import TableSelector from "@/components/TableSelector/TableSelector";
 import useOrderStore from "@/store/orderStore";
 import { Category } from "@/types/category";
 import { Food } from "@/types/food";
+import { registerDeviceId } from "@/utils/deviceId";
 import { Flex, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
 
@@ -30,6 +31,7 @@ export default function Home() {
   const orderBottomSheetRef = useRef<OrderBottomSheetRef>();
 
   useEffect(() => {
+    registerDeviceId();
     initData();
   }, []);
 

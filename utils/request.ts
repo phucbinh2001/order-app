@@ -1,6 +1,7 @@
 import { message } from "antd";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { getDeviceId } from "./deviceId";
 
 // create an axios instance
 const service = axios.create({
@@ -14,6 +15,10 @@ service.interceptors.request.use(
     const token = Cookies.get("accessToken");
     if (token && config.headers) {
       config.headers["Authorization"] = "Bear " + token;
+    }
+
+    if (config.headers) {
+      config.headers["deviceId"] = getDeviceId();
     }
 
     return config;
