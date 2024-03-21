@@ -53,8 +53,8 @@ export default function RootLayout({
           <AntdRegistry>{children}</AntdRegistry>
         </ConfigProvider>
         <Analytics />
+        <NextTopLoader color="#fb9113" />
       </body>
-      <NextTopLoader color="#fb9113" />
     </html>
   );
 }

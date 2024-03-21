@@ -19,6 +19,7 @@ import { Food } from "@/types/food";
 import { registerDeviceId } from "@/utils/deviceId";
 import { Flex, Space } from "antd";
 import { useEffect, useRef, useState } from "react";
+import OneSignal from "react-onesignal";
 
 export default function Home() {
   const ctaScanQRRef = useRef<CTAScanQRModalRef>();
@@ -27,6 +28,16 @@ export default function Home() {
     categories?.[0]
   );
   const { order } = useOrderStore((state) => state);
+  const [initialized, setInitialized] = useState(false);
+
+  OneSignal.init({
+    appId: "0ed8f04a-f4d2-46ec-82f9-5e375d4c9daf",
+    allowLocalhostAsSecureOrigin: true,
+  }).then(() => {
+    setInitialized(true);
+    OneSignal.Slidedown.promptPush();
+    // do other stuff
+  });
 
   const orderBottomSheetRef = useRef<OrderBottomSheetRef>();
 
@@ -59,6 +70,7 @@ export default function Home() {
     >
       <Scanner />
       <InstallBanner />
+      {initialized + ""}
       <div className="max-w-[500px] mx-auto bg-white min-h-screen relative pb-28">
         <div className="header bg-[#fcf8f5] z-10 sticky top-0">
           <div className="container mx-auto px-2">
