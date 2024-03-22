@@ -49,7 +49,7 @@ export const TableDetailModal = React.forwardRef(
       if (!orderDetailData) return;
       try {
         setLoading(true);
-        await orderApi.updateStatus(
+        await orderApi.updateOrdersBySession(
           orderDetailData?.orderCode || "",
           OrderStatusEnum.cancel
         );

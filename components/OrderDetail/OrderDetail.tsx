@@ -48,7 +48,7 @@ const OrderDetail = () => {
   };
 
   const changeOrderStatus = async (status: OrderStatusEnum) => {
-    await orderApi.updateStatus(orderDetailData?.sessionKey || "", status);
+    await orderApi.updateStatus(orderDetailData?._id || "", status);
 
     fetchOrders({
       status: OrderStatusEnum.pending,

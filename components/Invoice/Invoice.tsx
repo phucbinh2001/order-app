@@ -25,7 +25,10 @@ const Invoice = ({
   const completeOrder = async () => {
     try {
       setLoading(true);
-      await orderApi.updateStatus(order?.orderCode, OrderStatusEnum.complete);
+      await orderApi.updateOrdersBySession(
+        order?.orderCode,
+        OrderStatusEnum.complete
+      );
       await tableApi.updateSession(order.table._id);
       handlePrint();
     } finally {

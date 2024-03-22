@@ -1,7 +1,9 @@
 "use client";
+import { deviceApi } from "@/api/device.api";
 import { socketAction } from "@/constants";
 import useOrderStore from "@/store/orderStore";
 import { Table } from "@/types/table";
+import { getDeviceId } from "@/utils/deviceId";
 import { socket } from "@/utils/socket";
 import { Select, Space } from "antd";
 import clsx from "clsx";
@@ -9,6 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { AiOutlineScan } from "react-icons/ai";
 import { MdTableRestaurant } from "react-icons/md";
+import OneSignal from "react-onesignal";
 
 const TableSelector = () => {
   const searchParams = useSearchParams();
@@ -43,6 +46,12 @@ const TableSelector = () => {
     router.push(url.toString());
   }, [tables]);
 
+  const onChangeTable = (tableId: string, tableSessionKey: string) => {
+    updateTableId(tableId, tableSessionKey);
+    deviceApi.update({ tableId, deviceId: getDeviceId() });
+    OneSignal.User.addTag("table", tableSessionKey);
+  };
+
   return (
     <Space>
       <div
@@ -68,7 +77,7 @@ const TableSelector = () => {
           }))}
           onChange={(value, option) =>
             //@ts-ignore
-            updateTableId(value, option?.sessionKey)
+            onChangeTable(value, option?.sessionKey)
           }
           value={order.tableId}
         ></Select>

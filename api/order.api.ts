@@ -42,6 +42,15 @@ export const orderApi = {
       data: { status },
       method: "post",
     }),
+  updateOrdersBySession: (
+    sessionKey: string,
+    status: OrderStatusEnum
+  ): AxiosPromise<any> =>
+    request({
+      url: `/order/order-by-session/${sessionKey}/status`,
+      data: { status },
+      method: "post",
+    }),
   findAll: (params?: any): AxiosPromise<any> =>
     request({
       url: "/order",
