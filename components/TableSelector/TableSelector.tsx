@@ -48,7 +48,7 @@ const TableSelector = () => {
 
   const onChangeTable = (tableId: string, tableSessionKey: string) => {
     updateTableId(tableId, tableSessionKey);
-    deviceApi.update({ tableId, deviceId: getDeviceId() });
+    // deviceApi.update({ tableId, deviceId: getDeviceId() });
     OneSignal.User.addTag("table", tableSessionKey);
   };
 
