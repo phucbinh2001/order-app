@@ -60,7 +60,7 @@ export default function OrderDetailPage() {
       }}
     >
       <div className="max-w-[500px] mx-auto min-h-svh bg-white">
-        <div className="pt-3 pb-3 mb-4 bg-[#fcf8f5] sticky top-0 z-10">
+        <div className="pt-3 pb-3 mb-4 bg-[#fcf8f5] sticky top-0 z-50">
           <div className="container mx-auto px-4">
             <Space align="center" className="mb-2">
               <div
