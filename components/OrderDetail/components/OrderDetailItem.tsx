@@ -72,24 +72,24 @@ const OrderDetailItem = ({
       await orderDetailApi.updateStatus(orderDetail._id, status);
       //Nếu hủy món hoặc báo hết món thì check xem đơn còn món nào không
       //Nếu chỉ có món bị hủy thì đóng đơn luôn
-      if (
-        status == OrderStatusEnum.cancel ||
-        status == OrderStatusEnum.outOfStock
-      ) {
-        debugger;
-        if (
-          order?.orderDetails.every(
-            (item) =>
-              [OrderStatusEnum.cancel, OrderStatusEnum.outOfStock].includes(
-                item.status
-              ) || item._id == orderDetail._id
-          )
-        ) {
-          await orderApi.update(order?._id || "", {
-            status: OrderStatusEnum.cancel,
-          });
-        }
-      }
+      // if (
+      //   status == OrderStatusEnum.cancel ||
+      //   status == OrderStatusEnum.outOfStock
+      // ) {
+      //   debugger;
+      //   if (
+      //     order?.orderDetails.every(
+      //       (item) =>
+      //         [OrderStatusEnum.cancel, OrderStatusEnum.outOfStock].includes(
+      //           item.status
+      //         ) || item._id == orderDetail._id
+      //     )
+      //   ) {
+      //     await orderApi.update(order?._id || "", {
+      //       status: OrderStatusEnum.cancel,
+      //     });
+      //   }
+      // }
 
       onFetchDetail();
       fetchOrders({

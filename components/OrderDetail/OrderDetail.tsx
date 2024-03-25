@@ -20,6 +20,9 @@ const OrderDetail = () => {
     () =>
       orderDetailData?.orderDetails.some(
         (item) => item.status == OrderStatusEnum.pending
+      ) ||
+      !orderDetailData?.orderDetails.some(
+        (item) => item.status == OrderStatusEnum.complete
       ),
     [orderDetailData]
   );
