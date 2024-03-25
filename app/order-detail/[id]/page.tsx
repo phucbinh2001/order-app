@@ -4,11 +4,11 @@ import { orderApi } from "@/api/order.api";
 import AppLoading from "@/components/AppLoading/AppLoading";
 import OrderItem from "@/components/OrderItem/OrderItem";
 import { socketAction } from "@/constants";
-import { Order } from "@/types/order";
+import { Order, OrderStatusEnum, orderStatusTrans } from "@/types/order";
 import { formatMoney } from "@/utils/money";
 import { socket } from "@/utils/socket";
 import { getLastNCharacter } from "@/utils/string";
-import { Descriptions, Space } from "antd";
+import { Descriptions, Space, Tag } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaAngleLeft } from "react-icons/fa6";
@@ -85,7 +85,15 @@ export default function OrderDetailPage({
             )}
 
             <div className="summary bg-slate-100 border border-slate-300 rounded-xl px-4 py-2">
-              <h2 className="font-bold text-slate-600 mb-2">Thông tin đơn</h2>
+              <div className="flex justify-between items-start">
+                <h2 className="font-bold text-slate-600 mb-2">Thông tin đơn</h2>
+                <Tag
+                  color={orderStatusTrans[orderDetailData.status].color}
+                  className="font-bold mt-2 inline-block !mr-0"
+                >
+                  {orderStatusTrans[orderDetailData.status].label}
+                </Tag>
+              </div>
               <Descriptions
                 className="font-semibold"
                 column={1}
@@ -110,6 +118,9 @@ export default function OrderDetailPage({
             <div className="mt-5 divide-y divide-[#efefef]">
               {orderDetailData.orderDetails.map((item) => (
                 <OrderItem
+                  disableItem={
+                    orderDetailData.status != OrderStatusEnum.pending
+                  }
                   key={item._id}
                   data={item}
                   onFetchDetail={() => fetchOrderDetail(false)}

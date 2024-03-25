@@ -16,6 +16,14 @@ const OrderDetail = () => {
     useOrderStore((state) => state);
   const fetchOrders = useOrderStore((state) => state.fetchOrders);
 
+  const isDisableSuccess = useMemo(
+    () =>
+      orderDetailData?.orderDetails.some(
+        (item) => item.status == OrderStatusEnum.pending
+      ),
+    [orderDetailData]
+  );
+
   const totalFoods = useMemo(
     () =>
       orderDetailData?.orderDetails?.reduce(
@@ -49,6 +57,17 @@ const OrderDetail = () => {
 
   const changeOrderStatus = async (status: OrderStatusEnum) => {
     await orderApi.updateStatus(orderDetailData?._id || "", status);
+
+    if (status == OrderStatusEnum.cancel) {
+      //Cancel all order detail
+      let promiseArr: any = [];
+      orderDetailData?.orderDetails.forEach((item) => {
+        promiseArr.push(
+          orderDetailApi.updateStatus(item._id, OrderStatusEnum.cancel)
+        );
+      });
+      await Promise.all(promiseArr);
+    }
 
     fetchOrders({
       status: OrderStatusEnum.pending,
@@ -116,6 +135,7 @@ const OrderDetail = () => {
             cancelButtonProps={{ size: "large" }}
           >
             <Button
+              disabled={isDisableSuccess}
               className="w-[calc(100%-50px)] !font-semibold"
               size="large"
               type="primary"
@@ -124,7 +144,11 @@ const OrderDetail = () => {
             </Button>
           </Popconfirm>
           <Popconfirm
-            title={<p className="text-base">Đơn hàng sẽ bị hủy. Tiếp tục?</p>}
+            title={
+              <p className="text-base">
+                Các món trong đơn hàng này sẽ bị hủy. Tiếp tục?
+              </p>
+            }
             onConfirm={() => changeOrderStatus(OrderStatusEnum.cancel)}
             okText={"Hủy đơn"}
             okButtonProps={{ danger: true, size: "large" }}
