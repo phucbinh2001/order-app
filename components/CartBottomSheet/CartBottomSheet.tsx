@@ -4,7 +4,7 @@ import useOrderStore from "@/store/orderStore";
 import { Food } from "@/types/food";
 import { OrderDetail } from "@/types/order";
 import { formatMoney } from "@/utils/money";
-import { Button, Drawer, Flex, Modal, Space, message } from "antd";
+import { Button, Drawer, Flex, Modal, Space } from "antd";
 import React, {
   useEffect,
   useImperativeHandle,
@@ -12,8 +12,8 @@ import React, {
   useState,
 } from "react";
 import { FaCartShopping, FaNoteSticky, FaTrash } from "react-icons/fa6";
-import QuantityInput from "../QuantityInput/QuantityInput";
 import Swal from "sweetalert2";
+import QuantityInput from "../QuantityInput/QuantityInput";
 
 export interface CartBottomSheetRef {
   handleOpen: (food: Food) => void;
@@ -63,8 +63,10 @@ export const CartBottomSheet = React.forwardRef(({}, ref) => {
   const submitOrder = async () => {
     try {
       setLoading(true);
+      const sound = new Audio("/sounds/payment_success.m4a"); // Thay đường dẫn bằng đường dẫn tới tệp âm thanh của bạn
       const dataPost = order;
       await orderApi.create(dataPost);
+      sound.play();
       Swal.fire({
         customClass: "custom-notification",
         position: "center",
